@@ -1,12 +1,12 @@
 export const SITE = {
-  name: "PrintCraft",
+  name: "3D Factory",
   tagline: "Premium 3D Printed Products",
   description:
     "We design and deliver high-quality 3D printed products — from home decor to custom prototypes. Based in India.",
   url: "https://printcraft.in",
   email: "hello@printcraft.in",
   phone: "919XXXXXXXXX",
-  instagram: "https://instagram.com/printcraft",
+  instagram: "https://www.instagram.com/3d_factory___/",
   whatsapp: "919XXXXXXXXX",
 } as const
 
