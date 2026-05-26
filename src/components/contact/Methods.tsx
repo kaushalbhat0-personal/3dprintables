@@ -27,7 +27,7 @@ const methods = [
     title: "Instagram",
     description:
       "Follow our work, see behind-the-scenes, and DM us directly.",
-    href: SITE.instagram,
+    href: "https://www.instagram.com/3d_factory___/",
     label: "Follow on Instagram",
     primary: false,
   },
