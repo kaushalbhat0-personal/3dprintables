@@ -8,7 +8,7 @@ import {
   createProductAction,
   updateProductAction,
 } from "@/actions/products"
-import { uploadProductImageAction } from "@/actions/upload"
+import { uploadToCloudinary } from "@/lib/cloudinary-upload"
 import { PRODUCT_CATEGORIES } from "@/types"
 import type { Product } from "@/types"
 
@@ -83,22 +83,19 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
     setUploading(true)
     setError("")
 
-    const fd = new FormData()
-    fd.set("image", file)
+    try {
+      const url = await uploadToCloudinary(file)
 
-    const result = await uploadProductImageAction(fd)
-    if (!result.success) {
-      setError(result.error)
+      if (target === "featured") {
+        setFeaturedImage(url)
+      } else {
+        setGalleryImages((prev) => [...prev, url])
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed")
+    } finally {
       setUploading(false)
-      return
     }
-
-    if (target === "featured") {
-      setFeaturedImage(result.url)
-    } else {
-      setGalleryImages((prev) => [...prev, result.url])
-    }
-    setUploading(false)
   }
 
   const handleFeaturedUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
