@@ -27,7 +27,7 @@ const highlights = [
     title: "Metallic Gold Sculpture",
     category: "Spiritual Decor",
     note: "Metallic-finish sculpture with intricate detailing and smooth lustre",
-    image: "/images/products/ChromiumHanuman.jpeg",
+    image: "/images/products/ChromiumHanuman.jpg",
   },
 ]
 

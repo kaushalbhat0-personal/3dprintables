@@ -40,7 +40,7 @@ export function Hero() {
       >
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[30vw] h-[50vh] md:w-[45vw] md:h-[80vh] max-w-[650px] max-h-[700px] opacity-20 md:opacity-30 overflow-hidden">
           <Image
-            src="/images/products/ChromiumHanuman.jpeg"
+            src="/images/products/ChromiumHanuman.jpg"
             alt="Golden Hanuman Statue"
             fill
             className="object-contain object-right"

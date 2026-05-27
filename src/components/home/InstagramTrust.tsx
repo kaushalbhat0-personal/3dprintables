@@ -21,7 +21,7 @@ const posts = [
     likes: "342",
   },
   {
-    image: "/images/products/ChromiumHanuman.jpeg",
+    image: "/images/products/ChromiumHanuman.jpg",
     caption: "Chromium Hanuman Statue",
     likes: "891",
   },

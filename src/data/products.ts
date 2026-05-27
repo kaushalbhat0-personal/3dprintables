@@ -9,7 +9,7 @@ export const products: Product[] = [
     description:
       "Premium metallic-finish Hanuman sculpture with intricate detailing and smooth finishing. A striking centrepiece for spiritual spaces.",
     shortDescription: "Premium metallic-finish Hanuman sculpture",
-    image: "/images/products/ChromiumHanuman.jpeg",
+    image: "/images/products/ChromiumHanuman.jpg",
     priceRange: "₹799",
     material: "PLA+",
     dimensions: "18cm × 12cm × 25cm",
