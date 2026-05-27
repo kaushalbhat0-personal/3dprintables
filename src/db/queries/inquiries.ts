@@ -10,6 +10,8 @@ import type {
 } from "@/lib/storage/types"
 
 function toInquiry(row: typeof inquiries.$inferSelect): Inquiry {
+  let attachments: string[] | undefined
+  try { const p = JSON.parse(row.attachments); attachments = Array.isArray(p) ? p : undefined } catch { attachments = undefined }
   return {
     id: row.id,
     name: row.name,
@@ -22,6 +24,7 @@ function toInquiry(row: typeof inquiries.$inferSelect): Inquiry {
     customizable: row.customizable,
     message: row.message,
     sourcePage: row.sourcePage,
+    attachments,
     status: row.status,
     createdAt: row.createdAt,
   }
@@ -47,10 +50,11 @@ export async function createInquiryQuery(
         customizable: input.customizable,
         message: input.message ?? "",
         sourcePage: input.sourcePage,
+        attachments: JSON.stringify(input.attachments ?? []),
         status: "new",
         createdAt: now,
       })
-    return { success: true, data: toInquiry({ id, ...input, preferredSize: input.preferredSize ?? "", message: input.message ?? "", status: "new" as const, createdAt: now }) }
+    return { success: true, data: toInquiry({ id, ...input, preferredSize: input.preferredSize ?? "", message: input.message ?? "", attachments: JSON.stringify(input.attachments ?? []), status: "new" as const, createdAt: now }) }
   } catch (err) {
     return {
       success: false,

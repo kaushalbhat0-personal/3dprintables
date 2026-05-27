@@ -126,14 +126,14 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl my-8 rounded-2xl bg-zinc-900 border border-border shadow-2xl">
-        <div className="flex items-center justify-between px-6 py-5 border-b border-border">
-          <div>
-            <h2 className="text-lg font-semibold text-foreground">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-2xl sm:my-8 rounded-none sm:rounded-2xl bg-zinc-900 border-0 sm:border border-border shadow-2xl min-h-[100dvh] sm:min-h-0 flex flex-col">
+        <div className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border bg-zinc-900 shrink-0">
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base sm:text-lg font-semibold text-foreground truncate">
               {isEdit ? "Edit Product" : "Add Product"}
             </h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="text-xs text-muted-foreground mt-0.5 truncate">
               {isEdit
                 ? `Editing "${product!.title}"`
                 : "Create a new product listing"}
@@ -141,15 +141,15 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           </div>
           <button
             onClick={onClose}
-            className="h-8 w-8 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 transition-colors"
+            className="h-11 w-11 sm:h-9 sm:w-9 inline-flex items-center justify-center rounded-xl sm:rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 shrink-0 ml-3"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5 sm:w-4 sm:h-4" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="flex-1 p-4 sm:p-6 space-y-5 sm:space-y-6 overflow-y-auto overscroll-contain">
           {/* Name + Slug */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label htmlFor="name" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Name *
@@ -218,7 +218,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           </div>
 
           {/* Category + Price + Material */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             <div>
               <label htmlFor="category" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Category *
@@ -265,8 +265,8 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
             </div>
           </div>
 
-          {/* Dimensions + Print Time + Finish Type */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Dimensions + Print Time + Finish Type + Sort Order */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div>
               <label htmlFor="dimensions" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Dimensions
@@ -306,6 +306,19 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                 placeholder="Metallic Coating"
               />
             </div>
+            <div>
+              <label htmlFor="sortOrder" className="block text-xs font-medium text-muted-foreground mb-1.5">
+                Sort Order
+              </label>
+              <input
+                id="sortOrder"
+                name="sortOrder"
+                type="number"
+                defaultValue={product?.sortOrder ?? 999}
+                className="w-full h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
+                placeholder="999"
+              />
+            </div>
           </div>
 
           {/* Technologies */}
@@ -327,7 +340,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           </div>
 
           {/* Production Type + Min Order Qty */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label htmlFor="productionType" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Production Type
@@ -374,7 +387,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
             {featuredImage ? (
               <div className="relative inline-block">
                 <div
-                  className="w-28 h-28 rounded-xl bg-zinc-800 overflow-hidden border border-border"
+                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl bg-zinc-800 overflow-hidden border border-border"
                   style={getBlurBackgroundStyle(featuredImage)}
                 >
                   <img
@@ -386,9 +399,9 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                 <button
                   type="button"
                   onClick={() => setFeaturedImage("")}
-                  className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 rounded-full bg-red-500/80 text-white hover:bg-red-500 transition-colors"
+                  className="absolute -top-2 -right-2 flex items-center justify-center w-7 h-7 sm:w-6 sm:h-6 rounded-full bg-red-500/80 text-white hover:bg-red-500 active:scale-90 transition-all duration-200"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="w-3.5 h-3.5 sm:w-3 sm:h-3" />
                 </button>
               </div>
             ) : (
@@ -396,7 +409,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                 type="button"
                 onClick={() => featuredInputRef.current?.click()}
                 disabled={uploading}
-                className="flex items-center justify-center gap-2 w-full h-20 rounded-xl border-2 border-dashed border-border bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all disabled:opacity-50"
+                className="flex items-center justify-center gap-2 w-full h-16 sm:h-20 rounded-xl border-2 border-dashed border-border bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-200 disabled:opacity-50 active:scale-[0.99]"
               >
                 {uploading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -424,7 +437,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               onChange={handleGalleryUpload}
             />
             {galleryImages.length > 0 && (
-              <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-3 mb-3">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3 mb-3">
                 {galleryImages.map((url, i) => (
                   <div key={`${url}-${i}`} className="relative group">
                     <div
@@ -440,9 +453,9 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                     <button
                       type="button"
                       onClick={() => removeGalleryImage(i)}
-                      className="absolute top-1 right-1 flex items-center justify-center w-5 h-5 rounded-full bg-red-500/80 text-white opacity-0 group-hover:opacity-100 hover:bg-red-500 transition-all"
+                      className="absolute top-1 right-1 flex items-center justify-center w-6 h-6 sm:w-5 sm:h-5 rounded-full bg-red-500/80 text-white opacity-80 sm:opacity-0 group-hover:opacity-100 hover:bg-red-500 transition-all active:scale-90"
                     >
-                      <X className="w-2.5 h-2.5" />
+                      <X className="w-3 h-3 sm:w-2.5 sm:h-2.5" />
                     </button>
                   </div>
                 ))}
@@ -452,7 +465,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               type="button"
               onClick={() => galleryInputRef.current?.click()}
               disabled={uploading}
-              className="flex items-center justify-center gap-2 w-full h-14 rounded-xl border-2 border-dashed border-border bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all disabled:opacity-50"
+              className="flex items-center justify-center gap-2 w-full h-12 sm:h-14 rounded-xl border-2 border-dashed border-border bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-200 disabled:opacity-50 active:scale-[0.99]"
             >
               {uploading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -487,7 +500,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                   <button
                     type="button"
                     onClick={() => setVideos((prev) => prev.filter((_, j) => j !== i))}
-                    className="h-10 w-10 inline-flex items-center justify-center rounded-xl bg-zinc-800 text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                    className="h-11 w-11 sm:h-10 sm:w-10 inline-flex items-center justify-center rounded-xl bg-zinc-800 text-muted-foreground hover:text-red-400 hover:bg-red-500/10 active:scale-90 transition-all duration-200"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -505,7 +518,16 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           </div>
 
           {/* Checkboxes */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <label className="flex items-center gap-3 h-10 px-3.5 rounded-xl bg-zinc-950 border border-border cursor-pointer hover:bg-zinc-900 transition-colors">
+              <input
+                type="checkbox"
+                name="isActive"
+                defaultChecked={product?.isActive ?? false}
+                className="w-4 h-4 rounded border-border bg-zinc-800 accent-primary"
+              />
+              <span className="text-sm text-foreground">Published</span>
+            </label>
             <label className="flex items-center gap-3 h-10 px-3.5 rounded-xl bg-zinc-950 border border-border cursor-pointer hover:bg-zinc-900 transition-colors">
               <input
                 type="checkbox"
@@ -543,18 +565,18 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           )}
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">
+          <div className="sticky bottom-0 bg-zinc-900 border-t border-border flex items-center justify-end gap-3 px-4 sm:px-6 py-4 shrink-0">
             <button
               type="button"
               onClick={onClose}
-              className="h-10 px-5 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 transition-colors"
+              className="h-11 sm:h-10 px-5 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 active:scale-[0.97] transition-all duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving || uploading}
-              className="h-10 px-5 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-colors disabled:opacity-50 inline-flex items-center gap-2"
+              className="h-11 sm:h-10 px-5 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97] transition-all duration-200 disabled:opacity-50 inline-flex items-center gap-2"
             >
               {(saving || uploading) && (
                 <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />

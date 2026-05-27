@@ -17,6 +17,12 @@ function parseZodIssues(error: { message: string }): string {
 export async function createInquiryAction(
   formData: FormData
 ): Promise<InquiryResult<Inquiry>> {
+  const rawAttachments = formData.get("attachments") as string | null
+  let attachments: string[] = []
+  if (rawAttachments) {
+    try { const p = JSON.parse(rawAttachments); attachments = Array.isArray(p) ? p : [] } catch { attachments = [] }
+  }
+
   const raw = {
     name: formData.get("name") as string,
     email: formData.get("email") as string,
@@ -28,6 +34,7 @@ export async function createInquiryAction(
     customizable: formData.get("customizable") === "true",
     message: (formData.get("message") as string) ?? "",
     sourcePage: formData.get("sourcePage") as string,
+    attachments,
   }
 
   const parsed = CreateInquirySchema.safeParse(raw)

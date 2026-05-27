@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { X, MessageCircle, Minus, Plus, Loader2 } from "lucide-react"
+import { X, MessageCircle, Minus, Plus, Loader2, Paperclip } from "lucide-react"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 import { createInquiryAction } from "@/actions/inquiries"
+import { uploadToCloudinary } from "@/lib/cloudinary-upload"
 
 interface QuickInquiryProps {
   productName: string
@@ -29,6 +30,9 @@ export function QuickInquiry({
   const [submitted, setSubmitted] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
+  const [attachments, setAttachments] = useState<string[]>([])
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const submittedRef = useRef(false)
 
   useEffect(() => {
@@ -54,6 +58,9 @@ export function QuickInquiry({
     formData.set("customizable", needsCustomization === "yes" ? "true" : "false")
     formData.set("message", customReq)
     formData.set("sourcePage", sourcePage)
+    if (attachments.length > 0) {
+      formData.set("attachments", JSON.stringify(attachments))
+    }
 
     const result = await createInquiryAction(formData)
 
@@ -84,15 +91,35 @@ export function QuickInquiry({
     setSaving(false)
   }
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    setError("")
+    try {
+      const result = await uploadToCloudinary(file)
+      setAttachments((prev) => [...prev, result.secureUrl])
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed")
+    } finally {
+      setUploading(false)
+      e.target.value = ""
+    }
+  }
+
+  const removeAttachment = (index: number) => {
+    setAttachments((prev) => prev.filter((_, i) => i !== index))
+  }
+
   const inputClass =
     "w-full h-11 px-4 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 pt-[10vh] overflow-y-auto">
+    <div className="fixed inset-0 z-60 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 pt-[10vh] overflow-y-auto">
       <div className="relative w-full max-w-md rounded-2xl bg-zinc-900 border border-border p-6 md:p-8 my-8">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 flex items-center justify-center w-8 h-8 rounded-full bg-zinc-800 text-muted-foreground hover:text-foreground hover:bg-zinc-700 transition-colors"
+          className="absolute top-4 right-4 flex items-center justify-center w-8 h-8 rounded-full bg-zinc-800 text-muted-foreground hover:text-foreground hover:bg-zinc-700 active:scale-90 transition-all duration-200"
           aria-label="Close"
         >
           <X className="w-4 h-4" />
@@ -179,23 +206,23 @@ export function QuickInquiry({
                   Quantity
                 </label>
                 <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 transition-colors border border-border"
-                    aria-label="Decrease quantity"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 active:scale-90 transition-all duration-200 border border-border"
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
                   <span className="w-12 text-center text-lg font-semibold text-foreground">
                     {quantity}
                   </span>
-                  <button
-                    onClick={() => setQuantity(Math.min(10000, quantity + 1))}
-                    className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 transition-colors border border-border"
-                    aria-label="Increase quantity"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
+                    <button
+                      onClick={() => setQuantity(Math.min(10000, quantity + 1))}
+                      className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 active:scale-90 transition-all duration-200 border border-border"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
                 </div>
               </div>
 
@@ -229,7 +256,8 @@ export function QuickInquiry({
                         "flex-1 h-11 text-sm font-medium rounded-xl border transition-all duration-200",
                         needsCustomization === opt
                           ? "bg-primary text-primary-foreground border-primary"
-                          : "bg-zinc-950 text-muted-foreground border-border hover:bg-zinc-800 hover:text-foreground"
+                          : "bg-zinc-950 text-muted-foreground border-border hover:bg-zinc-800 hover:text-foreground",
+                        "active:scale-[0.97]"
                       )}
                     >
                       {opt === "yes" ? "Yes" : "No"}
@@ -257,6 +285,51 @@ export function QuickInquiry({
                 </div>
               )}
 
+              {/* Attachments */}
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">
+                  Attachments (optional)
+                </label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*,.pdf,.step,.stl,.obj,.3mf"
+                  className="hidden"
+                  onChange={handleFileUpload}
+                />
+                {attachments.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {attachments.map((url, i) => (
+                      <div key={url} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-zinc-800 border border-border text-xs text-muted-foreground">
+                        <Paperclip className="w-3 h-3" />
+                        <span className="max-w-[120px] truncate">{url.split("/").pop()}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeAttachment(i)}
+                          className="ml-1 text-muted-foreground hover:text-red-400 transition-colors"
+                          aria-label="Remove attachment"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="inline-flex items-center gap-2 h-9 px-3.5 text-xs font-medium rounded-xl bg-zinc-800 text-muted-foreground hover:text-foreground hover:bg-zinc-700 border border-border transition-all disabled:opacity-50"
+                >
+                  {uploading ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Paperclip className="w-3.5 h-3.5" />
+                  )}
+                  <span>{uploading ? "Uploading..." : "Add File"}</span>
+                </button>
+              </div>
+
               {error && (
                 <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-2">
                   {error}
@@ -270,7 +343,7 @@ export function QuickInquiry({
                   "inline-flex items-center justify-center gap-2.5 w-full h-13 text-base font-medium rounded-xl bg-[#25D366] text-white shadow-lg shadow-[#25D366]/20 transition-all duration-200",
                   saving
                     ? "opacity-60 cursor-not-allowed"
-                    : "hover:bg-[#20BD5A] cursor-pointer"
+                    : "hover:bg-[#20BD5A] active:scale-[0.97] cursor-pointer"
                 )}
               >
                 {saving ? (

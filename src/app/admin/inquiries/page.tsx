@@ -157,9 +157,9 @@ export default function AdminInquiriesPage() {
   return (
     <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="container-main">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Inquiries</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground">Inquiries</h1>
             <p className="text-sm text-muted mt-1">
               {inquiries.length} total{filtered.length !== inquiries.length && ` · ${filtered.length} shown`}
               {inquiries.filter((i) => i.status === "new").length > 0 && (
@@ -174,28 +174,28 @@ export default function AdminInquiriesPage() {
           </div>
           <button
             onClick={loadInquiries}
-            className="h-10 px-4 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 transition-colors border border-border"
+            className="h-11 px-4 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 active:scale-[0.97] transition-all duration-200 border border-border"
           >
             Refresh
           </button>
         </div>
 
         {/* Filters */}
-        <div className="mb-6 flex flex-col sm:flex-row gap-3">
-          <div className="relative flex-1">
+        <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+          <div className="relative">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name, phone, or product..."
-              className="w-full h-10 pl-10 pr-4 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
+              placeholder="Search name, phone, or product..."
+              className="w-full h-11 pl-10 pr-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
             />
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as InquiryStatus | "all")}
-            className="h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
           >
             <option value="all">All Status</option>
             {statusOptions.map((s) => (
@@ -205,7 +205,7 @@ export default function AdminInquiriesPage() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
           >
             <option value="all">All Categories</option>
             {allCategories.map((c) => (
@@ -215,11 +215,11 @@ export default function AdminInquiriesPage() {
           <button
             onClick={() => setSortOrder((o) => o === "newest" ? "oldest" : "newest")}
             className={cn(
-              "h-10 px-4 text-sm font-medium rounded-xl border transition-colors inline-flex items-center gap-2",
+              "h-11 px-4 text-sm font-medium rounded-xl border transition-all duration-200 inline-flex items-center gap-2 active:scale-[0.97]",
               "bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50"
             )}
           >
-            <ArrowUpDown className="w-3.5 h-3.5" />
+            <ArrowUpDown className="w-4 h-4" />
             {sortOrder === "newest" ? "Newest" : "Oldest"}
           </button>
         </div>
@@ -266,6 +266,7 @@ export default function AdminInquiriesPage() {
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact</th>
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Product</th>
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Qty</th>
+                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Files</th>
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Date</th>
                   </tr>
@@ -289,6 +290,25 @@ export default function AdminInquiriesPage() {
                       </td>
                       <td className="px-5 py-4 text-foreground">{inq.quantity}</td>
                       <td className="px-5 py-4">
+                        {inq.attachments && inq.attachments.length > 0 ? (
+                          <div className="flex gap-1.5">
+                            {inq.attachments.map((url, i) => (
+                              <a
+                                key={url}
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-md bg-zinc-800 text-muted-foreground hover:text-foreground hover:bg-zinc-700 transition-colors"
+                              >
+                                File {i + 1}
+                              </a>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="text-xs text-muted-foreground/40">—</span>
+                        )}
+                      </td>
+                      <td className="px-5 py-4">
                         <StatusSelect current={inq.status} onChange={(s) => handleStatusChange(inq.id, s)} />
                       </td>
                       <td className="px-5 py-4 text-xs text-muted-foreground whitespace-nowrap">
@@ -303,21 +323,30 @@ export default function AdminInquiriesPage() {
             {/* Mobile cards */}
             <div className="md:hidden space-y-3">
               {filtered.map((inq) => (
-                <div key={inq.id} className="rounded-2xl bg-zinc-900/50 border border-border p-5">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{inq.name}</p>
-                      <p className="text-xs text-muted-foreground">{inq.email} · {inq.phone}</p>
+                <div key={inq.id} className="rounded-2xl bg-zinc-900/50 border border-border p-4">
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-semibold text-foreground truncate">{inq.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{inq.email} · {inq.phone}</p>
                     </div>
                     <StatusBadge status={inq.status} />
                   </div>
-                  <div className="space-y-1 text-xs text-muted-foreground">
+                  <div className="space-y-1.5 text-xs text-muted-foreground">
                     <p><span className="text-foreground font-medium">{inq.product}</span> — {inq.quantity} unit{inq.quantity !== 1 ? "s" : ""}</p>
                     <p>{inq.category}</p>
                     {inq.preferredSize && <p>Size: {inq.preferredSize}</p>}
                     {inq.customizable && <p>Needs customization</p>}
-                    {inq.message && <p className="mt-2 text-muted-foreground/60 italic">&ldquo;{inq.message}&rdquo;</p>}
-                    <p className="mt-2 text-[11px] text-muted-foreground/40">{formatDate(inq.createdAt)}</p>
+                    {inq.message && <p className="mt-2 text-muted-foreground/60 italic line-clamp-2">&ldquo;{inq.message}&rdquo;</p>}
+                    {inq.attachments && inq.attachments.length > 0 && (
+                      <div className="flex gap-1.5 mt-1">
+                        {inq.attachments.map((url, i) => (
+                          <a key={url} href={url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium rounded-lg bg-zinc-800 text-muted-foreground hover:text-foreground hover:bg-zinc-700 transition-colors">
+                            File {i + 1}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                    <p className="text-[11px] text-muted-foreground/40">{formatDate(inq.createdAt)}</p>
                   </div>
                   <div className="mt-4 pt-3 border-t border-border">
                     <StatusSelect current={inq.status} onChange={(s) => handleStatusChange(inq.id, s)} />

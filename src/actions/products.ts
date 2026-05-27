@@ -39,6 +39,8 @@ export async function createProductAction(
         try { videos = JSON.parse(value as string) } catch { videos = [] }
       } else if (key === "isFeatured" || key === "isActive" || key === "supportsBulkOrders" || key === "customizable") {
         raw[key] = value === "true" || value === "on"
+      } else if (key === "sortOrder") {
+        raw[key] = parseInt(value as string, 10) || 999
       } else {
         raw[key] = value
       }
@@ -88,6 +90,8 @@ export async function updateProductAction(
         try { videos = JSON.parse(value as string) } catch { videos = [] }
       } else if (key === "isFeatured" || key === "isActive" || key === "supportsBulkOrders" || key === "customizable") {
         raw[key] = value === "true" || value === "on"
+      } else if (key === "sortOrder") {
+        raw[key] = parseInt(value as string, 10) || 999
       } else {
         raw[key] = value
       }

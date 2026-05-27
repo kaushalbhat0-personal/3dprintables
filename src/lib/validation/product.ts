@@ -16,7 +16,7 @@ export const CreateProductSchema = z.object({
   technologies: z.array(z.string()).default([]),
   featuredImage: z.string().max(500).default(""),
   isFeatured: z.boolean().default(false),
-  isActive: z.boolean().default(true),
+  isActive: z.boolean().default(false),
   supportsBulkOrders: z.boolean().default(false),
   customizable: z.boolean().default(false),
   printTime: z.string().max(100).default(""),
@@ -26,6 +26,7 @@ export const CreateProductSchema = z.object({
     .default("single"),
   minimumOrderQuantity: z.string().max(100).default(""),
   galleryImages: z.array(z.string()).default([]),
+  sortOrder: z.number().int().default(999),
 })
 
 export const UpdateProductSchema = CreateProductSchema.partial().extend({

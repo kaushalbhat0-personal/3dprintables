@@ -12,6 +12,7 @@ export interface Inquiry {
   customizable: boolean
   message: string
   sourcePage: string
+  attachments?: string[]
   status: InquiryStatus
   createdAt: string
 }
@@ -27,6 +28,7 @@ export interface CreateInquiryInput {
   customizable: boolean
   message?: string
   sourcePage: string
+  attachments?: string[]
 }
 
 export interface UpdateStatusInput {

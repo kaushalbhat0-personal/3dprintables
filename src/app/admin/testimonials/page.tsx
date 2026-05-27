@@ -122,9 +122,9 @@ export default function AdminTestimonialsPage() {
   return (
     <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="container-main">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Testimonials</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground">Testimonials</h1>
             <p className="text-sm text-muted mt-1">
               {testimonials.length} total ·{" "}
               {testimonials.filter((t) => t.featured).length} featured
@@ -135,7 +135,7 @@ export default function AdminTestimonialsPage() {
               setEditing(null)
               setShowForm(!showForm)
             }}
-            className="h-10 px-4 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-colors inline-flex items-center gap-2"
+            className="h-11 px-4 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97] transition-all duration-200 inline-flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Add Testimonial
@@ -146,30 +146,30 @@ export default function AdminTestimonialsPage() {
         {showForm && (
           <form
             onSubmit={handleFormSubmit}
-            className="mb-8 rounded-2xl bg-zinc-900/50 border border-border p-6 space-y-4"
+            className="mb-8 rounded-2xl bg-zinc-900/50 border border-border p-5 sm:p-6 space-y-4"
           >
             <h3 className="text-sm font-semibold text-foreground">
               {editing ? "Edit Testimonial" : "New Testimonial"}
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               <input
                 name="name"
                 required
                 defaultValue={editing?.name ?? ""}
                 placeholder="Customer name *"
-                className="h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+                className="w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
               />
               <input
                 name="role"
                 defaultValue={editing?.role ?? ""}
                 placeholder="Role (e.g. Founder)"
-                className="h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+                className="w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
               />
               <input
                 name="company"
                 defaultValue={editing?.company ?? ""}
                 placeholder="Company (e.g. Acme Corp)"
-                className="h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+                className="w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
               />
             </div>
             <textarea
@@ -178,9 +178,9 @@ export default function AdminTestimonialsPage() {
               rows={3}
               defaultValue={editing?.content ?? ""}
               placeholder="Testimonial content *"
-              className="w-full px-3.5 py-2.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 resize-y"
+              className="w-full px-3.5 py-2.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all resize-y"
             />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-medium text-muted-foreground mb-1.5">
                   Rating
@@ -202,11 +202,11 @@ export default function AdminTestimonialsPage() {
                   name="imageUrl"
                   defaultValue={editing?.imageUrl ?? ""}
                   placeholder="/images/avatar.jpg"
-                  className="w-full h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+                  className="w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
                 />
               </div>
-              <div className="flex items-end gap-4 pb-1.5">
-                <label className="flex items-center gap-2 cursor-pointer">
+              <div className="flex items-end pb-1.5">
+                <label className="flex items-center gap-2.5 h-11 px-3.5 rounded-xl bg-zinc-950 border border-border cursor-pointer hover:bg-zinc-900 transition-colors w-full">
                   <input
                     type="checkbox"
                     name="featured"
@@ -222,18 +222,18 @@ export default function AdminTestimonialsPage() {
                 <p className="text-xs text-red-400">{error}</p>
               </div>
             )}
-            <div className="flex justify-end gap-3">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-2">
               <button
                 type="button"
                 onClick={() => { setShowForm(false); setEditing(null) }}
-                className="h-10 px-5 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 transition-colors"
+                className="h-11 px-5 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 active:scale-[0.97] transition-all duration-200"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={saving}
-                className="h-10 px-5 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-colors disabled:opacity-50 inline-flex items-center gap-2"
+                className="h-11 px-5 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97] transition-all duration-200 disabled:opacity-50 inline-flex items-center gap-2"
               >
                 {saving && <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />}
                 {editing ? "Update" : "Create"}
@@ -313,7 +313,7 @@ export default function AdminTestimonialsPage() {
                         <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => { setEditing(t); setShowForm(true) }}
-                            className="h-8 w-8 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 transition-colors"
+                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200"
                             title="Edit"
                           >
                             <Pencil className="w-4 h-4" />
@@ -321,7 +321,7 @@ export default function AdminTestimonialsPage() {
                           <button
                             onClick={() => handleDelete(t.id)}
                             disabled={deleting === t.id}
-                            className="h-8 w-8 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-red-400 hover:bg-red-500/10 active:scale-90 transition-all duration-200 disabled:opacity-50"
                             title="Delete"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -337,12 +337,12 @@ export default function AdminTestimonialsPage() {
             {/* Mobile cards */}
             <div className="md:hidden space-y-3">
               {testimonials.map((t) => (
-                <div key={t.id} className="rounded-2xl bg-zinc-900/50 border border-border p-5">
-                  <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{t.name}</p>
+                <div key={t.id} className="rounded-2xl bg-zinc-900/50 border border-border p-4">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-semibold text-foreground truncate">{t.name}</p>
                       {(t.role || t.company) && (
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-muted-foreground truncate">
                           {[t.role, t.company].filter(Boolean).join(" · ")}
                         </p>
                       )}
@@ -365,9 +365,9 @@ export default function AdminTestimonialsPage() {
                       <Star className={cn("w-3 h-3", t.featured && "fill-amber-400")} />
                       {t.featured ? "Featured" : "Set Featured"}
                     </button>
-                    <div className="flex gap-1">
-                      <button onClick={() => { setEditing(t); setShowForm(true) }} className="h-8 w-8 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800"><Pencil className="w-4 h-4" /></button>
-                      <button onClick={() => handleDelete(t.id)} disabled={deleting === t.id} className="h-8 w-8 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-red-400 hover:bg-red-500/10 disabled:opacity-50"><Trash2 className="w-4 h-4" /></button>
+                    <div className="flex gap-1.5">
+                      <button onClick={() => { setEditing(t); setShowForm(true) }} className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 border border-border/50"><Pencil className="w-4 h-4" /></button>
+                      <button onClick={() => handleDelete(t.id)} disabled={deleting === t.id} className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-red-400 hover:bg-red-500/10 active:scale-90 transition-all duration-200 border border-border/50 disabled:opacity-50"><Trash2 className="w-4 h-4" /></button>
                     </div>
                   </div>
                 </div>

@@ -32,15 +32,11 @@ export async function generateMetadata({
       url: siteUrl(`/catalog/${slug}`),
       siteName: "3D Factory",
       type: "website",
-      images: product.featuredImage
-        ? [{ url: product.featuredImage, width: 1200, height: 1200 }]
-        : [],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: product.featuredImage ? [product.featuredImage] : [],
     },
     alternates: {
       canonical: siteUrl(`/catalog/${slug}`),
@@ -384,7 +380,7 @@ export default async function ProductPage({
           </section>
         )}
 
-        <div className="fixed bottom-0 left-0 right-0 z-40 p-4 pb-[max(1rem,env(safe-area-inset-bottom,1rem))] bg-gradient-to-t from-background via-background/95 to-transparent md:hidden">
+        <div className="fixed bottom-0 left-0 right-0 z-30 p-4 pb-[max(1rem,env(safe-area-inset-bottom,1rem))] bg-gradient-to-t from-background via-background/95 to-transparent md:hidden">
           <a
             href={whatsappUrl}
             target="_blank"

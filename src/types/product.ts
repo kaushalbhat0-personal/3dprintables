@@ -12,6 +12,8 @@ export interface Product {
   dimensions?: string
   technologies?: string[]
   featured?: boolean
+  isActive?: boolean
+  sortOrder?: number
   createdAt: string
   printTime?: string
   finishType?: string

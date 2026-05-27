@@ -15,6 +15,7 @@ export const inquiries = sqliteTable("inquiries", {
     .default(false),
   message: text("message").notNull().default(""),
   sourcePage: text("source_page").notNull(),
+  attachments: text("attachments").notNull().default("[]"),
   status: text("status", {
     enum: ["new", "contacted", "quoted", "completed"],
   })
@@ -44,7 +45,7 @@ export const products = sqliteTable("products", {
     .default(false),
   isActive: integer("is_active", { mode: "boolean" })
     .notNull()
-    .default(true),
+    .default(false),
   supportsBulkOrders: integer("supports_bulk_orders", { mode: "boolean" })
     .notNull()
     .default(false),
@@ -60,6 +61,7 @@ export const products = sqliteTable("products", {
   createdAt: text("created_at")
     .notNull()
     .default("(datetime('now'))"),
+  sortOrder: integer("sort_order").notNull().default(999),
   updatedAt: text("updated_at")
     .notNull()
     .default("(datetime('now'))"),

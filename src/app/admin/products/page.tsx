@@ -111,27 +111,28 @@ export default function AdminProductsPage() {
   return (
     <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="container-main">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Products</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground">Products</h1>
             <p className="text-sm text-muted mt-1">
               {products.length} total ·{" "}
               {products.filter((p) => p.featured).length} featured
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <button
               onClick={loadProducts}
-              className="h-10 px-4 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 transition-colors border border-border"
+              className="h-11 px-4 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 active:scale-[0.97] transition-all duration-200 border border-border"
             >
               Refresh
             </button>
             <button
               onClick={handleCreate}
-              className="h-10 px-4 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-colors inline-flex items-center gap-2"
+              className="h-11 px-4 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97] transition-all duration-200 inline-flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
-              Add Product
+              <span className="hidden xs:inline">Add Product</span>
+              <span className="xs:hidden">Add</span>
             </button>
           </div>
         </div>
@@ -251,7 +252,7 @@ export default function AdminProductsPage() {
                         <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => handleEdit(product)}
-                            className="h-8 w-8 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 transition-colors"
+                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200"
                             title="Edit"
                           >
                             <Pencil className="w-4 h-4" />
@@ -259,7 +260,7 @@ export default function AdminProductsPage() {
                           <button
                             onClick={() => handleDelete(product.id)}
                             disabled={deleting === product.id}
-                            className="h-8 w-8 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-red-400 hover:bg-red-500/10 active:scale-90 transition-all duration-200 disabled:opacity-50"
                             title="Delete"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -277,13 +278,11 @@ export default function AdminProductsPage() {
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className="rounded-2xl bg-zinc-900/50 border border-border p-5"
+                  className="rounded-2xl bg-zinc-900/50 border border-border p-4"
                 >
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-start gap-3 mb-3">
                     {product.featuredImage && (
-                      <div
-                        className="w-12 h-12 rounded-lg bg-zinc-800 overflow-hidden flex-shrink-0"
-                      >
+                      <div className="w-14 h-14 rounded-xl bg-zinc-800 overflow-hidden flex-shrink-0">
                         <img
                           src={optimizeImage(product.featuredImage, 120)}
                           alt=""
@@ -295,26 +294,32 @@ export default function AdminProductsPage() {
                       <p className="text-sm font-semibold text-foreground truncate">
                         {product.title}
                       </p>
-                      <p className="text-xs text-muted-foreground truncate">
+                      <p className="text-xs text-muted-foreground truncate mt-0.5">
                         /{product.slug}
                       </p>
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <CategoryBadge category={product.category} />
+                        {product.priceRange && (
+                          <span className="text-xs text-muted-foreground">
+                            {product.priceRange}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <CategoryBadge category={product.category} />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                      <span>{product.priceRange || "—"}</span>
-                      <span>{formatDate(product.createdAt)}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
+                  <div className="flex items-center justify-between pt-3 border-t border-border">
+                    <span className="text-xs text-muted-foreground">
+                      {formatDate(product.createdAt)}
+                    </span>
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={() =>
                           handleToggleFeatured(product.id, !!product.featured)
                         }
-                        className={`h-8 w-8 inline-flex items-center justify-center rounded-lg transition-colors ${
+                        className={`h-11 w-11 inline-flex items-center justify-center rounded-xl transition-all duration-200 active:scale-90 ${
                           product.featured
-                            ? "text-amber-400 hover:bg-amber-500/10"
-                            : "text-muted-foreground hover:text-foreground hover:bg-zinc-800"
+                            ? "text-amber-400 bg-amber-500/10 border border-amber-500/20"
+                            : "text-muted-foreground hover:text-foreground hover:bg-zinc-800 border border-border/50"
                         }`}
                         title={
                           product.featured
@@ -330,7 +335,7 @@ export default function AdminProductsPage() {
                       </button>
                       <button
                         onClick={() => handleEdit(product)}
-                        className="h-8 w-8 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 transition-colors"
+                        className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 border border-border/50"
                         title="Edit"
                       >
                         <Pencil className="w-4 h-4" />
@@ -338,7 +343,7 @@ export default function AdminProductsPage() {
                       <button
                         onClick={() => handleDelete(product.id)}
                         disabled={deleting === product.id}
-                        className="h-8 w-8 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                        className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-red-400 hover:bg-red-500/10 active:scale-90 transition-all duration-200 border border-border/50 disabled:opacity-50"
                         title="Delete"
                       >
                         <Trash2 className="w-4 h-4" />

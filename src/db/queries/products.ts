@@ -27,6 +27,7 @@ export async function createProductQuery(input: {
   finishType: string
   productionType: string | null
   minimumOrderQuantity: string
+  sortOrder: number
   galleryImages: string[]
 }): Promise<{ success: true; data: Product } | { success: false; error: string }> {
   try {
@@ -51,6 +52,7 @@ export async function createProductQuery(input: {
       finishType: input.finishType,
       productionType: input.productionType as "prototype" | "single" | "batch" | "custom" | null,
       minimumOrderQuantity: input.minimumOrderQuantity,
+      sortOrder: input.sortOrder,
       createdAt: now,
       updatedAt: now,
     })
@@ -98,6 +100,7 @@ export async function updateProductQuery(
     finishType: string
     productionType: string | null
     minimumOrderQuantity: string
+    sortOrder: number
     galleryImages: string[]
   }>
 ): Promise<{ success: true; data: Product } | { success: false; error: string }> {
@@ -203,6 +206,8 @@ function mapRowToProduct(
     dimensions: row.dimensions || undefined,
     technologies: (() => { try { const p = JSON.parse(row.technologies); return Array.isArray(p) ? p : [] } catch { return [] } })(),
     featured: row.isFeatured,
+    isActive: row.isActive,
+    sortOrder: row.sortOrder,
     printTime: row.printTime || undefined,
     finishType: row.finishType || undefined,
     productionType: (row.productionType as Product["productionType"]) ?? undefined,
@@ -220,7 +225,7 @@ export async function getProductsQuery(): Promise<
     const rows = await db
       .select()
       .from(products)
-      .orderBy(desc(products.createdAt))
+      .orderBy(asc(products.sortOrder), desc(products.createdAt))
 
     const allImages = await db
       .select()
@@ -254,7 +259,7 @@ export async function getActiveProductsQuery(): Promise<
       .select()
       .from(products)
       .where(eq(products.isActive, true))
-      .orderBy(desc(products.createdAt))
+      .orderBy(asc(products.sortOrder), desc(products.createdAt))
 
     const activeIds = rows.map((r) => r.id)
     const allImages = activeIds.length > 0
@@ -351,7 +356,7 @@ export async function getFeaturedProductsQuery(): Promise<
       .select()
       .from(products)
       .where(and(eq(products.isFeatured, true), eq(products.isActive, true)))
-      .orderBy(desc(products.createdAt))
+      .orderBy(asc(products.sortOrder), desc(products.createdAt))
 
     const allImages = await db
       .select()
@@ -392,7 +397,7 @@ export async function getProductsByCategoryQuery(
           eq(products.isActive, true)
         )
       )
-      .orderBy(desc(products.createdAt))
+      .orderBy(asc(products.sortOrder), desc(products.createdAt))
 
     const allImages = await db
       .select()

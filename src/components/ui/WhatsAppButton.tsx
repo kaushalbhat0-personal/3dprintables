@@ -1,5 +1,3 @@
-"use client"
-
 import { MessageCircle } from "lucide-react"
 import { cn, formatWhatsAppUrl } from "@/lib/utils"
 import { SITE } from "@/lib/constants"
@@ -24,7 +22,7 @@ export function WhatsAppButton({
         target="_blank"
         rel="noopener noreferrer"
         className={cn(
-          "inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#25D366] text-white hover:bg-[#20BD5A] transition-colors",
+          "inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white hover:bg-[#20BD5A] active:scale-95 transition-all duration-200",
           className
         )}
         aria-label={`Inquire about ${productName} on WhatsApp`}
@@ -43,9 +41,9 @@ export function WhatsAppButton({
         "inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-200",
         "h-11 px-6 text-sm",
         variant === "primary" &&
-          "bg-[#25D366] text-white hover:bg-[#20BD5A] shadow-lg shadow-[#25D366]/20",
+          "bg-[#25D366] text-white hover:bg-[#20BD5A] active:scale-[0.97] shadow-lg shadow-[#25D366]/20",
         variant === "secondary" &&
-          "border border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10",
+          "border border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10 active:scale-[0.97]",
         className
       )}
     >

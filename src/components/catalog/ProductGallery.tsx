@@ -96,7 +96,7 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8"
+      className="fixed inset-0 z-60 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8"
       onClick={handleOverlayClick}
     >
       <div
@@ -108,7 +108,7 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
         <div className="absolute top-3 right-3 z-20 flex items-center gap-2">
           <button
             onClick={() => setFullscreen(!fullscreen)}
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-black/60 text-white/80 hover:bg-black/80 hover:text-white transition-colors backdrop-blur-sm"
+            className="flex items-center justify-center w-9 h-9 rounded-full bg-black/60 text-white/80 hover:bg-black/80 hover:text-white active:scale-90 transition-all duration-200 backdrop-blur-sm"
             aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
           >
             {fullscreen ? (
@@ -119,7 +119,7 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
           </button>
           <button
             onClick={onClose}
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-black/60 text-white/80 hover:bg-black/80 hover:text-white transition-colors backdrop-blur-sm"
+            className="flex items-center justify-center w-9 h-9 rounded-full bg-black/60 text-white/80 hover:bg-black/80 hover:text-white active:scale-90 transition-all duration-200 backdrop-blur-sm"
             aria-label="Close gallery"
           >
             <X className="w-4 h-4" />
@@ -161,14 +161,14 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
             <>
               <button
                 onClick={() => goTo(currentIndex - 1)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors backdrop-blur-sm z-10"
+                className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={() => goTo(currentIndex + 1)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors backdrop-blur-sm z-10"
+                className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
                 aria-label="Next image"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -183,7 +183,7 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
                       "w-2 h-2 rounded-full transition-all duration-300",
                       i === currentIndex
                         ? "bg-white w-6"
-                        : "bg-white/40 hover:bg-white/60"
+                        : "bg-white/40 hover:bg-white/60 active:scale-90"
                     )}
                     aria-label={`Go to image ${i + 1}`}
                   />

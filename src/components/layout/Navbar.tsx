@@ -80,7 +80,7 @@ export function Navbar() {
             href={`https://wa.me/${SITE.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 h-10 px-5 text-sm font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] transition-colors shadow-lg shadow-[#25D366]/20"
+            className="inline-flex items-center gap-2 h-10 px-5 text-sm font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] active:scale-95 transition-all duration-200 shadow-lg shadow-[#25D366]/20"
           >
             <MessageCircle className="w-4 h-4" />
             <span>WhatsApp</span>
@@ -90,7 +90,7 @@ export function Navbar() {
 
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 transition-colors"
+          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200"
           aria-label={isMobileOpen ? "Close menu" : "Open menu"}
         >
           {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -125,7 +125,7 @@ export function Navbar() {
                 href={`https://wa.me/${SITE.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 h-12 text-sm font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] transition-colors"
+                className="inline-flex items-center justify-center gap-2 h-12 text-sm font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] active:scale-[0.97] transition-all duration-200"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Chat on WhatsApp</span>

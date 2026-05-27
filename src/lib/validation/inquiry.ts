@@ -43,6 +43,7 @@ export const CreateInquirySchema = z.object({
     .string()
     .min(1, "Source page is required")
     .max(200, "Source page must be under 200 characters"),
+  attachments: z.array(z.string()).optional().default([]),
 })
 
 export const UpdateInquiryStatusSchema = z.object({
