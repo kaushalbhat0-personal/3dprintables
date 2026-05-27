@@ -9,6 +9,12 @@ export default async function AdminLayout({
   children: React.ReactNode
 }>) {
   const session = await auth()
+  console.log("[AUTH DEBUG admin layout]", {
+    hasSession: !!session,
+    userEmail: session?.user?.email,
+    isAdmin: session?.user?.isAdmin,
+    fullSession: JSON.stringify(session),
+  })
   if (!session?.user?.isAdmin) redirect("/admin/login")
 
   const navItems = [

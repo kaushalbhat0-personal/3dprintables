@@ -6,9 +6,6 @@ const googleProvider = Google({
   clientSecret: process.env.AUTH_GOOGLE_SECRET,
 })
 
-// Auth.js v5 reads provider.clientId/clientSecret from the top level,
-// but Google() stores them inside `options`. Set them explicitly so
-// the OAuth callback never receives undefined.
 googleProvider.clientId = process.env.AUTH_GOOGLE_ID
 googleProvider.clientSecret = process.env.AUTH_GOOGLE_SECRET
 
@@ -17,18 +14,44 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   trustHost: true,
   callbacks: {
-    async jwt({ token, account }) {
+    async signIn({ user, account, profile }) {
+      console.log("[AUTH DEBUG signIn]", {
+        userEmail: user?.email,
+        accountProvider: account?.provider,
+        profileEmail: profile?.email,
+      })
+      return true
+    },
+    async jwt({ token, account, profile }) {
       if (account) {
-        const adminEmail = process.env.ADMIN_GOOGLE_EMAIL
-        token.isAdmin = typeof token.email === "string" && typeof adminEmail === "string"
-          ? token.email === adminEmail
-          : false
+        const rawAdminEmail = process.env.ADMIN_GOOGLE_EMAIL
+        const rawTokenEmail = token.email ?? profile?.email ?? ""
+        const match = rawTokenEmail.toLowerCase().trim() === (rawAdminEmail ?? "").toLowerCase().trim()
+        console.log("[AUTH DEBUG jwt]", {
+          tokenEmail: rawTokenEmail,
+          profileEmail: profile?.email,
+          adminEmail: rawAdminEmail,
+          match,
+          accountId: account.providerAccountId,
+        })
+        token.isAdmin = rawTokenEmail.length > 0 && match
+        console.log("[AUTH DEBUG jwt result]", { tokenIsAdmin: token.isAdmin })
+      } else {
+        console.log("[AUTH DEBUG jwt no-account]", {
+          tokenEmail: token.email,
+          tokenIsAdmin: token.isAdmin,
+        })
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.isAdmin = !!token.isAdmin
+        console.log("[AUTH DEBUG session]", {
+          sessionEmail: session.user.email,
+          tokenIsAdmin: token.isAdmin,
+          sessionIsAdmin: session.user.isAdmin,
+        })
       }
       return session
     },
