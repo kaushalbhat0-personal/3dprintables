@@ -17,32 +17,32 @@ const stats = [
 const posts = [
   {
     image: "/images/products/ShivaGlow.jpeg",
-    caption: "Shiva Glow Statue",
+    caption: "Glow-in-the-dark Shiva fresh off the build plate",
     likes: "342",
   },
   {
     image: "/images/products/ChromiumHanuman.jpg",
-    caption: "Chromium Hanuman Statue",
+    caption: "Chromium-finished Hanuman — post-processing complete",
     likes: "891",
   },
   {
-    image: "/images/products/ShivaWhite.jpeg",
-    caption: "Custom Shiva Statue",
+    image: "/images/products/Mew2-1.jpg",
+    caption: "Mewtwo armor figure assembly in progress",
     likes: "567",
   },
   {
-    image: "/images/products/prototype-part.png",
-    caption: "Custom Prototype Part",
+    image: "/images/products/CustomGun-1.jpg",
+    caption: "Complex engineering prototype — multipart fitment test",
     likes: "234",
   },
   {
     image: "/images/products/IronManMask.jpeg",
-    caption: "Bulk order delivery for a startup client — 200 units",
+    caption: "Iron Man mask — sanded and primed for painting",
     likes: "423",
   },
   {
-    image: "/images/products/IronManMaskMaking.jpeg",
-    caption: "New filament spools arrived — restocking the lab",
+    image: "/images/products/Gengar-1.jpg",
+    caption: "Articulated Gengar — fully assembled and posed",
     likes: "178",
   },
 ]

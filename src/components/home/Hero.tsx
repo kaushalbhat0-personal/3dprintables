@@ -8,10 +8,10 @@ import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 
 const stats = [
-  { icon: Package, label: "500+ Orders Delivered" },
-  { icon: Clock, label: "24hr Quick Turnaround" },
-  { icon: Truck, label: "Worldwide Shipping" },
-  { icon: ShieldCheck, label: "Premium Quality Guaranteed" },
+  { icon: Package, label: "500+ Prints Delivered" },
+  { icon: Clock, label: "24hr Rapid Prototyping" },
+  { icon: Truck, label: "Pan-India Shipping" },
+  { icon: ShieldCheck, label: "Production-Grade Quality" },
 ] as const
 
 const staggerContainer = {
@@ -78,9 +78,9 @@ export function Hero() {
             variants={fadeUp}
             className="mt-6 text-base sm:text-lg md:text-xl text-muted max-w-2xl mx-auto leading-relaxed"
           >
-            From concept to creation. We design and deliver premium 3D printed
-            products across the world — custom decor, functional prototypes, unique
-            gifts, and everything in between.
+            From concept to finished print. We produce premium 3D printed
+            products — spiritual decor, cosplay collectibles, engineering
+            prototypes, and custom manufacturing — delivered across India.
           </motion.p>
 
           <motion.div

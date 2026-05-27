@@ -5,8 +5,8 @@ export interface Product {
   category: ProductCategory
   description: string
   shortDescription: string
-  image: string
-  images?: string[]
+  featuredImage: string
+  galleryImages?: string[]
   priceRange?: string
   material?: string
   dimensions?: string

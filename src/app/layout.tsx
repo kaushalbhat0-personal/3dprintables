@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist } from "next/font/google"
 import { Navbar } from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
+import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -11,33 +12,33 @@ const geistSans = Geist({
 
 export const metadata: Metadata = {
   title: {
-    default: "PrintCraft | Premium 3D Printed Products",
-    template: "%s | PrintCraft",
+    default: "3D Factory | Premium 3D Printing Studio",
+    template: "%s | 3D Factory",
   },
   description:
-    "We design and deliver high-quality 3D printed products — from home decor to custom prototypes. Based in India. Order via WhatsApp.",
+    "India's production-grade 3D printing studio. Spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing. Order via WhatsApp.",
   keywords: [
-    "3D printing",
-    "3D printed products",
-    "custom 3D printing",
-    "India 3D printing",
+    "3D printing India",
     "3D printed decor",
-    "3D printed gifts",
-    "prototyping",
+    "cosplay 3D printing",
+    "engineering prototypes",
+    "custom manufacturing",
+    "3D printing studio",
+    "India 3D printing service",
   ],
   openGraph: {
-    title: "PrintCraft | Premium 3D Printed Products",
+    title: "3D Factory | Premium 3D Printing Studio",
     description:
-      "We design and deliver high-quality 3D printed products — from home decor to custom prototypes. Order via WhatsApp.",
-    siteName: "PrintCraft",
+      "India's production-grade 3D printing studio. Spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing.",
+    siteName: "3D Factory",
     type: "website",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PrintCraft | Premium 3D Printed Products",
+    title: "3D Factory | Premium 3D Printing Studio",
     description:
-      "We design and deliver high-quality 3D printed products — from home decor to custom prototypes.",
+      "India's production-grade 3D printing studio. Spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing.",
   },
   robots: {
     index: true,
@@ -56,6 +57,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <FloatingWhatsApp />
       </body>
     </html>
   )

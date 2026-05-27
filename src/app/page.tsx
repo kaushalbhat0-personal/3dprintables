@@ -9,9 +9,9 @@ import { InstagramTrust } from "@/components/home/InstagramTrust"
 import { CTABanner } from "@/components/home/CTABanner"
 
 export const metadata = generateMetadata({
-  title: "Premium 3D Printed Products – Custom Design & Prototyping",
+  title: "Premium 3D Printing Studio — Custom Manufacturing & Prototyping",
   description:
-    "India's premium 3D printing studio. Custom decor, functional prototypes, and unique gifts. Order via WhatsApp with fast pan-India delivery.",
+    "India's production-grade 3D printing studio. Spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing. Order via WhatsApp.",
   path: "/",
 })
 

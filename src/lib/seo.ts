@@ -11,21 +11,21 @@ export function generateMetadata({
   description,
   path,
 }: SEOProps): Metadata {
-  const url = path ? `https://printcraft.in${path}` : "https://printcraft.in"
+  const url = path ? `https://3dfactory.in${path}` : "https://3dfactory.in"
 
   return {
-    title: `${title} | PrintCraft`,
+    title,
     description,
     openGraph: {
-      title: `${title} | PrintCraft`,
+      title: `${title} | 3D Factory`,
       description,
       url,
-      siteName: "PrintCraft",
+      siteName: "3D Factory",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | PrintCraft`,
+      title: `${title} | 3D Factory`,
       description,
     },
     alternates: {

@@ -2,9 +2,9 @@ import { generateMetadata } from "@/lib/seo"
 import { CatalogClient } from "@/components/catalog/CatalogClient"
 
 export const metadata = generateMetadata({
-  title: "Catalog — Browse 3D Printed Products",
+  title: "Catalog — Browse Our Collection",
   description:
-    "Explore our collection of premium 3D printed products. From home decor to custom prototypes — find your next print.",
+    "Explore our portfolio of 3D printed products — spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing.",
   path: "/catalog",
 })
 

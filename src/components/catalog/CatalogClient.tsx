@@ -1,20 +1,33 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { MessageCircle, Package } from "lucide-react"
 import { products } from "@/data/products"
 import { ProductCard } from "@/components/catalog/ProductCard"
+import { ProductGallery } from "@/components/catalog/ProductGallery"
 import { CategoryFilter } from "@/components/catalog/CategoryFilter"
+import type { Product } from "@/types"
+import { PRODUCT_CATEGORIES } from "@/types"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 
 export function CatalogClient() {
   const [activeCategory, setActiveCategory] = useState("all")
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
   const filtered =
     activeCategory === "all"
       ? products
       : products.filter((p) => p.category === activeCategory)
+
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const cat of PRODUCT_CATEGORIES) {
+      counts[cat.value] = products.filter((p) => p.category === cat.value).length
+    }
+    counts.all = products.length
+    return counts
+  }, [])
 
   return (
     <>
@@ -25,15 +38,15 @@ export function CatalogClient() {
               Our Collection
             </h1>
             <p className="mt-4 text-base sm:text-lg text-muted max-w-lg mx-auto leading-relaxed">
-              Explore our range of premium 3D printed products. Each piece is
-              crafted with precision — from functional prototypes to decorative
-              art.
+              Every piece is produced in-house — from spiritual decor and
+              cosplay collectibles to precision engineering prototypes.
             </p>
 
             <div className="mt-10">
               <CategoryFilter
                 active={activeCategory}
                 onChange={setActiveCategory}
+                counts={categoryCounts}
               />
             </div>
           </div>
@@ -44,11 +57,11 @@ export function CatalogClient() {
         <div className="container-main">
           {filtered.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filtered.map((product, index) => (
+              {filtered.map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
-                  index={index}
+                  onSelect={setSelectedProduct}
                 />
               ))}
             </div>
@@ -93,6 +106,13 @@ export function CatalogClient() {
           </div>
         </div>
       </section>
+
+      {selectedProduct && (
+        <ProductGallery
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </>
   )
 }

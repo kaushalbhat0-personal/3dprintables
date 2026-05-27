@@ -8,7 +8,7 @@ import { ContactCTA } from "@/components/contact/ContactCTA"
 export const metadata = generateMetadata({
   title: "Contact — Get a Quote or Start a Custom Project",
   description:
-    "Have an idea? Contact PrintCraft via WhatsApp, email, or Instagram. Quick replies, custom quotes, pan-India delivery.",
+    "Have an idea? Contact 3D Factory via WhatsApp, email, or Instagram. Quick replies, custom quotes, pan-India delivery.",
   path: "/contact",
 })
 

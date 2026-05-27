@@ -6,27 +6,27 @@ import { Card } from "@/components/ui/Card"
 
 const highlights = [
   {
-    title: "Glow Resin Finish",
+    title: "Glow-in-the-Dark Shiva",
     category: "Spiritual Decor",
-    note: "Intricate glow-in-the-dark resin panel with ethereal luminous effect",
+    note: "Glow filament statue with ambient night illumination and premium finish",
     image: "/images/products/ShivaGlow.jpeg",
   },
   {
-    title: "Precision Mechanical Prototype",
+    title: "Engineering Prototype",
     category: "Prototypes & Engineering",
-    note: "High-tolerance functional part with tight dimensional accuracy",
-    image: "/images/products/prototype-part.png",
+    note: "Multi-part precision assembly with complex mechanical detailing",
+    image: "/images/products/CustomGun-1.jpg",
   },
   {
-    title: "Custom Spiritual Decor",
-    category: "Spiritual Decor",
-    note: "Elegant matte-finished statue with crisp detailing and premium surface",
-    image: "/images/products/ShivaWhite.jpeg",
+    title: "Mewtwo Armor Figure",
+    category: "Cosplay & Props",
+    note: "Articulated armor collectible with precision printed structural parts",
+    image: "/images/products/Mew2-1.jpg",
   },
   {
-    title: "Metallic Gold Sculpture",
+    title: "Golden Hanuman Statue",
     category: "Spiritual Decor",
-    note: "Metallic-finish sculpture with intricate detailing and smooth lustre",
+    note: "Metallic-coated Hanuman with high-detail layered finishing",
     image: "/images/products/ChromiumHanuman.jpg",
   },
 ]

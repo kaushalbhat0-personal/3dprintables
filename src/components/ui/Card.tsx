@@ -5,6 +5,7 @@ interface CardProps {
   className?: string
   hover?: boolean
   as?: "div" | "article" | "li"
+  onClick?: () => void
 }
 
 export function Card({
@@ -12,6 +13,7 @@ export function Card({
   className,
   hover = true,
   as: Tag = "div",
+  onClick,
 }: CardProps) {
   return (
     <Tag
@@ -20,6 +22,7 @@ export function Card({
         hover && "transition-all duration-300 hover:bg-card-hover hover:border-zinc-600 hover:shadow-xl hover:shadow-black/20",
         className
       )}
+      onClick={onClick}
     >
       {children}
     </Tag>

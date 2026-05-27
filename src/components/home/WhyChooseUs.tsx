@@ -1,9 +1,9 @@
 import {
   Crosshair,
-  Zap,
   Layers,
   PenTool,
-  Truck,
+  Repeat,
+  Scan,
   Headphones,
 } from "lucide-react"
 import { Section } from "@/components/ui/Section"
@@ -13,39 +13,39 @@ import { Card } from "@/components/ui/Card"
 const features = [
   {
     icon: Crosshair,
-    title: "Precision Printing",
+    title: "High-Detail Precision",
     description:
-      "High-tolerance FDM & SLA printing with rigorous quality checks. Every layer is optimized for strength and surface finish.",
-  },
-  {
-    icon: Zap,
-    title: "Fast Turnaround",
-    description:
-      "Most orders dispatched within 24–48 hours. Need it faster? Rush orders are always available — just ask.",
+      "Calibrated FDM and resin printing with tight tolerances. Every layer is optimised for dimensional accuracy and clean surface finish — from tiny collectibles to large decor pieces.",
   },
   {
     icon: Layers,
-    title: "Premium Materials",
+    title: "Scalable Batch Production",
     description:
-      "PLA+, PETG, TPU, and engineering resins from trusted suppliers. Each spool is stored and dried to strict standards.",
+      "Consistent repeatability across production runs. We maintain strict quality control whether you need one prototype or a bulk order of 200 units for your brand.",
   },
   {
     icon: PenTool,
-    title: "Fully Custom Orders",
+    title: "Custom Design Support",
     description:
-      "Send us your sketches, photos, or CAD files. We handle design, slicing, and printing — you get exactly what you envisioned.",
+      "Send us your sketches, reference images, or CAD files. Our team handles modelling, optimisation, and preparation for print — no design experience needed.",
   },
   {
-    icon: Truck,
-    title: "Pan-India Delivery",
+    icon: Repeat,
+    title: "Fast Iteration Cycles",
     description:
-      "Free shipping on orders above ₹999. Secure, trackable packaging delivered to your doorstep across all major cities.",
+      "From concept to physical part in as little as 24 hours. Quick turnaround on design revisions, fitment checks, and prototype validation for product development.",
+  },
+  {
+    icon: Scan,
+    title: "Premium Finishing",
+    description:
+      "Every print receives professional post-processing — sanding, priming, coating, and assembly. We deliver pieces that look manufactured, not just printed.",
   },
   {
     icon: Headphones,
-    title: "Dedicated Support",
+    title: "Dedicated Project Support",
     description:
-      "A personal design consultant assigned to every order. From concept to delivery, one point of contact throughout.",
+      "A single point of contact from quote to delivery. Real-time updates, material recommendations, and transparent communication throughout your project.",
   },
 ]
 
@@ -53,8 +53,8 @@ export function WhyChooseUs() {
   return (
     <Section id="why-choose-us">
       <Heading
-        title="Why Choose Us"
-        subtitle="We treat every print as a craft. Here's what sets us apart from the rest."
+        title="Built for Creators and Brands"
+        subtitle="We operate a production-grade studio with a focus on precision, repeatability, and clean finishing — from single prototypes to bulk manufacturing."
       />
 
       <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
