@@ -38,7 +38,7 @@ export function Hero() {
         className="absolute inset-0 pointer-events-none z-0"
         aria-hidden="true"
       >
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[30vw] h-[50vh] md:w-[45vw] md:h-[80vh] max-w-[650px] max-h-[700px] opacity-20 md:opacity-30 overflow-hidden">
+        <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-[45vw] h-[80vh] max-w-[650px] max-h-[700px] opacity-30 overflow-hidden">
           <Image
             src="/images/products/ChromiumHanuman.jpg"
             alt="Golden Hanuman Statue"
