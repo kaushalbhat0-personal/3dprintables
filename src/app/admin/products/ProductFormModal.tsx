@@ -9,6 +9,7 @@ import {
   updateProductAction,
 } from "@/actions/products"
 import { uploadToCloudinary } from "@/lib/cloudinary-upload"
+import { optimizeImage, getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 import { PRODUCT_CATEGORIES } from "@/types"
 import type { Product } from "@/types"
 
@@ -79,17 +80,23 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
     if (slugInput) slugInput.dataset.manuallyEdited = "true"
   }
 
+  const getSlug = () => {
+    const slugInput = document.getElementById("slug") as HTMLInputElement
+    return slugInput?.value || undefined
+  }
+
   const uploadFile = async (file: File, target: "featured" | "gallery") => {
     setUploading(true)
     setError("")
 
     try {
-      const url = await uploadToCloudinary(file)
+      const slug = getSlug()
+      const result = await uploadToCloudinary(file, { slug, target })
 
       if (target === "featured") {
-        setFeaturedImage(url)
+        setFeaturedImage(result.secureUrl)
       } else {
-        setGalleryImages((prev) => [...prev, url])
+        setGalleryImages((prev) => [...prev, result.secureUrl])
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed")
@@ -366,9 +373,12 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
             />
             {featuredImage ? (
               <div className="relative inline-block">
-                <div className="w-28 h-28 rounded-xl bg-zinc-800 overflow-hidden border border-border">
+                <div
+                  className="w-28 h-28 rounded-xl bg-zinc-800 overflow-hidden border border-border"
+                  style={getBlurBackgroundStyle(featuredImage)}
+                >
                   <img
-                    src={featuredImage}
+                    src={optimizeImage(featuredImage, 300)}
                     alt="Featured preview"
                     className="w-full h-full object-cover"
                   />
@@ -417,9 +427,12 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-3 mb-3">
                 {galleryImages.map((url, i) => (
                   <div key={`${url}-${i}`} className="relative group">
-                    <div className="aspect-square rounded-xl bg-zinc-800 overflow-hidden border border-border">
+                    <div
+                      className="aspect-square rounded-xl bg-zinc-800 overflow-hidden border border-border"
+                      style={getBlurBackgroundStyle(url)}
+                    >
                       <img
-                        src={url}
+                        src={optimizeImage(url, 300)}
                         alt={`Gallery ${i + 1}`}
                         className="w-full h-full object-cover"
                       />

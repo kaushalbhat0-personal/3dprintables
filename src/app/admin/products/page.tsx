@@ -2,7 +2,8 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { useState, useEffect, startTransition } from "react"
+import { useState, useEffect, startTransition, useCallback } from "react"
+import { useRouter } from "next/navigation"
 import { Plus, Pencil, Trash2, Star, Package } from "lucide-react"
 import {
   getProductsAction,
@@ -12,6 +13,7 @@ import {
 import { ProductFormModal } from "./ProductFormModal"
 import type { Product } from "@/types"
 import { PRODUCT_CATEGORIES } from "@/types"
+import { optimizeImage } from "@/lib/cloudinary-utils"
 
 function formatDate(iso: string): string {
   try {
@@ -36,6 +38,7 @@ function CategoryBadge({ category }: { category: string }) {
 }
 
 export default function AdminProductsPage() {
+  const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -58,22 +61,31 @@ export default function AdminProductsPage() {
 
   useEffect(() => { loadProducts() }, [])
 
+  const refresh = useCallback(() => {
+    router.refresh()
+    loadProducts()
+  }, [router])
+
   const handleToggleFeatured = async (id: string, current: boolean) => {
+    const product = products.find((p) => p.id === id)
     setProducts((prev) =>
       prev.map((p) => (p.id === id ? { ...p, featured: !current } : p))
     )
-    const result = await toggleFeaturedAction(id, !current)
+    const result = await toggleFeaturedAction(id, !current, product?.slug)
     if (!result.success) {
       loadProducts()
     }
+    refresh()
   }
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return
+    const product = products.find((p) => p.id === id)
     setDeleting(id)
-    const result = await deleteProductAction(id)
+    const result = await deleteProductAction(id, product?.slug)
     if (result.success) {
       setProducts((prev) => prev.filter((p) => p.id !== id))
+      refresh()
     } else {
       alert(result.error ?? "Failed to delete")
     }
@@ -93,7 +105,7 @@ export default function AdminProductsPage() {
   const handleModalClose = () => {
     setModalOpen(false)
     setEditingProduct(null)
-    loadProducts()
+    refresh()
   }
 
   return (
@@ -191,7 +203,7 @@ export default function AdminProductsPage() {
                           {product.featuredImage && (
                             <div className="w-10 h-10 rounded-lg bg-zinc-800 overflow-hidden flex-shrink-0">
                               <img
-                                src={product.featuredImage}
+                                src={optimizeImage(product.featuredImage, 120)}
                                 alt=""
                                 className="w-full h-full object-cover"
                               />
@@ -269,9 +281,11 @@ export default function AdminProductsPage() {
                 >
                   <div className="flex items-center gap-3 mb-3">
                     {product.featuredImage && (
-                      <div className="w-12 h-12 rounded-lg bg-zinc-800 overflow-hidden flex-shrink-0">
+                      <div
+                        className="w-12 h-12 rounded-lg bg-zinc-800 overflow-hidden flex-shrink-0"
+                      >
                         <img
-                          src={product.featuredImage}
+                          src={optimizeImage(product.featuredImage, 120)}
                           alt=""
                           className="w-full h-full object-cover"
                         />

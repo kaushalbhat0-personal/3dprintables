@@ -42,3 +42,11 @@
 ✓ Compiled in 354ms
 ✓ Compiled in 96ms
 ✓ Compiled in 143ms
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3333
+- Network:       http://10.11.203.65:3333
+- Environments: .env.local, .env
+✓ Ready in 4.5s
+○ Compiling middleware ...
+
+✓ Finished filesystem cache database compaction in 12.3s

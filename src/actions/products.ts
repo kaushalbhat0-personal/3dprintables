@@ -1,7 +1,7 @@
 "use server"
 
 import { randomUUID } from "crypto"
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import { CreateProductSchema, UpdateProductSchema, ToggleFeaturedSchema } from "@/lib/validation/product"
 import {
   createProductQuery,
@@ -9,9 +9,20 @@ import {
   deleteProductQuery,
   getProductsQuery,
   getFeaturedProductsQuery,
+  getProductByIdQuery,
 } from "@/db/queries/products"
 import type { Product } from "@/types"
 import { setProductVideosQuery } from "@/db/queries/videos"
+
+function revalidateAll(slug?: string, oldSlug?: string) {
+  revalidateTag("products", "max")
+  revalidateTag("featured-products", "max")
+  revalidatePath("/")
+  revalidatePath("/catalog")
+  revalidatePath("/admin/products")
+  if (slug) revalidatePath(`/catalog/${slug}`)
+  if (oldSlug && oldSlug !== slug) revalidatePath(`/catalog/${oldSlug}`)
+}
 
 export async function createProductAction(
   formData: FormData
@@ -43,9 +54,7 @@ export async function createProductAction(
     })
 
     if (result.success) {
-      revalidatePath("/admin/products")
-      revalidatePath("/")
-      revalidatePath("/catalog")
+      revalidateAll(parsed.slug)
       if (videos.length > 0) {
         await setProductVideosQuery(
           id,
@@ -87,6 +96,9 @@ export async function updateProductAction(
     const parsed = UpdateProductSchema.parse(raw)
     if (!parsed.id) return { success: false, error: "Product ID is required" }
 
+    const existing = await getProductByIdQuery(parsed.id)
+    const oldSlug = existing.success ? existing.data?.slug : undefined
+
     const result = await updateProductQuery(parsed.id, {
       ...parsed,
       name: parsed.name,
@@ -96,10 +108,7 @@ export async function updateProductAction(
     })
 
     if (result.success) {
-      revalidatePath("/admin/products")
-      revalidatePath("/")
-      revalidatePath("/catalog")
-      if (parsed.slug) revalidatePath(`/catalog/${parsed.slug}`)
+      revalidateAll(parsed.slug, oldSlug)
       if (videos !== undefined) {
         await setProductVideosQuery(
           parsed.id,
@@ -118,27 +127,25 @@ export async function updateProductAction(
 }
 
 export async function deleteProductAction(
-  id: string
+  id: string,
+  slug?: string
 ): Promise<{ success: true } | { success: false; error: string }> {
   const result = await deleteProductQuery(id)
   if (result.success) {
-    revalidatePath("/admin/products")
-    revalidatePath("/")
-    revalidatePath("/catalog")
+    revalidateAll(slug)
   }
   return result
 }
 
 export async function toggleFeaturedAction(
   id: string,
-  isFeatured: boolean
+  isFeatured: boolean,
+  slug?: string
 ): Promise<{ success: true; data: Product } | { success: false; error: string }> {
   const parsed = ToggleFeaturedSchema.parse({ id, isFeatured })
   const result = await updateProductQuery(parsed.id, { isFeatured: parsed.isFeatured })
   if (result.success) {
-    revalidatePath("/admin/products")
-    revalidatePath("/")
-    revalidatePath("/catalog")
+    revalidateAll(slug)
   }
   return result
 }

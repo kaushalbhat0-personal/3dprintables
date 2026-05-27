@@ -1,5 +1,6 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
 import { CreateInquirySchema, UpdateInquiryStatusSchema } from "@/lib/validation/inquiry"
 import { getInquiryService } from "@/lib/storage/server"
 import type { InquiryResult, Inquiry } from "@/lib/storage"
@@ -63,5 +64,9 @@ export async function updateInquiryStatusAction(
   }
 
   const service = getInquiryService()
-  return service.updateInquiryStatus(parsed.data)
+  const result = await service.updateInquiryStatus(parsed.data)
+  if (result.success) {
+    revalidatePath("/admin/inquiries")
+  }
+  return result
 }

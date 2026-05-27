@@ -1,7 +1,5 @@
-import imageCompression from "browser-image-compression"
-
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"]
-const MAX_SIZE_MB = 5
+import { validateFile, FOLDERS, sanitizeFolderName } from "./media/validation"
+import { normalizeImage } from "./media/transforms"
 
 export class UploadError extends Error {
   constructor(message: string) {
@@ -10,38 +8,53 @@ export class UploadError extends Error {
   }
 }
 
-function validateFile(file: File): void {
-  if (!ALLOWED_TYPES.includes(file.type)) {
-    throw new UploadError(
-      `Unsupported file type "${file.type}". Allowed: JPEG, PNG, WebP, AVIF`
-    )
-  }
-  if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-    throw new UploadError(`File too large (max ${MAX_SIZE_MB}MB)`)
-  }
+export interface UploadResult {
+  secureUrl: string
+  publicId: string
+  folder: string
 }
 
-async function compressImage(file: File): Promise<Blob> {
-  return imageCompression(file, {
-    maxWidthOrHeight: 1600,
-    useWebWorker: true,
-    fileType: file.type as "image/jpeg" | "image/png" | "image/webp",
-    initialQuality: 0.85,
+export interface UploadOptions {
+  slug?: string
+  target?: "featured" | "gallery"
+  folder?: string
+}
+
+function buildFolder(options: UploadOptions): string {
+  if (options.folder) return options.folder
+  if (options.slug) {
+    const slug = sanitizeFolderName(options.slug)
+    return options.target === "gallery"
+      ? FOLDERS.productsGallery(slug)
+      : FOLDERS.productsFeatured(slug)
+  }
+  return "3dfactory/products"
+}
+
+export async function uploadToCloudinary(
+  file: File,
+  options: UploadOptions = {}
+): Promise<UploadResult> {
+  const validation = validateFile(file)
+  if (!validation.valid) {
+    throw new UploadError(validation.error ?? "Invalid file")
+  }
+
+  const compressed = await normalizeImage(file)
+  const folder = buildFolder(options)
+
+  const sigRes = await fetch("/api/upload/signature", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ folder }),
   })
-}
 
-export async function uploadToCloudinary(file: File): Promise<string> {
-  validateFile(file)
-
-  const compressed = await compressImage(file)
-
-  const sigRes = await fetch("/api/upload/signature", { method: "POST" })
   if (!sigRes.ok) {
     const err = await sigRes.json().catch(() => ({}))
     throw new UploadError(err.error ?? "Failed to get upload signature")
   }
 
-  const { timestamp, signature, cloudName, apiKey, folder } = await sigRes.json()
+  const { timestamp, signature, cloudName, apiKey } = await sigRes.json()
 
   const formData = new FormData()
   formData.append("file", compressed, file.name)
@@ -65,7 +78,14 @@ export async function uploadToCloudinary(file: File): Promise<string> {
     }
 
     const result = await uploadRes.json()
-    return result.secure_url as string
+
+    return {
+      secureUrl: result.secure_url as string,
+      publicId: result.public_id as string,
+      folder: result.public_id
+        ? (result.public_id as string).substring(0, (result.public_id as string).lastIndexOf("/"))
+        : folder,
+    }
   } finally {
     clearTimeout(timeoutId)
   }

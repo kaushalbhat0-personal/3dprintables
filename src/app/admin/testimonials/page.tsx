@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, startTransition } from "react"
+import { useState, useEffect, startTransition, useCallback } from "react"
+import { useRouter } from "next/navigation"
 import { Plus, Pencil, Trash2, Star, Quote } from "lucide-react"
 import {
   getTestimonialsAction,
@@ -54,6 +55,7 @@ function StarRating({ rating, onChange }: { rating: number; onChange?: (r: numbe
 }
 
 export default function AdminTestimonialsPage() {
+  const router = useRouter()
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -72,6 +74,11 @@ export default function AdminTestimonialsPage() {
     })
   }
 
+  const refresh = useCallback(() => {
+    router.refresh()
+    load()
+  }, [router])
+
   useEffect(() => { load() }, [])
 
   const handleToggleFeatured = async (id: string, current: boolean) => {
@@ -80,6 +87,7 @@ export default function AdminTestimonialsPage() {
     )
     const result = await toggleFeaturedTestimonialAction(id, !current)
     if (!result.success) load()
+    refresh()
   }
 
   const handleDelete = async (id: string) => {
@@ -88,6 +96,7 @@ export default function AdminTestimonialsPage() {
     await deleteTestimonialAction(id)
     setTestimonials((prev) => prev.filter((t) => t.id !== id))
     setDeleting(null)
+    refresh()
   }
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -107,7 +116,7 @@ export default function AdminTestimonialsPage() {
     }
     setShowForm(false)
     setEditing(null)
-    load()
+    refresh()
   }
 
   return (

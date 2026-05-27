@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 import {
   createTestimonialQuery,
   updateTestimonialQuery,
@@ -9,6 +9,13 @@ import {
   getFeaturedTestimonialsQuery,
 } from "@/db/queries/testimonials"
 import type { CreateTestimonialInput } from "@/lib/storage/testimonial-types"
+
+function revalidateAll() {
+  revalidateTag("testimonials", "max")
+  revalidateTag("featured-testimonials", "max")
+  revalidatePath("/")
+  revalidatePath("/admin/testimonials")
+}
 
 export async function createTestimonialAction(formData: FormData) {
   try {
@@ -25,9 +32,9 @@ export async function createTestimonialAction(formData: FormData) {
     if (!input.name || !input.content) {
       return { success: false as const, error: "Name and content are required" }
     }
-    revalidatePath("/admin/testimonials")
-    revalidatePath("/")
-    return createTestimonialQuery(input)
+    const result = await createTestimonialQuery(input)
+    if (result.success) revalidateAll()
+    return result
   } catch (err) {
     return {
       success: false as const,
@@ -50,9 +57,9 @@ export async function updateTestimonialAction(formData: FormData) {
       else fields[key] = value
     }
 
-    revalidatePath("/admin/testimonials")
-    revalidatePath("/")
-    return updateTestimonialQuery({ id, ...fields })
+    const result = await updateTestimonialQuery({ id, ...fields })
+    if (result.success) revalidateAll()
+    return result
   } catch (err) {
     return {
       success: false as const,
@@ -63,10 +70,7 @@ export async function updateTestimonialAction(formData: FormData) {
 
 export async function deleteTestimonialAction(id: string) {
   const result = await deleteTestimonialQuery(id)
-  if (result.success) {
-    revalidatePath("/admin/testimonials")
-    revalidatePath("/")
-  }
+  if (result.success) revalidateAll()
   return result
 }
 
@@ -75,10 +79,7 @@ export async function toggleFeaturedTestimonialAction(
   featured: boolean
 ) {
   const result = await updateTestimonialQuery({ id, featured })
-  if (result.success) {
-    revalidatePath("/admin/testimonials")
-    revalidatePath("/")
-  }
+  if (result.success) revalidateAll()
   return result
 }
 

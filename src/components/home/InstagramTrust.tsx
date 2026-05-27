@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/Section"
 import { Heading } from "@/components/ui/Heading"
 import { Card } from "@/components/ui/Card"
 import { cn } from "@/lib/utils"
+import { getBlurBackgroundStyle } from "@/lib/media/placeholders"
 
 const stats = [
   { icon: Globe, label: "Followers", value: "2.4K+" },
@@ -74,6 +75,7 @@ export function InstagramTrust() {
           <Card
             key={post.caption}
             className="group aspect-square relative overflow-hidden"
+            style={getBlurBackgroundStyle(post.image)}
             hover
           >
             <Image
@@ -81,7 +83,7 @@ export function InstagramTrust() {
               alt={post.caption}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover transition-opacity duration-500 group-hover:scale-105"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

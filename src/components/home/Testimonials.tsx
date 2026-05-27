@@ -8,7 +8,7 @@ import { Heading } from "@/components/ui/Heading"
 import { Card } from "@/components/ui/Card"
 import { cn } from "@/lib/utils"
 import type { Testimonial } from "@/lib/storage/testimonial-types"
-import { optimizeImage } from "@/lib/cloudinary-utils"
+import { optimizeImage, getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 
 const metrics = [
   { icon: Package, label: "Prints Completed", value: "500+" },
@@ -127,13 +127,16 @@ export function Testimonials({ testimonials = [] }: { testimonials?: Testimonial
             { title: "Glow-in-the-Dark Shiva", category: "Spiritual Decor", note: "Glow filament statue with ambient night illumination — a custom gift piece", image: "/images/products/ShivaGlow.jpeg" },
           ].map((item) => (
             <Card key={item.title} as="article" className="flex flex-col group">
-              <div className="relative aspect-[4/5] overflow-hidden bg-zinc-900">
+              <div
+                className="relative aspect-[4/5] overflow-hidden bg-zinc-900"
+                style={getBlurBackgroundStyle(item.image)}
+              >
                 <Image
                   src={item.image}
                   alt={item.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 25vw, 20vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover transition-opacity duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-3 left-3">

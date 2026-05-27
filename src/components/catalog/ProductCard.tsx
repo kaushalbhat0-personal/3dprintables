@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/Card"
 import { cn, formatWhatsAppUrl } from "@/lib/utils"
 import { SITE } from "@/lib/constants"
 import { PRODUCT_CATEGORIES } from "@/types"
-import { optimizeImage } from "@/lib/cloudinary-utils"
+import { optimizeImage, getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 
 function getCategoryLabel(category: string): string {
   return PRODUCT_CATEGORIES.find((c) => c.value === category)?.label ?? category
@@ -21,13 +21,16 @@ export const ProductCard = memo(function ProductCard({ product }: { product: Pro
   return (
     <Link href={`/catalog/${product.slug}`} className="block group">
       <Card as="article" className="flex flex-col">
-        <div className="relative aspect-[4/5] overflow-hidden bg-zinc-900">
+        <div
+          className="relative aspect-[4/5] overflow-hidden bg-zinc-900"
+          style={getBlurBackgroundStyle(product.featuredImage)}
+        >
           <Image
             src={optimizeImage(product.featuredImage, 600)}
             alt={product.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            className="object-cover transition-opacity duration-500 group-hover:scale-110"
           />
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80" />

@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils"
 interface CardProps {
   children: React.ReactNode
   className?: string
+  style?: Record<string, string>
   hover?: boolean
   as?: "div" | "article" | "li"
   onClick?: () => void
@@ -11,6 +12,7 @@ interface CardProps {
 export function Card({
   children,
   className,
+  style,
   hover = true,
   as: Tag = "div",
   onClick,
@@ -22,6 +24,7 @@ export function Card({
         hover && "transition-all duration-300 hover:bg-card-hover hover:border-zinc-600 hover:shadow-xl hover:shadow-black/20",
         className
       )}
+      style={style}
       onClick={onClick}
     >
       {children}

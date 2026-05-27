@@ -14,7 +14,7 @@ import type { Product } from "@/types"
 import { PRODUCT_CATEGORIES } from "@/types"
 import { cn } from "@/lib/utils"
 import { QuickInquiry } from "./QuickInquiry"
-import { optimizeImage, optimizeThumbnail } from "@/lib/cloudinary-utils"
+import { optimizeImage, optimizeThumbnail, getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 
 interface ProductGalleryProps {
   product: Product
@@ -141,13 +141,14 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
                 "absolute inset-0 transition-opacity duration-500",
                 i === currentIndex ? "opacity-100" : "opacity-0 pointer-events-none"
               )}
+              style={getBlurBackgroundStyle(src)}
             >
               <Image
                 src={optimizeImage(src, 1200)}
                 alt={`${product.title} — Image ${i + 1}`}
                 fill
                 className={cn(
-                  "transition-transform duration-700",
+                  "transition-opacity duration-500",
                   fullscreen ? "object-contain" : "object-cover"
                 )}
                 sizes="(max-width: 768px) 100vw, 80vw"

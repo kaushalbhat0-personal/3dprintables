@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useMemo, useEffect, startTransition } from "react"
+import { useState, useMemo, useEffect, startTransition, useCallback } from "react"
+import { useRouter } from "next/navigation"
 import {
   getInquiriesAction,
   updateInquiryStatusAction,
@@ -69,6 +70,7 @@ function StatusSelect({
 }
 
 export default function AdminInquiriesPage() {
+  const router = useRouter()
   const [inquiries, setInquiries] = useState<Inquiry[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -94,6 +96,11 @@ export default function AdminInquiriesPage() {
 
   useEffect(() => { loadInquiries() }, [])
 
+  const refresh = useCallback(() => {
+    router.refresh()
+    loadInquiries()
+  }, [router])
+
   const handleStatusChange = async (id: string, status: InquiryStatus) => {
     setInquiries((prev) =>
       prev.map((i) => (i.id === id ? { ...i, status } : i))
@@ -105,6 +112,7 @@ export default function AdminInquiriesPage() {
     if (!result.success) {
       loadInquiries()
     }
+    refresh()
   }
 
   const allCategories = useMemo(() => {

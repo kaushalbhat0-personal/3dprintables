@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Container } from "@/components/ui/Container"
+import { getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 
 export function BrandStory() {
   return (
@@ -33,13 +34,16 @@ export function BrandStory() {
             </div>
           </div>
 
-          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-900 border border-border group">
+          <div
+            className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-900 border border-border group"
+            style={getBlurBackgroundStyle("/images/products/prototype-part.png")}
+          >
             <Image
               src="/images/products/prototype-part.png"
               alt="3D printed prototype part showcase"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover transition-all duration-500 group-hover:scale-105"
             />
           </div>
         </div>

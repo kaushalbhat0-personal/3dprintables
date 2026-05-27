@@ -2,6 +2,7 @@ import Image from "next/image"
 import { Ghost, Scan, Paintbrush, ArmchairIcon, ShieldCheck } from "lucide-react"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
+import { getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 
 const features = [
   { icon: Scan, title: "Full-Scale Printing", desc: "We print at actual size — whether it's a wearable Iron Man mask, a prop weapon, or a life-sized display piece." },
@@ -70,12 +71,13 @@ export default function CosplayClient() {
               <div
                 key={item.title}
                 className="relative aspect-square rounded-2xl overflow-hidden bg-zinc-800 border border-border"
+                style={getBlurBackgroundStyle(item.image)}
               >
                 <Image
                   src={item.image}
                   alt={item.title}
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  className="object-cover transition-all duration-500 hover:scale-105"
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
               </div>

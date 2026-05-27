@@ -6,6 +6,7 @@ import { MessageCircle, Package, Sparkles, Truck, Clock } from "lucide-react"
 import Link from "next/link"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
+import { getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 
 const stats = [
   { icon: Package, label: "500+ Creations Delivered" },
@@ -38,12 +39,15 @@ export function Hero() {
         className="absolute inset-0 pointer-events-none z-0"
         aria-hidden="true"
       >
-        <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-[45vw] h-[80vh] max-w-[650px] max-h-[700px] opacity-30 overflow-hidden">
+        <div
+          className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-[45vw] h-[80vh] max-w-[650px] max-h-[700px] opacity-30 overflow-hidden"
+          style={getBlurBackgroundStyle("/images/products/ChromiumHanuman.jpg")}
+        >
           <Image
             src="/images/products/ChromiumHanuman.jpg"
             alt="Golden Hanuman Statue"
             fill
-            className="object-contain object-right"
+            className="object-contain object-right transition-opacity duration-500"
             priority
             loading="eager"
             sizes="(max-width: 768px) 0vw, 45vw"

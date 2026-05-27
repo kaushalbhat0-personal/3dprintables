@@ -1,3 +1,5 @@
+import { unstable_cache } from "next/cache"
+import { cache } from "react"
 import type { Product } from "@/types"
 import {
   getActiveProductsQuery,
@@ -7,17 +9,24 @@ import {
 } from "@/db/queries/products"
 import { getProductVideosQuery } from "@/db/queries/videos"
 import type { ProductVideo } from "@/db/queries/videos"
-import { cache } from "react"
 
-export const getProducts = cache(async (): Promise<Product[]> => {
-  const result = await getActiveProductsQuery()
-  return result.success ? result.data : []
-})
+export const getProducts = unstable_cache(
+  async (): Promise<Product[]> => {
+    const result = await getActiveProductsQuery()
+    return result.success ? result.data : []
+  },
+  ["products-all"],
+  { tags: ["products"], revalidate: 3600 }
+)
 
-export const getFeaturedProducts = cache(async (): Promise<Product[]> => {
-  const result = await getFeaturedProductsQuery()
-  return result.success ? result.data : []
-})
+export const getFeaturedProducts = unstable_cache(
+  async (): Promise<Product[]> => {
+    const result = await getFeaturedProductsQuery()
+    return result.success ? result.data : []
+  },
+  ["featured-products-all"],
+  { tags: ["featured-products", "products"], revalidate: 3600 }
+)
 
 export const getProductBySlug = cache(
   async (slug: string): Promise<Product | undefined> => {
