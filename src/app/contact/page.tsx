@@ -6,9 +6,9 @@ import { ResponseExpectations } from "@/components/contact/ResponseExpectations"
 import { ContactCTA } from "@/components/contact/ContactCTA"
 
 export const metadata = generateMetadata({
-  title: "Contact — Get a Quote or Start a Custom Project",
+  title: "Contact — Start Your Custom 3D Printing Project",
   description:
-    "Have an idea? Contact 3D Factory via WhatsApp, email, or Instagram. Quick replies, custom quotes, pan-India delivery.",
+    "Have an idea for a custom 3D print? Contact 3D Factory via WhatsApp, email, or Instagram. Quick replies, custom quotes, pan-India delivery.",
   path: "/contact",
 })
 

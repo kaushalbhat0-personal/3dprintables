@@ -3,10 +3,10 @@ import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 
 const steps = [
-  { icon: Ruler, title: "Share Your Design", desc: "Send us your STL, OBJ, STEP, or 3MF file. Not sure about the format? We'll guide you." },
-  { icon: Cpu, title: "Design Review", desc: "We check for printability, wall thickness, overhangs, and suggest optimizations — free of charge." },
+  { icon: Ruler, title: "Share Your Design", desc: "Send us your STL, OBJ, STEP, or 3MF file. Not sure about file formats? We'll guide you." },
+  { icon: Cpu, title: "Design Review", desc: "We check your model for printability, wall thickness, and overhangs — and suggest improvements free of charge." },
   { icon: Layers, title: "Print & Finish", desc: "We print with your choice of material, then sand, prime, and finish to your specifications." },
-  { icon: RotateCw, title: "Iterate", desc: "Need revisions? We offer up to 3 design iterations per prototype. Tweak and re-print fast." },
+  { icon: RotateCw, title: "Iterate & Refine", desc: "Need revisions? We offer up to 3 design iterations per prototype. Tweak, re-print, and perfect." },
 ]
 
 const specs = [
@@ -30,15 +30,15 @@ export default function PrototypingClient() {
               Prototyping Service
             </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-              Functional Prototypes &amp;<br />
+              Custom Prototyping &amp;<br />
               <span className="bg-gradient-to-r from-primary via-amber-400 to-primary bg-clip-text text-transparent">
-                Engineering Parts
+                Precision Parts
               </span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed max-w-lg">
               From concept to physical part in days. We work with engineers,
-              designers, and makers to produce functional prototypes,
-              mechanical components, and test fixtures.
+              designers, and creators to produce functional prototypes,
+              custom components, and test fixtures — printed with precision.
             </p>
           </div>
         </div>
@@ -88,7 +88,7 @@ export default function PrototypingClient() {
                   "shadow-lg shadow-primary/25 transition-all duration-200"
                 )}
               >
-                Start Your Prototype
+                Bring Your Design to Life
               </a>
             </div>
           </div>

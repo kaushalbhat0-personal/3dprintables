@@ -1,9 +1,9 @@
 import { generateMetadata } from "@/lib/seo"
 
 export const metadata = generateMetadata({
-  title: "Bulk 3D Printing Production — Manufacturing for Brands & Resellers",
+  title: "Custom 3D Printing at Scale — Bulk Orders for Brands & Resellers",
   description:
-    "Scalable 3D printing production service for decor brands, resellers, and businesses. Batch runs from 10 to 500+ units. Consistent quality, bulk pricing, white-label ready.",
+    "Scale your custom creations with bulk 3D printing. Batch runs from 10 to 500+ units for decor brands, resellers, and businesses. Consistent quality, bulk pricing.",
   path: "/services/bulk-production",
 })
 

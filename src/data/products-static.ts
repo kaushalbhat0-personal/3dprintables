@@ -72,7 +72,7 @@ export const staticProducts: Product[] = [
     slug: "iron-man-mask",
     category: "cosplay",
     description:
-      "Full-scale wearable Iron Man inspired mask prototype with sanding, assembly, and finishing workflow optimized for cosplay and display applications.",
+      "Full-scale wearable Iron Man inspired mask — sanded, assembled, and finished for cosplay and display. A custom collectible built for convention-ready wear.",
     shortDescription: "Full-scale wearable Iron Man mask prototype",
     featuredImage: "/images/products/IronManMask.jpeg",
     galleryImages: ["/images/products/IronManMaskMaking.jpeg"],
@@ -191,7 +191,7 @@ export const staticProducts: Product[] = [
     slug: "bulk-shiva-production-batch",
     category: "custom",
     description:
-      "Batch production example demonstrating scalable manufacturing capability for custom product businesses, gifting brands, and resellers.",
+      "Bulk custom run demonstrating scalable creation for gifting brands, resellers, and businesses. Consistent quality across every piece in the batch.",
     shortDescription: "Scalable batch production for resellers and brands",
     featuredImage: "/images/products/ShivaBulk.PNG",
     galleryImages: [],

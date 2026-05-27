@@ -13,39 +13,39 @@ import { Card } from "@/components/ui/Card"
 const features = [
   {
     icon: Crosshair,
-    title: "High-Detail Precision",
+    title: "Crafted with Precision",
     description:
-      "Calibrated FDM and resin printing with tight tolerances. Every layer is optimised for dimensional accuracy and clean surface finish — from tiny collectibles to large decor pieces.",
+      "Every creation is printed with calibrated FDM technology for clean surface finish and dimensional accuracy — from tiny collectibles to large decor pieces.",
   },
   {
     icon: Layers,
-    title: "Scalable Batch Production",
+    title: "Custom Orders at Any Scale",
     description:
-      "Consistent repeatability across production runs. We maintain strict quality control whether you need one prototype or a bulk order of 200 units for your brand.",
+      "One piece or a hundred — we deliver consistent quality across every run. Whether it's a custom gift or a brand order, each piece gets the same attention.",
   },
   {
     icon: PenTool,
-    title: "Custom Design Support",
+    title: "Design Help, Free",
     description:
-      "Send us your sketches, reference images, or CAD files. Our team handles modelling, optimisation, and preparation for print — no design experience needed.",
+      "Have a sketch or just an idea? We help model, optimise, and prepare your design for print — no CAD experience needed, no extra charge for guidance.",
   },
   {
     icon: Repeat,
-    title: "Fast Iteration Cycles",
+    title: "Fast Turns, Real Iterations",
     description:
-      "From concept to physical part in as little as 24 hours. Quick turnaround on design revisions, fitment checks, and prototype validation for product development.",
+      "From idea to your hands in as little as 48 hours. Quick design revisions, fitment checks, and refinements — we iterate until it's right.",
   },
   {
     icon: Scan,
-    title: "Premium Finishing",
+    title: "Premium Finish, Every Time",
     description:
-      "Every print receives professional post-processing — sanding, priming, coating, and assembly. We deliver pieces that look manufactured, not just printed.",
+      "Every piece gets professional post-processing — sanding, priming, coating, and assembly. We deliver creations that look handcrafted, not just printed.",
   },
   {
     icon: Headphones,
-    title: "Dedicated Project Support",
+    title: "Real Human Support",
     description:
-      "A single point of contact from quote to delivery. Real-time updates, material recommendations, and transparent communication throughout your project.",
+      "A single point of contact from quote to delivery. Real-time updates, material advice, and transparent communication — no bots, no runaround.",
   },
 ]
 
@@ -53,8 +53,8 @@ export function WhyChooseUs() {
   return (
     <Section id="why-choose-us">
       <Heading
-        title="Built for Creators and Brands"
-        subtitle="We operate a production-grade studio with a focus on precision, repeatability, and clean finishing — from single prototypes to bulk manufacturing."
+        title="Why Creators Choose Us"
+        subtitle="We're a custom 3D creation studio focused on precision, craftsmanship, and clean finishing — from personalized gifts to production-scale orders."
       />
 
       <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

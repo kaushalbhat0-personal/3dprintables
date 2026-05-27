@@ -7,8 +7,8 @@ const audiences = [
     icon: Building2,
     title: "For Creators",
     description:
-      "Turn your digital models into physical reality. We handle printing, finishing, and iteration — you focus on design.",
-    features: ["STL/OBJ/3MF file support", "Fast prototyping turnaround", "Surface finishing included"],
+      "Turn your digital models into physical reality. We handle the printing, finishing, and refinement — you focus on designing.",
+    features: ["STL/OBJ/3MF file support", "Fast turnaround times", "Surface finishing included"],
   },
   {
     icon: ShoppingBag,
@@ -21,14 +21,14 @@ const audiences = [
     icon: Building2,
     title: "For Brands",
     description:
-      "Scale from prototype to production batch. Consistent quality, bulk pricing, and reliable lead times for decor brands and resellers.",
-    features: ["Batch production (10–500+ units)", "Consistent repeatability", "White-label ready"],
+      "Scale from prototype to full run. Consistent quality, volume pricing, and reliable lead times for decor brands and resellers.",
+    features: ["Batch orders (10–500+ units)", "Consistent repeatability", "White-label ready"],
   },
   {
     icon: PaintBucket,
     title: "Custom Projects",
     description:
-      "Have a unique idea? We offer end-to-end development: design review, material selection, prototyping, and final production.",
+      "Have a unique idea? We offer end-to-end creation: design review, material selection, prototyping, and final production.",
     features: ["Design consultation", "Material sampling", "Iterative prototyping"],
   },
 ]
@@ -39,7 +39,7 @@ export function TrustSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
       <Heading
         title="Built for Creators, Collectors & Brands"
-        subtitle="Whether you need a one-off custom piece or a production run of 500 units, we have the workflow and experience to deliver."
+        subtitle="Whether you need a one-of-a-kind custom piece or a batch of 500, we have the craft and experience to deliver."
       />
 
       <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">

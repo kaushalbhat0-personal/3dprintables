@@ -16,32 +16,32 @@ const stats = [
 const posts = [
   {
     image: "/images/products/ShivaGlow.jpeg",
-    caption: "Glow-in-the-dark Shiva fresh off the build plate",
+    caption: "Glow-in-the-dark Shiva — perfect for ambient night decor",
     likes: "342",
   },
   {
     image: "/images/products/ChromiumHanuman.jpg",
-    caption: "Chromium-finished Hanuman — post-processing complete",
+    caption: "Chromium-finished Hanuman — a custom decor piece ready for delivery",
     likes: "891",
   },
   {
     image: "/images/products/Mew2-1.jpg",
-    caption: "Mewtwo armor figure assembly in progress",
+    caption: "Mewtwo armor figure — assembly in progress for a fellow collector",
     likes: "567",
   },
   {
     image: "/images/products/CustomGun-1.jpg",
-    caption: "Complex engineering prototype — multipart fitment test",
+    caption: "Custom mechanical prototype — precision fitment for a client build",
     likes: "234",
   },
   {
     image: "/images/products/IronManMask.jpeg",
-    caption: "Iron Man mask — sanded and primed for painting",
+    caption: "Iron Man mask — sanded and primed, ready for its final paint job",
     likes: "423",
   },
   {
     image: "/images/products/Gengar-1.jpg",
-    caption: "Articulated Gengar — fully assembled and posed",
+    caption: "Articulated Gengar — fully assembled and posed for display",
     likes: "178",
   },
 ]
@@ -51,7 +51,7 @@ export function InstagramTrust() {
     <Section id="instagram">
       <Heading
         title="Follow Our Work on Instagram"
-        subtitle="We share builds, timelapses, customer deliveries, and behind-the-scenes content daily. See the craft in action."
+        subtitle="We share custom builds, timelapses, customer deliveries, and behind-the-scenes content daily. See our craft in action."
       />
 
       <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">

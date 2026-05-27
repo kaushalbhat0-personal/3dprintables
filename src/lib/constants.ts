@@ -1,8 +1,8 @@
 export const SITE = {
   name: "3D Factory",
-  tagline: "Premium 3D Printed Products",
+  tagline: "Custom 3D Creations Studio",
   description:
-    "We design and deliver high-quality 3D printed products — from home decor to custom prototypes. Based in India.",
+    "We design and deliver custom 3D printed gifts, decor, collectibles, cosplay props, and prototypes. Based in India.",
   url: "https://3dfactory.in",
   email: "hello@3dfactory.in",
   phone: "918007900737",

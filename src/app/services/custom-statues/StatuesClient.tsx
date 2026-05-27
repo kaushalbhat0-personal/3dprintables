@@ -26,8 +26,8 @@ export default function StatuesClient() {
               </span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed max-w-lg">
-              Spiritual idols, custom busts, anime figures, and premium decor
-              pieces. Made on request with premium materials and professional finishes.
+              Spiritual idols, custom busts, anime figures, and premium home decor.
+              Handcrafted on request with premium materials and professional finishes.
             </p>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default function StatuesClient() {
                 "shadow-lg shadow-primary/25 transition-all duration-200"
               )}
             >
-              Share Your Idea
+              Start Your Custom Piece
             </a>
           </div>
         </div>

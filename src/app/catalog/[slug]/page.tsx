@@ -50,7 +50,7 @@ export async function generateMetadata({
       product.material,
       ...(product.technologies ?? []),
       "3D printing India",
-      "custom manufacturing",
+      "custom 3D creations",
     ]
       .filter(Boolean)
       .join(", "),
@@ -241,7 +241,7 @@ export default async function ProductPage({
                     >
                       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                     </svg>
-                    <span>Request Quote</span>
+                    <span>Get This Custom Made</span>
                   </a>
                   <a
                     href={`/catalog?category=${product.category}`}
@@ -271,11 +271,11 @@ export default async function ProductPage({
           </section>
         )}
 
-        {/* Manufacturing Details */}
+        {/* Craft Details */}
         <section className="py-16 md:py-20 bg-zinc-900/30 border-y border-border">
           <div className="container-main">
             <h2 className="text-xl font-semibold text-foreground mb-8">
-              Manufacturing Details
+              Craft Details
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {product.material && (
@@ -313,21 +313,21 @@ export default async function ProductPage({
                     {product.technologies[0]}
                   </p>
                   <p className="mt-2 text-xs text-muted-foreground/60">
-                    Industrial-grade 3D printing process
+                    Precision 3D printing with premium materials
                   </p>
                 </div>
               )}
               <div className="rounded-2xl bg-zinc-900/50 border border-border p-5">
                 <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-1">
-                  Production
+                  Craft Type
                 </p>
                 <p className="text-sm font-medium text-foreground">
                   {productionLabel}
                 </p>
                 <p className="mt-2 text-xs text-muted-foreground/60">
                   {product.supportsBulkOrders
-                    ? "Scalable for bulk and batch orders"
-                    : "Made on request per order"}
+                    ? "Available for custom orders at scale"
+                    : "Made on request, just for you"}
                 </p>
               </div>
             </div>
@@ -414,7 +414,7 @@ export default async function ProductPage({
             >
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
-            <span>Request Quote</span>
+            <span>Get This Custom Made</span>
           </a>
         </div>
       </article>

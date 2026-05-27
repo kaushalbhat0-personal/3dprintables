@@ -8,7 +8,7 @@ export const revalidate = 3600
 export const metadata = generateMetadata({
   title: "Catalog — Browse Our Collection",
   description:
-    "Explore our portfolio of 3D printed products — spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing.",
+    "Explore our portfolio of custom 3D creations — spiritual decor, cosplay collectibles, engineering prototypes, and personalized gifts.",
   path: "/catalog",
 })
 

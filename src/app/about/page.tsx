@@ -7,9 +7,9 @@ import { Stats } from "@/components/about/Stats"
 import { AboutCTA } from "@/components/about/AboutCTA"
 
 export const metadata = generateMetadata({
-  title: "About — Our 3D Printing Studio",
+  title: "About — Our Custom 3D Creations Studio",
   description:
-    "Learn the story behind 3D Factory. A production studio obsessed with precision, quality, and the craft of 3D printing.",
+    "Learn the story behind 3D Factory. A custom creation studio obsessed with precision, craftsmanship, and bringing ideas to life through 3D printing.",
   path: "/about",
 })
 

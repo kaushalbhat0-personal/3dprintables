@@ -24,9 +24,9 @@ export function CTABanner() {
           </h2>
 
           <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-lg mx-auto">
-            Whether it&apos;s a single prototype or a bulk order — share your
-            idea and we&apos;ll take it from there. Quick quotes, custom
-            designs, delivered to your door.
+            Whether it&apos;s a custom gift, a decor piece, or a batch of
+            collectibles — share your idea and we&apos;ll bring it to life.
+            Quick quotes, custom designs, delivered to your door.
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">

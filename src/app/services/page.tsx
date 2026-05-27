@@ -5,11 +5,11 @@ import { Section } from "@/components/ui/Section"
 const services = [
   {
     icon: Wrench,
-    title: "Prototyping",
+    title: "Prototyping & Custom Parts",
     slug: "prototyping",
     description:
-      "Functional prototypes, engineering components, mechanical assemblies, and iterative design validation. We work with your CAD files to deliver dimensionally accurate parts fast.",
-    highlights: ["STL/OBJ/STEP/3MF", "2–5 day turnaround", "Iterative revisions", "Tolerance: ±0.2mm"],
+      "Turn your designs into functional prototypes and custom parts. Whether you're an engineer, designer, or maker — we print your CAD files with precision and speed.",
+    highlights: ["STL/OBJ/STEP/3MF", "2–5 day turnaround", "Iterative revisions", "±0.2mm accuracy"],
   },
   {
     icon: Ghost,
@@ -29,10 +29,10 @@ const services = [
   },
   {
     icon: Package,
-    title: "Bulk Production",
+    title: "Custom Orders at Scale",
     slug: "bulk-production",
     description:
-      "Scalable manufacturing for decor brands, resellers, and businesses. Consistent quality across batches with bulk pricing and scheduled delivery.",
+      "Need 10 or 500 pieces? We scale your custom creations for brands, resellers, and events — with consistent quality, bulk pricing, and scheduled delivery.",
     highlights: ["10–500+ units", "Consistent repeatability", "White-label ready", "Bulk pricing"],
   },
 ]
@@ -47,8 +47,8 @@ export default function ServicesPage() {
               Services
             </h1>
             <p className="mt-4 text-base sm:text-lg text-muted max-w-lg mx-auto leading-relaxed">
-              From single prototypes to production-scale manufacturing —
-              we handle the entire 3D printing workflow in-house.
+              Custom gifts, decor, collectibles, cosplay props, prototypes and
+              more — we bring your ideas to life with premium 3D printing.
             </p>
           </div>
         </div>

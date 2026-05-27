@@ -2,16 +2,16 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { MessageCircle, Package, ShieldCheck, Truck, Clock } from "lucide-react"
+import { MessageCircle, Package, Sparkles, Truck, Clock } from "lucide-react"
 import Link from "next/link"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 
 const stats = [
-  { icon: Package, label: "500+ Prints Delivered" },
-  { icon: Clock, label: "24hr Rapid Prototyping" },
+  { icon: Package, label: "500+ Creations Delivered" },
+  { icon: Clock, label: "48hr Rapid Turnaround" },
   { icon: Truck, label: "Pan-India Shipping" },
-  { icon: ShieldCheck, label: "Production-Grade Quality" },
+  { icon: Sparkles, label: "Custom Crafted" },
 ] as const
 
 const staggerContainer = {
@@ -60,7 +60,7 @@ export function Hero() {
         <div className="max-w-4xl mx-auto text-center">
           <motion.div variants={fadeUp} className="mb-6">
             <span className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-medium tracking-wider uppercase text-primary bg-primary/10 border border-primary/20 rounded-full">
-              Premium 3D Printing Studio
+              Custom 3D Creation Studio
             </span>
           </motion.div>
 
@@ -68,9 +68,9 @@ export function Hero() {
             variants={fadeUp}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05]"
           >
-            Custom 3D Prints{" "}
+            Custom 3D Creations{" "}
             <span className="bg-gradient-to-r from-primary via-amber-400 to-primary bg-clip-text text-transparent">
-              Built With Precision
+              Made Just for You
             </span>
           </motion.h1>
 
@@ -78,9 +78,9 @@ export function Hero() {
             variants={fadeUp}
             className="mt-6 text-base sm:text-lg md:text-xl text-muted max-w-2xl mx-auto leading-relaxed"
           >
-            From concept to finished print. We produce premium 3D printed
-            products — spiritual decor, cosplay collectibles, engineering
-            prototypes, and custom manufacturing — delivered across India.
+            From personalized gifts and home decor to cosplay collectibles
+            and functional prototypes — we bring your ideas to life with
+            premium 3D printing, delivered across India.
           </motion.p>
 
           <motion.div
@@ -99,7 +99,7 @@ export function Hero() {
               )}
             >
               <MessageCircle className="w-5 h-5" />
-              <span>Get a Quote on WhatsApp</span>
+              <span>Start Your Custom Print</span>
             </a>
 
             <Link

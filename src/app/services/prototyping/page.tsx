@@ -1,9 +1,9 @@
 import { generateMetadata } from "@/lib/seo"
 
 export const metadata = generateMetadata({
-  title: "3D Printing Prototyping Services — Functional Prototypes & Engineering Parts",
+  title: "3D Printing Prototyping — Custom Parts & Functional Prototypes",
   description:
-    "Rapid prototyping service for engineers, designers, and startups. FDM printing with PLA+, Silk PLA, and Matte PLA. Fast turnaround, iterative revisions, dimensionally accurate parts.",
+    "Custom prototyping service for designers, engineers, and creators. FDM 3D printing with PLA+, Silk PLA, and Matte PLA. Fast turnaround, iterative revisions, precision parts.",
   path: "/services/prototyping",
 })
 

@@ -37,8 +37,8 @@ export function Testimonials({ testimonials = [] }: { testimonials?: Testimonial
   return (
     <Section id="testimonials">
       <Heading
-        title="Client Testimonials"
-        subtitle="Hear from creators, founders, and brands who trust us with their production."
+        title="What Our Clients Say"
+        subtitle="Hear from creators, collectors, and brands who trust us to bring their ideas to life."
       />
 
       {testimonials.length > 0 ? (
@@ -120,10 +120,10 @@ export function Testimonials({ testimonials = [] }: { testimonials?: Testimonial
       ) : (
         <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
-            { title: "Golden Hanuman Statue", category: "Spiritual Decor", note: "Metallic-coated Hanuman with high-detail layered finishing", image: "/images/products/ChromiumHanuman.jpg" },
-            { title: "Engineering Prototype", category: "Prototypes & Engineering", note: "Multi-part precision assembly with complex mechanical detailing", image: "/images/products/CustomGun-1.jpg" },
-            { title: "Mewtwo Armor Figure", category: "Cosplay & Props", note: "Articulated armor collectible with precision printed structural parts", image: "/images/products/Mew2-1.jpg" },
-            { title: "Glow-in-the-Dark Shiva", category: "Spiritual Decor", note: "Glow filament statue with ambient night illumination", image: "/images/products/ShivaGlow.jpeg" },
+            { title: "Golden Hanuman Statue", category: "Spiritual Decor", note: "Metallic-coated Hanuman with high-detail layered finishing — a custom decor piece", image: "/images/products/ChromiumHanuman.jpg" },
+            { title: "Custom Mechanical Assembly", category: "Prototypes & Custom Parts", note: "Multi-part precision assembly built for a client's functional prototype", image: "/images/products/CustomGun-1.jpg" },
+            { title: "Mewtwo Armor Figure", category: "Cosplay & Collectibles", note: "Articulated armor collectible with precision printed parts — a fan's dream piece", image: "/images/products/Mew2-1.jpg" },
+            { title: "Glow-in-the-Dark Shiva", category: "Spiritual Decor", note: "Glow filament statue with ambient night illumination — a custom gift piece", image: "/images/products/ShivaGlow.jpeg" },
           ].map((item) => (
             <Card key={item.title} as="article" className="flex flex-col group">
               <div className="relative aspect-[4/5] overflow-hidden bg-zinc-900">

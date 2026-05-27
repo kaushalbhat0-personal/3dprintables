@@ -14,9 +14,9 @@ import { CTABanner } from "@/components/home/CTABanner"
 export const revalidate = 3600
 
 export const metadata = generateMetadata({
-  title: "Premium 3D Printing Studio — Custom Manufacturing & Prototyping",
+  title: "Custom 3D Creations Studio — Personalized Gifts, Decor & Collectibles",
   description:
-    "India's production-grade 3D printing studio. Spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing. Order via WhatsApp.",
+    "Custom 3D printing studio for personalized gifts, home decor, cosplay collectibles, and prototypes. Bring your ideas to life with premium 3D printed creations delivered across India.",
   path: "/",
 })
 

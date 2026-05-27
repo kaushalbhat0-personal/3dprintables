@@ -3,10 +3,10 @@ import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 
 const features = [
-  { icon: Scan, title: "Full-Scale Printing", desc: "We print at actual size — whether it's a wearable Iron Man mask or a life-sized prop." },
-  { icon: Paintbrush, title: "Sanding & Priming", desc: "Every cosplay piece is sanded smooth and primed, ready for your final paint job." },
-  { icon: ArmchairIcon, title: "Wearable Finishing", desc: "Straps, hinges, visors, and padding — we make props convention-ready." },
-  { icon: ShieldCheck, title: "Durable Materials", desc: "PLA+ with reinforced walls ensures your prop survives travel, wear, and display." },
+  { icon: Scan, title: "Full-Scale Printing", desc: "We print at actual size — whether it's a wearable Iron Man mask, a prop weapon, or a life-sized display piece." },
+  { icon: Paintbrush, title: "Sanding & Priming", desc: "Every cosplay piece is sanded smooth and primed, ready for your final paint job or finish." },
+  { icon: ArmchairIcon, title: "Wearable Finishing", desc: "Straps, hinges, visors, and padding — we make your props convention-ready." },
+  { icon: ShieldCheck, title: "Built to Last", desc: "Reinforced walls and quality materials ensure your prop survives travel, wear, and display." },
 ]
 
 const gallery = [
@@ -33,8 +33,8 @@ export default function CosplayClient() {
               </span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed max-w-lg">
-              Wearable masks, armor pieces, prop weapons, and display collectibles.
-              We print, sand, and finish — you wear or display.
+              Custom wearable masks, armor pieces, prop weapons, and display
+              collectibles. We print, sand, and finish — you wear or display.
             </p>
           </div>
         </div>
@@ -87,7 +87,7 @@ export default function CosplayClient() {
                 "shadow-lg shadow-primary/25 transition-all duration-200"
               )}
             >
-              Discuss Your Cosplay Project
+              Start Your Cosplay Build
             </a>
           </div>
         </div>

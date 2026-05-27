@@ -14,33 +14,35 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
-    default: "3D Factory | Premium 3D Printing Studio",
+    default: "3D Factory | Custom 3D Creations Studio",
     template: "%s | 3D Factory",
   },
   description:
-    "India's production-grade 3D printing studio. Spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing. Order via WhatsApp.",
+    "Custom 3D printing studio for personalized gifts, home decor, cosplay collectibles, prototypes and more. Bring your ideas to life — order via WhatsApp.",
   keywords: [
-    "3D printing India",
-    "3D printed decor",
-    "cosplay 3D printing",
-    "engineering prototypes",
-    "custom manufacturing",
-    "3D printing studio",
-    "India 3D printing service",
+    "custom 3D printing India",
+    "3D printed gifts",
+    "personalized decor",
+    "3D printed collectibles",
+    "cosplay props",
+    "custom creations",
+    "3D printing studio India",
+    "unique gift ideas",
+    "custom 3D models",
   ],
   openGraph: {
-    title: "3D Factory | Premium 3D Printing Studio",
+    title: "3D Factory | Custom 3D Creations Studio",
     description:
-      "India's production-grade 3D printing studio. Spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing.",
+      "Custom 3D printing studio for personalized gifts, home decor, cosplay collectibles, prototypes and more. Bring your ideas to life.",
     siteName: "3D Factory",
     type: "website",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "3D Factory | Premium 3D Printing Studio",
+    title: "3D Factory | Custom 3D Creations Studio",
     description:
-      "India's production-grade 3D printing studio. Spiritual decor, cosplay collectibles, engineering prototypes, and custom manufacturing.",
+      "Custom 3D printing studio for personalized gifts, home decor, cosplay collectibles, prototypes and more. Bring your ideas to life.",
   },
   robots: {
     index: true,
