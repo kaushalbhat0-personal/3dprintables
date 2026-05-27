@@ -15,8 +15,8 @@ const categoryIcons: Record<string, typeof Sparkles> = {
 const allIcon = Sparkles
 
 interface CategoryFilterProps {
-  active: string
-  onChange: (category: string) => void
+  active: string | null
+  onChange: (category: string | null) => void
   counts?: Record<string, number>
 }
 
@@ -31,12 +31,12 @@ export const CategoryFilter = memo(function CategoryFilter({ active, onChange, c
       {categories.map((cat) => {
         const Icon = cat.value === "all" ? allIcon : categoryIcons[cat.value]
         const count = counts?.[cat.value] ?? 0
-        const isActive = active === cat.value
+        const isActive = cat.value === "all" ? !active : active === cat.value
 
         return (
           <button
             key={cat.value}
-            onClick={() => onChange(cat.value)}
+            onClick={() => onChange(cat.value === "all" ? null : cat.value)}
             className={cn(
               "group relative inline-flex items-center gap-1.5 shrink-0 px-4 py-2 text-sm font-medium rounded-xl border transition-all duration-300 cursor-pointer select-none",
               isActive

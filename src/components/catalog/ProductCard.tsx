@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/Card"
 import { cn, formatWhatsAppUrl } from "@/lib/utils"
 import { SITE } from "@/lib/constants"
 import { PRODUCT_CATEGORIES } from "@/types"
-import { optimizeImage, optimizeThumbnail } from "@/lib/cloudinary-utils"
+import { optimizeImage } from "@/lib/cloudinary-utils"
 
 function getCategoryLabel(category: string): string {
   return PRODUCT_CATEGORIES.find((c) => c.value === category)?.label ?? category

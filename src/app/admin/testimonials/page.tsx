@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useEffect, startTransition } from "react"
 import { Plus, Pencil, Trash2, Star, Quote } from "lucide-react"
 import {
   getTestimonialsAction,
@@ -62,16 +62,17 @@ export default function AdminTestimonialsPage() {
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState<string | null>(null)
 
-  const load = useCallback(async () => {
-    setLoading(true)
-    setError("")
+  const load = async () => {
+    startTransition(() => { setLoading(true); setError("") })
     const result = await getTestimonialsAction()
-    if (result.success) setTestimonials(result.data)
-    else setError(result.error)
-    setLoading(false)
-  }, [])
+    startTransition(() => {
+      if (result.success) setTestimonials(result.data)
+      else setError(result.error)
+      setLoading(false)
+    })
+  }
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => { load() }, [])
 
   const handleToggleFeatured = async (id: string, current: boolean) => {
     setTestimonials((prev) =>

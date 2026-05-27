@@ -209,7 +209,7 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
                   >
                     <Image
                       src={optimizeThumbnail(src)}
-                      alt=""
+                      alt={`${product.title} thumbnail ${i + 1}`}
                       fill
                       className="object-cover"
                       sizes="64px"

@@ -13,31 +13,26 @@ import { cn } from "@/lib/utils"
 export function CatalogClient({ products }: { products: Product[] }) {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const categoryParam = searchParams.get("category")
-  const activeCategory = categoryParam && PRODUCT_CATEGORIES.some((c) => c.value === categoryParam)
-    ? categoryParam
-    : "all"
+  const activeCategory = searchParams.get("category")
 
   const handleCategoryChange = useCallback(
-    (category: string) => {
+    (category: string | null) => {
       if (category === activeCategory) return
       const params = new URLSearchParams(searchParams.toString())
-      params.delete("category")
-      if (category !== "all") {
+      if (category && category !== "all") {
         params.set("category", category)
+      } else {
+        params.delete("category")
       }
-      const target = params.toString()
-        ? `/catalog?${params.toString()}`
-        : "/catalog"
-      router.replace(target)
+      const query = params.toString()
+      router.replace(query ? `/catalog?${query}` : "/catalog")
     },
     [searchParams, activeCategory, router]
   )
 
-  const filtered =
-    activeCategory === "all"
-      ? products
-      : products.filter((p) => p.category === activeCategory)
+  const filtered = activeCategory
+    ? products.filter((p) => p.category === activeCategory)
+    : products
 
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {}

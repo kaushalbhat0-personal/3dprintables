@@ -1,21 +1,15 @@
-import { LogOut } from "lucide-react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
-import { verifySession, deleteSession } from "@/lib/auth/session"
-
-async function handleLogout() {
-  "use server"
-  await deleteSession()
-  redirect("/admin/login")
-}
+import { auth, signOut } from "@/auth"
+import { LogOut } from "lucide-react"
 
 export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session = await verifySession()
-  if (!session) redirect("/admin/login")
+  const session = await auth()
+  if (!session?.user?.isAdmin) redirect("/admin/login")
 
   const navItems = [
     { label: "Products", href: "/admin/products" },
@@ -31,6 +25,10 @@ export default async function AdminLayout({
             Dashboard
           </Link>
         </div>
+        <div className="px-6 pb-4 border-b border-border">
+          <p className="text-xs text-muted-foreground">Signed in as</p>
+          <p className="text-sm text-foreground truncate">{session.user.email}</p>
+        </div>
         <nav className="flex-1 p-4 space-y-1">
           {navItems.map((item) => (
             <Link
@@ -43,13 +41,18 @@ export default async function AdminLayout({
           ))}
         </nav>
         <div className="p-4 border-t border-border">
-          <form action={handleLogout}>
+          <form
+            action={async () => {
+              "use server"
+              await signOut({ redirectTo: "/" })
+            }}
+          >
             <button
               type="submit"
               className="flex items-center gap-2 w-full px-4 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
             >
               <LogOut size={16} />
-              Logout
+              Sign Out
             </button>
           </form>
         </div>

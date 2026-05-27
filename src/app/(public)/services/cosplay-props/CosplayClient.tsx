@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Ghost, Scan, Paintbrush, ArmchairIcon, ShieldCheck } from "lucide-react"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
@@ -70,9 +71,13 @@ export default function CosplayClient() {
                 key={item.title}
                 className="relative aspect-square rounded-2xl overflow-hidden bg-zinc-800 border border-border"
               >
-                <div className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground/60">
-                  {item.title}
-                </div>
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
               </div>
             ))}
           </div>

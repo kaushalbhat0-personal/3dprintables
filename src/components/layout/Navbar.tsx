@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, startTransition } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SITE, NAV_LINKS } from "@/lib/constants"
+import { AuthStatus } from "@/components/auth/AuthStatus"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -21,7 +22,7 @@ export function Navbar() {
   }, [])
 
   useEffect(() => {
-    setIsMobileOpen(false)
+    startTransition(() => setIsMobileOpen(false))
   }, [pathname])
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export function Navbar() {
             <MessageCircle className="w-4 h-4" />
             <span>WhatsApp</span>
           </a>
+          <AuthStatus />
         </div>
 
         <button
@@ -123,11 +125,12 @@ export function Navbar() {
                 href={`https://wa.me/${SITE.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 h-12 text-sm font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] transition-colors mt-2"
+                className="inline-flex items-center justify-center gap-2 h-12 text-sm font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] transition-colors"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Chat on WhatsApp</span>
               </a>
+              <AuthStatus />
             </div>
           </motion.div>
         )}

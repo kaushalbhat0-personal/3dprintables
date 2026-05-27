@@ -20,3 +20,10 @@
 ✓ Finished filesystem cache database compaction in 14.3s
   Reload env: .env.local
 ✓ Finished filesystem cache database compaction in 22.5s
+✓ Compiled in 119ms
+✓ Finished filesystem cache database compaction in 13.3s
+✓ Finished filesystem cache database compaction in 17.0s
+  Reload env: .env.local
+✓ Compiled in 5.9s
+✓ Compiled in 0ms
+✓ Finished filesystem cache database compaction in 20.7s

@@ -3,7 +3,12 @@ import { getProducts } from "@/data/products"
 import { siteUrl } from "@/lib/url"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const products = await getProducts()
+  let products: Awaited<ReturnType<typeof getProducts>> = []
+  try {
+    products = await getProducts()
+  } catch {
+    // If DB is unreachable, sitemap still works — product URLs just won't be included
+  }
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: siteUrl(), lastModified: new Date(), changeFrequency: "weekly", priority: 1.0 },
@@ -20,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const productRoutes: MetadataRoute.Sitemap = products.map((product) => ({
     url: siteUrl(`/catalog/${product.slug}`),
     lastModified: new Date(product.createdAt),
-    changeFrequency: "weekly" as const,
+    changeFrequency: "weekly",
     priority: 0.8,
   }))
 

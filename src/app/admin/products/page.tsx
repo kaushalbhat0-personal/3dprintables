@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useEffect, startTransition } from "react"
 import { Plus, Pencil, Trash2, Star, Package } from "lucide-react"
 import {
   getProductsAction,
@@ -43,19 +43,20 @@ export default function AdminProductsPage() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [deleting, setDeleting] = useState<string | null>(null)
 
-  const loadProducts = useCallback(async () => {
-    setLoading(true)
-    setError("")
+  const loadProducts = async () => {
+    startTransition(() => { setLoading(true); setError("") })
     const result = await getProductsAction()
-    if (result.success) {
-      setProducts(result.data)
-    } else {
-      setError(result.error)
-    }
-    setLoading(false)
-  }, [])
+    startTransition(() => {
+      if (result.success) {
+        setProducts(result.data)
+      } else {
+        setError(result.error)
+      }
+      setLoading(false)
+    })
+  }
 
-  useEffect(() => { loadProducts() }, [loadProducts])
+  useEffect(() => { loadProducts() }, [])
 
   const handleToggleFeatured = async (id: string, current: boolean) => {
     setProducts((prev) =>

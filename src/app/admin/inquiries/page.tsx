@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, startTransition } from "react"
 import {
   getInquiriesAction,
   updateInquiryStatusAction,
@@ -79,19 +79,20 @@ export default function AdminInquiriesPage() {
   const [categoryFilter, setCategoryFilter] = useState<string>("all")
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest")
 
-  const loadInquiries = useCallback(async () => {
-    setLoading(true)
-    setError("")
+  const loadInquiries = async () => {
+    startTransition(() => { setLoading(true); setError("") })
     const result = await getInquiriesAction()
-    if (result.success && result.data) {
-      setInquiries(result.data)
-    } else {
-      setError(result.error ?? "Failed to load inquiries")
-    }
-    setLoading(false)
-  }, [])
+    startTransition(() => {
+      if (result.success && result.data) {
+        setInquiries(result.data)
+      } else {
+        setError(result.error ?? "Failed to load inquiries")
+      }
+      setLoading(false)
+    })
+  }
 
-  useEffect(() => { loadInquiries() }, [loadInquiries])
+  useEffect(() => { loadInquiries() }, [])
 
   const handleStatusChange = async (id: string, status: InquiryStatus) => {
     setInquiries((prev) =>

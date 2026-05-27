@@ -86,7 +86,7 @@ export function ProductPageGallery({ images, title }: ProductPageGalleryProps) {
             >
               <Image
                 src={optimizeThumbnail(src)}
-                alt=""
+                alt={`${title} thumbnail ${i + 1}`}
                 fill
                 className="object-cover"
                 sizes="80px"
