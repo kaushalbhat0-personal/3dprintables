@@ -1,8 +1,5 @@
 import type { Metadata } from "next"
 import { Geist } from "next/font/google"
-import { Navbar } from "@/components/layout/Navbar"
-import { Footer } from "@/components/layout/Footer"
-import { StickyInquiryBar } from "@/components/layout/StickyInquiryBar"
 import { siteUrl } from "@/lib/url"
 import "./globals.css"
 
@@ -58,10 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${geistSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <StickyInquiryBar />
+        {children}
       </body>
     </html>
   )

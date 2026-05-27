@@ -8,6 +8,7 @@ import { Heading } from "@/components/ui/Heading"
 import { Card } from "@/components/ui/Card"
 import { cn } from "@/lib/utils"
 import type { Testimonial } from "@/lib/storage/testimonial-types"
+import { optimizeImage } from "@/lib/cloudinary-utils"
 
 const metrics = [
   { icon: Package, label: "Prints Completed", value: "500+" },
@@ -55,7 +56,7 @@ export function Testimonials({ testimonials = [] }: { testimonials?: Testimonial
                 {testimonials[current]?.imageUrl && (
                   <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-800 border border-border shrink-0">
                     <Image
-                      src={testimonials[current].imageUrl}
+                      src={optimizeImage(testimonials[current].imageUrl, 96)}
                       alt={testimonials[current].name}
                       width={48}
                       height={48}

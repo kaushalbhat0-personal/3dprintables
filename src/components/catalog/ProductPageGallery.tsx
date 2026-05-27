@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { optimizeImage, optimizeThumbnail } from "@/lib/cloudinary-utils"
 
 interface ProductPageGalleryProps {
   images: string[]
@@ -22,11 +23,10 @@ export function ProductPageGallery({ images, title }: ProductPageGalleryProps) {
   if (images.length === 0) return null
 
   return (
-    <div className="sticky top-24">
-      {/* Main Image */}
-      <div className="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden bg-zinc-900 border border-border touch-pan-y">
+    <div className="lg:sticky lg:top-24">
+      <div className="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden bg-zinc-900 border border-border">
         <Image
-          src={images[currentIndex]}
+          src={optimizeImage(images[currentIndex], 800)}
           alt={`${title} — Image ${currentIndex + 1}`}
           fill
           className="object-cover"
@@ -85,7 +85,7 @@ export function ProductPageGallery({ images, title }: ProductPageGalleryProps) {
               )}
             >
               <Image
-                src={src}
+                src={optimizeThumbnail(src)}
                 alt=""
                 fill
                 className="object-cover"

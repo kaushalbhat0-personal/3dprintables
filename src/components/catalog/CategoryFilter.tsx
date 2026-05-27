@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react"
 import { cn } from "@/lib/utils"
 import { PRODUCT_CATEGORIES } from "@/types"
 import { Sparkles, Scroll, Cog, Wrench } from "lucide-react"
@@ -19,7 +20,7 @@ interface CategoryFilterProps {
   counts?: Record<string, number>
 }
 
-export function CategoryFilter({ active, onChange, counts }: CategoryFilterProps) {
+export const CategoryFilter = memo(function CategoryFilter({ active, onChange, counts }: CategoryFilterProps) {
   const categories = [
     { value: "all", label: "All" },
     ...PRODUCT_CATEGORIES,
@@ -63,4 +64,4 @@ export function CategoryFilter({ active, onChange, counts }: CategoryFilterProps
       })}
     </div>
   )
-}
+})

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import { MessageCircle } from "lucide-react"
 import { SITE } from "@/lib/constants"
@@ -18,25 +18,24 @@ function shouldHideOnPath(pathname: string): boolean {
 
 export function StickyInquiryBar() {
   const pathname = usePathname()
-  const [visible, setVisible] = useState(false)
-
-  /* eslint-disable react-hooks/set-state-in-effect */
-  useEffect(() => {
-    setVisible(false)
-  }, [pathname])
+  const visibleRef = useRef(false)
+  const elRef = useRef<HTMLAnchorElement | null>(null)
 
   useEffect(() => {
-    if (shouldHideOnPath(pathname)) return
-
+    if (shouldHideOnPath(pathname)) {
+      if (elRef.current) elRef.current.style.display = "none"
+      return
+    }
     const onScroll = () => {
       if (isModalOpen()) {
-        setVisible(false)
+        if (elRef.current) elRef.current.style.display = "none"
         return
       }
-      setVisible(
-        window.scrollY > 600 &&
-          window.scrollY < document.body.scrollHeight - 1200
-      )
+      const show = window.scrollY > 600 && window.scrollY < document.body.scrollHeight - 1200
+      if (show !== visibleRef.current) {
+        visibleRef.current = show
+        if (elRef.current) elRef.current.style.display = show ? "" : "none"
+      }
     }
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
@@ -45,22 +44,23 @@ export function StickyInquiryBar() {
 
   useEffect(() => {
     const observer = new MutationObserver(() => {
-      if (isModalOpen()) setVisible(false)
+      if (isModalOpen()) {
+        if (elRef.current) elRef.current.style.display = "none"
+      }
     })
     observer.observe(document.body, { attributes: true })
     return () => observer.disconnect()
   }, [])
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   const whatsappUrl = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent("Hi! I'd like to discuss a custom 3D printing project.")}`
 
-  if (!visible) return null
-
   return (
     <a
+      ref={elRef}
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
+      style={{ display: "none" }}
       className="fixed bottom-24 right-5 z-30 flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/20 hover:bg-[#20BD5A] hover:scale-105 active:scale-95 transition-all duration-300 md:hidden"
       aria-label="Get a quote on WhatsApp"
     >

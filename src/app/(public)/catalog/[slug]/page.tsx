@@ -107,8 +107,7 @@ export default async function ProductPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article>
-        {/* Gallery + Info */}
+      <article className="pb-28 md:pb-0">
         <section className="pt-20 md:pt-24">
           <div className="container-main">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -134,7 +133,6 @@ export default async function ProductPage({
                   </p>
                 )}
 
-                {/* Specs Grid */}
                 <div className="mt-8 grid grid-cols-2 gap-4">
                   {product.material && (
                     <div className="rounded-xl bg-zinc-900/50 border border-border p-4">
@@ -178,7 +176,6 @@ export default async function ProductPage({
                   )}
                 </div>
 
-                {/* Technologies */}
                 {product.technologies && product.technologies.length > 0 && (
                   <div className="mt-6">
                     <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-2">
@@ -197,7 +194,6 @@ export default async function ProductPage({
                   </div>
                 )}
 
-                {/* Production Type + Badges */}
                 <div className="mt-6 flex items-center gap-3 flex-wrap">
                   <span className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-zinc-800 text-muted-foreground border border-border/50">
                     {productionLabel}
@@ -220,7 +216,6 @@ export default async function ProductPage({
                   </p>
                 )}
 
-                {/* CTA Buttons */}
                 <div className="mt-8 flex flex-col sm:flex-row gap-3">
                   <a
                     href={whatsappUrl}
@@ -255,7 +250,6 @@ export default async function ProductPage({
           </div>
         </section>
 
-        {/* Full Description */}
         {product.description && (
           <section className="py-16 md:py-20">
             <div className="container-main">
@@ -271,7 +265,6 @@ export default async function ProductPage({
           </section>
         )}
 
-        {/* Craft Details */}
         <section className="py-16 md:py-20 bg-zinc-900/30 border-y border-border">
           <div className="container-main">
             <h2 className="text-xl font-semibold text-foreground mb-8">
@@ -334,7 +327,6 @@ export default async function ProductPage({
           </div>
         </section>
 
-        {/* Product Videos */}
         {productVids.length > 0 && (
           <section className="py-16 md:py-20">
             <div className="container-main">
@@ -364,7 +356,6 @@ export default async function ProductPage({
           </section>
         )}
 
-        {/* Related Products */}
         {related.length > 0 && (
           <section className="pb-20 md:pb-28 pt-16">
             <div className="container-main">
@@ -393,7 +384,6 @@ export default async function ProductPage({
           </section>
         )}
 
-        {/* Mobile Sticky CTA */}
         <div className="fixed bottom-0 left-0 right-0 z-40 p-4 pb-[max(1rem,env(safe-area-inset-bottom,1rem))] bg-gradient-to-t from-background via-background/95 to-transparent md:hidden">
           <a
             href={whatsappUrl}

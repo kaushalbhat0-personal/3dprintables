@@ -20,16 +20,16 @@ export function CatalogClient({ products }: { products: Product[] }) {
 
   const handleCategoryChange = useCallback(
     (category: string) => {
+      if (category === activeCategory) return
       const params = new URLSearchParams(searchParams.toString())
-      if (category === "all" || category === activeCategory) {
-        params.delete("category")
-      } else {
+      params.delete("category")
+      if (category !== "all") {
         params.set("category", category)
       }
       const target = params.toString()
         ? `/catalog?${params.toString()}`
         : "/catalog"
-      router.push(target)
+      router.replace(target)
     },
     [searchParams, activeCategory, router]
   )

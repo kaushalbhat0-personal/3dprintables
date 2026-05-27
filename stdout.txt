@@ -9,3 +9,14 @@
   Reload env: .env.local
   Reload env: .env.local
 ✓ Finished filesystem cache database compaction in 12.3s
+✓ Compiled in 2.1s
+○ Compiling middleware ...
+✓ Finished filesystem cache database compaction in 19.7s
+✓ Finished filesystem cache database compaction in 15.3s
+✓ Finished filesystem cache database compaction in 25.6s
+✓ Finished filesystem cache database compaction in 32.8s
+  Reload env: .env.local
+✓ Finished filesystem cache database compaction in 10.4s
+✓ Finished filesystem cache database compaction in 14.3s
+  Reload env: .env.local
+✓ Finished filesystem cache database compaction in 22.5s

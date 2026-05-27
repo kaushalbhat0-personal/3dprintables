@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Plus, Pencil, Trash2, Star, Quote } from "lucide-react"
 import {
   getTestimonialsAction,
@@ -11,9 +11,6 @@ import {
 } from "@/actions/testimonials"
 import type { Testimonial } from "@/lib/storage/testimonial-types"
 import { cn } from "@/lib/utils"
-
-const ADMIN_PASSWORD =
-  process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "factory-admin"
 
 function formatDate(iso: string): string {
   try {
@@ -57,9 +54,6 @@ function StarRating({ rating, onChange }: { rating: number; onChange?: (r: numbe
 }
 
 export default function AdminTestimonialsPage() {
-  const [authenticated, setAuthenticated] = useState(false)
-  const [password, setPassword] = useState("")
-  const [passwordError, setPasswordError] = useState("")
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -77,16 +71,7 @@ export default function AdminTestimonialsPage() {
     setLoading(false)
   }, [])
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (password === ADMIN_PASSWORD) {
-      setAuthenticated(true)
-      setPasswordError("")
-      load()
-    } else {
-      setPasswordError("Incorrect password")
-    }
-  }
+  useEffect(() => { load() }, [load])
 
   const handleToggleFeatured = async (id: string, current: boolean) => {
     setTestimonials((prev) =>
@@ -122,35 +107,6 @@ export default function AdminTestimonialsPage() {
     setShowForm(false)
     setEditing(null)
     load()
-  }
-
-  if (!authenticated) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <form
-          onSubmit={handleLogin}
-          className="w-full max-w-sm rounded-2xl bg-zinc-900 border border-border p-8"
-        >
-          <h1 className="text-xl font-bold text-foreground mb-1 text-center">Admin Access</h1>
-          <p className="text-sm text-muted text-center mb-6">Enter password to manage testimonials</p>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="w-full h-11 px-4 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all mb-4"
-            autoFocus
-          />
-          {passwordError && <p className="text-sm text-red-400 mb-4">{passwordError}</p>}
-          <button
-            type="submit"
-            className="w-full h-11 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-colors"
-          >
-            Sign In
-          </button>
-        </form>
-      </div>
-    )
   }
 
   return (

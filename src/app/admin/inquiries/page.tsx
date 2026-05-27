@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useMemo } from "react"
+import { useState, useCallback, useMemo, useEffect } from "react"
 import {
   getInquiriesAction,
   updateInquiryStatusAction,
@@ -12,8 +12,6 @@ import {
 } from "@/lib/storage"
 import { cn } from "@/lib/utils"
 import { ChevronDown, Clock, Search, ArrowUpDown } from "lucide-react"
-
-const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "factory-admin"
 
 const statusOptions: InquiryStatus[] = ["new", "contacted", "quoted", "completed"]
 
@@ -71,9 +69,6 @@ function StatusSelect({
 }
 
 export default function AdminInquiriesPage() {
-  const [authenticated, setAuthenticated] = useState(false)
-  const [password, setPassword] = useState("")
-  const [passwordError, setPasswordError] = useState("")
   const [inquiries, setInquiries] = useState<Inquiry[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -96,16 +91,7 @@ export default function AdminInquiriesPage() {
     setLoading(false)
   }, [])
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (password === ADMIN_PASSWORD) {
-      setAuthenticated(true)
-      setPasswordError("")
-      loadInquiries()
-    } else {
-      setPasswordError("Incorrect password")
-    }
-  }
+  useEffect(() => { loadInquiries() }, [loadInquiries])
 
   const handleStatusChange = async (id: string, status: InquiryStatus) => {
     setInquiries((prev) =>
@@ -158,41 +144,6 @@ export default function AdminInquiriesPage() {
 
     return result
   }, [inquiries, searchQuery, statusFilter, categoryFilter, sortOrder])
-
-  if (!authenticated) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <form
-          onSubmit={handleLogin}
-          className="w-full max-w-sm rounded-2xl bg-zinc-900 border border-border p-8"
-        >
-          <h1 className="text-xl font-bold text-foreground mb-1 text-center">
-            Admin Access
-          </h1>
-          <p className="text-sm text-muted text-center mb-6">
-            Enter password to view inquiries
-          </p>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="w-full h-11 px-4 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all mb-4"
-            autoFocus
-          />
-          {passwordError && (
-            <p className="text-sm text-red-400 mb-4">{passwordError}</p>
-          )}
-          <button
-            type="submit"
-            className="w-full h-11 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-colors"
-          >
-            Sign In
-          </button>
-        </form>
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen bg-background pt-24 pb-16">

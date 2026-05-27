@@ -2,18 +2,20 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { memo } from "react"
 import { MessageCircle, Sparkles } from "lucide-react"
 import type { Product } from "@/types"
 import { Card } from "@/components/ui/Card"
 import { cn, formatWhatsAppUrl } from "@/lib/utils"
 import { SITE } from "@/lib/constants"
 import { PRODUCT_CATEGORIES } from "@/types"
+import { optimizeImage, optimizeThumbnail } from "@/lib/cloudinary-utils"
 
 function getCategoryLabel(category: string): string {
   return PRODUCT_CATEGORIES.find((c) => c.value === category)?.label ?? category
 }
 
-export function ProductCard({ product }: { product: Product }) {
+export const ProductCard = memo(function ProductCard({ product }: { product: Product }) {
   const whatsappUrl = formatWhatsAppUrl(SITE.whatsapp, product.title)
 
   return (
@@ -21,7 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
       <Card as="article" className="flex flex-col">
         <div className="relative aspect-[4/5] overflow-hidden bg-zinc-900">
           <Image
-            src={product.featuredImage}
+            src={optimizeImage(product.featuredImage, 600)}
             alt={product.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -76,10 +78,6 @@ export function ProductCard({ product }: { product: Product }) {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => {
-                e.preventDefault()
-                window.open(whatsappUrl, "_blank")
-              }}
               className={cn(
                 "inline-flex items-center justify-center gap-2 w-full h-10 text-sm font-medium rounded-xl",
                 "bg-[#25D366] text-white hover:bg-[#20BD5A]",
@@ -94,4 +92,4 @@ export function ProductCard({ product }: { product: Product }) {
       </Card>
     </Link>
   )
-}
+})

@@ -14,6 +14,7 @@ import type { Product } from "@/types"
 import { PRODUCT_CATEGORIES } from "@/types"
 import { cn } from "@/lib/utils"
 import { QuickInquiry } from "./QuickInquiry"
+import { optimizeImage, optimizeThumbnail } from "@/lib/cloudinary-utils"
 
 interface ProductGalleryProps {
   product: Product
@@ -142,7 +143,7 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
               )}
             >
               <Image
-                src={src}
+                src={optimizeImage(src, 1200)}
                 alt={`${product.title} — Image ${i + 1}`}
                 fill
                 className={cn(
@@ -207,7 +208,7 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
                     )}
                   >
                     <Image
-                      src={src}
+                      src={optimizeThumbnail(src)}
                       alt=""
                       fill
                       className="object-cover"
