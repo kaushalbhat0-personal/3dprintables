@@ -13,6 +13,12 @@ export interface Product {
   technologies?: string[]
   featured?: boolean
   createdAt: string
+  printTime?: string
+  finishType?: string
+  productionType?: "prototype" | "single" | "batch" | "custom"
+  supportsBulkOrders?: boolean
+  customizable?: boolean
+  minimumOrderQuantity?: string
 }
 
 export type ProductCategory =

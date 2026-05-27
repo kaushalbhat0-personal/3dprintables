@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1779894966565,
+      "tag": "0000_lively_captain_flint",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1779898925990,
+      "tag": "0001_eager_power_pack",
+      "breakpoints": true
+    }
+  ]
+}

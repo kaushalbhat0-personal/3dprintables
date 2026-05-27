@@ -3,6 +3,7 @@ import { Geist } from "next/font/google"
 import { Navbar } from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
 import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp"
+import { StickyInquiryBar } from "@/components/layout/StickyInquiryBar"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -58,6 +59,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <FloatingWhatsApp />
+        <StickyInquiryBar />
       </body>
     </html>
   )

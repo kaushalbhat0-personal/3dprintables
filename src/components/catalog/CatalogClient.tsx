@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react"
 import { MessageCircle, Package } from "lucide-react"
-import { products } from "@/data/products"
 import { ProductCard } from "@/components/catalog/ProductCard"
 import { ProductGallery } from "@/components/catalog/ProductGallery"
 import { CategoryFilter } from "@/components/catalog/CategoryFilter"
@@ -11,7 +10,7 @@ import { PRODUCT_CATEGORIES } from "@/types"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 
-export function CatalogClient() {
+export function CatalogClient({ products }: { products: Product[] }) {
   const [activeCategory, setActiveCategory] = useState("all")
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
@@ -27,7 +26,7 @@ export function CatalogClient() {
     }
     counts.all = products.length
     return counts
-  }, [])
+  }, [products])
 
   return (
     <>

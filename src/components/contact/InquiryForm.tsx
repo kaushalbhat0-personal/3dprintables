@@ -149,8 +149,8 @@ export function InquiryForm() {
           </Card>
 
           <p className="mt-4 text-xs text-center text-muted-foreground">
-            Your details are sent directly via WhatsApp. We never store or share
-            your information.
+            Your details are sent directly via WhatsApp. We&apos;ll review and get
+            back to you as soon as possible.
           </p>
         </div>
       </div>

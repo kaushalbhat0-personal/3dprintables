@@ -20,6 +20,7 @@ export default function ContactPage() {
       <InquiryForm />
       <ResponseExpectations />
       <ContactCTA />
+      <div className="pb-24 md:pb-0" />
     </>
   )
 }

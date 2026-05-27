@@ -12,8 +12,8 @@ import {
 } from "lucide-react"
 import type { Product } from "@/types"
 import { PRODUCT_CATEGORIES } from "@/types"
-import { SITE } from "@/lib/constants"
-import { formatWhatsAppUrl, cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
+import { QuickInquiry } from "./QuickInquiry"
 
 interface ProductGalleryProps {
   product: Product
@@ -31,14 +31,11 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
 
+  const [showInquiry, setShowInquiry] = useState(false)
+
   const categoryLabel =
     PRODUCT_CATEGORIES.find((c) => c.value === product.category)?.label ??
     product.category
-
-  const whatsappUrl = formatWhatsAppUrl(
-    SITE.whatsapp,
-    `Inquiry: ${product.title}`
-  )
 
   const goTo = useCallback(
     (index: number) => {
@@ -287,21 +284,28 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
                     Want something similar? We build custom projects —
                     send us your requirements.
                   </p>
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full h-11 px-6 text-sm font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] transition-all duration-200 shadow-lg shadow-[#25D366]/20"
+                  <button
+                    onClick={() => setShowInquiry(true)}
+                    className="inline-flex items-center justify-center gap-2 w-full h-11 px-6 text-sm font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] transition-all duration-200 shadow-lg shadow-[#25D366]/20 cursor-pointer"
                   >
                     <MessageCircle className="w-4 h-4" />
                     <span>Inquire About This Product</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         )}
       </div>
+
+      {showInquiry && (
+        <QuickInquiry
+          productName={product.title}
+          productCategory={categoryLabel}
+          sourcePage={product.slug}
+          onClose={() => setShowInquiry(false)}
+        />
+      )}
     </div>
   )
 }

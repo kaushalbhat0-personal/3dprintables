@@ -1,7 +1,6 @@
 import Image from "next/image"
 import { Globe, Heart, Play, Camera } from "lucide-react"
 import Link from "next/link"
-import { SITE } from "@/lib/constants"
 import { Section } from "@/components/ui/Section"
 import { Heading } from "@/components/ui/Heading"
 import { Card } from "@/components/ui/Card"

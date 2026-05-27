@@ -1,16 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { getFeaturedProducts } from "@/data/products"
 import { Section } from "@/components/ui/Section"
 import { Heading } from "@/components/ui/Heading"
 import { ProductCard } from "@/components/catalog/ProductCard"
 import { ProductGallery } from "@/components/catalog/ProductGallery"
 import type { Product } from "@/types"
 
-export function FeaturedProducts() {
+export function FeaturedProducts({ featured }: { featured: Product[] }) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
-  const featured = getFeaturedProducts()
 
   return (
     <>
