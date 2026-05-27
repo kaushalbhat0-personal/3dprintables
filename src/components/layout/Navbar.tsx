@@ -24,8 +24,11 @@ export function Navbar() {
   }, [pathname])
 
   useEffect(() => {
-    document.body.style.overflow = isMobileOpen ? "hidden" : ""
-    return () => { document.body.style.overflow = "" }
+    if (isMobileOpen) {
+      document.body.style.overflow = "hidden"
+      return () => { document.body.style.overflow = "" }
+    }
+    document.body.style.overflow = ""
   }, [isMobileOpen])
 
   return (

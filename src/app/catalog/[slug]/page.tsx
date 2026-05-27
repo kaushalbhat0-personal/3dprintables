@@ -394,12 +394,12 @@ export default async function ProductPage({
         )}
 
         {/* Mobile Sticky CTA */}
-        <div className="fixed bottom-0 left-0 right-0 z-40 p-4 bg-gradient-to-t from-background via-background/95 to-transparent pb-safe md:hidden">
+        <div className="fixed bottom-0 left-0 right-0 z-40 p-4 pb-[max(1rem,env(safe-area-inset-bottom,1rem))] bg-gradient-to-t from-background via-background/95 to-transparent md:hidden">
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full h-13 text-base font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] shadow-lg shadow-[#25D366]/20 transition-all duration-200"
+            className="flex items-center justify-center gap-2 w-full h-13 text-base font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] shadow-lg shadow-[#25D366]/15 transition-all duration-200 active:scale-[0.98]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

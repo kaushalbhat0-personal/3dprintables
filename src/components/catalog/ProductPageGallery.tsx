@@ -24,7 +24,7 @@ export function ProductPageGallery({ images, title }: ProductPageGalleryProps) {
   return (
     <div className="sticky top-24">
       {/* Main Image */}
-      <div className="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden bg-zinc-900 border border-border">
+      <div className="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden bg-zinc-900 border border-border touch-pan-y">
         <Image
           src={images[currentIndex]}
           alt={`${title} — Image ${currentIndex + 1}`}
@@ -38,14 +38,14 @@ export function ProductPageGallery({ images, title }: ProductPageGalleryProps) {
           <>
             <button
               onClick={() => goTo(currentIndex - 1)}
-              className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors backdrop-blur-sm z-10"
+              className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 md:w-10 md:h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors backdrop-blur-sm z-10"
               aria-label="Previous image"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => goTo(currentIndex + 1)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors backdrop-blur-sm z-10"
+              className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 md:w-10 md:h-10 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors backdrop-blur-sm z-10"
               aria-label="Next image"
             >
               <ChevronRight className="w-5 h-5" />

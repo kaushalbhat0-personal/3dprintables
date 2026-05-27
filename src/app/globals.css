@@ -42,6 +42,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+    overscroll-behavior: none;
   }
 
   body {
@@ -50,6 +51,7 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   ::selection {
@@ -76,6 +78,10 @@
 
   img {
     user-select: none;
+  }
+
+  button, a {
+    touch-action: manipulation;
   }
 }
 
