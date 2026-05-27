@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import { Geist } from "next/font/google"
 import { Navbar } from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
-import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp"
 import { StickyInquiryBar } from "@/components/layout/StickyInquiryBar"
+import { siteUrl } from "@/lib/url"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -12,6 +12,7 @@ const geistSans = Geist({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl()),
   title: {
     default: "3D Factory | Premium 3D Printing Studio",
     template: "%s | 3D Factory",
@@ -58,7 +59,6 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
-        <FloatingWhatsApp />
         <StickyInquiryBar />
       </body>
     </html>

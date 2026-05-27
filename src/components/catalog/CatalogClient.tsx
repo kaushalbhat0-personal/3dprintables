@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { MessageCircle, Package } from "lucide-react"
+import { useMemo, useCallback } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
+import { Package, MessageCircle } from "lucide-react"
 import { ProductCard } from "@/components/catalog/ProductCard"
-import { ProductGallery } from "@/components/catalog/ProductGallery"
 import { CategoryFilter } from "@/components/catalog/CategoryFilter"
 import type { Product } from "@/types"
 import { PRODUCT_CATEGORIES } from "@/types"
@@ -11,8 +11,28 @@ import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 
 export function CatalogClient({ products }: { products: Product[] }) {
-  const [activeCategory, setActiveCategory] = useState("all")
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const categoryParam = searchParams.get("category")
+  const activeCategory = categoryParam && PRODUCT_CATEGORIES.some((c) => c.value === categoryParam)
+    ? categoryParam
+    : "all"
+
+  const handleCategoryChange = useCallback(
+    (category: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      if (category === "all" || category === activeCategory) {
+        params.delete("category")
+      } else {
+        params.set("category", category)
+      }
+      const target = params.toString()
+        ? `/catalog?${params.toString()}`
+        : "/catalog"
+      router.push(target)
+    },
+    [searchParams, activeCategory, router]
+  )
 
   const filtered =
     activeCategory === "all"
@@ -44,7 +64,7 @@ export function CatalogClient({ products }: { products: Product[] }) {
             <div className="mt-10">
               <CategoryFilter
                 active={activeCategory}
-                onChange={setActiveCategory}
+                onChange={handleCategoryChange}
                 counts={categoryCounts}
               />
             </div>
@@ -57,11 +77,7 @@ export function CatalogClient({ products }: { products: Product[] }) {
           {filtered.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filtered.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onSelect={setSelectedProduct}
-                />
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           ) : (
@@ -105,13 +121,6 @@ export function CatalogClient({ products }: { products: Product[] }) {
           </div>
         </div>
       </section>
-
-      {selectedProduct && (
-        <ProductGallery
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        />
-      )}
     </>
   )
 }

@@ -1,5 +1,3 @@
-"use client"
-
 import { Palette, Sparkles, Moon, Gift, Brush } from "lucide-react"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"

@@ -1,0 +1,2 @@
+⚠ Slow filesystem detected. The benchmark took 1540ms. If D:\Kaushal\Python\Python Projects\3dprintables\.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development

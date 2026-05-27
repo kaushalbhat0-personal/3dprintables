@@ -8,24 +8,24 @@ import {
   updateProductQuery,
   deleteProductQuery,
   getProductsQuery,
-  getProductByIdQuery,
-  getProductBySlugQuery,
   getFeaturedProductsQuery,
-  getActiveProductsQuery,
-  getProductsByCategoryQuery,
 } from "@/db/queries/products"
 import type { Product } from "@/types"
+import { setProductVideosQuery } from "@/db/queries/videos"
 
 export async function createProductAction(
   formData: FormData
 ): Promise<{ success: true; data: Product } | { success: false; error: string }> {
   try {
     const raw: Record<string, unknown> = {}
+    let videos: string[] = []
     formData.forEach((value, key) => {
       if (key === "technologies") {
         try { raw[key] = JSON.parse(value as string) } catch { raw[key] = (value as string).split(",").map((s: string) => s.trim()).filter(Boolean) }
       } else if (key === "galleryImages") {
         try { raw[key] = JSON.parse(value as string) } catch { raw[key] = (value as string).split("\n").map((s: string) => s.trim()).filter(Boolean) }
+      } else if (key === "videos") {
+        try { videos = JSON.parse(value as string) } catch { videos = [] }
       } else if (key === "isFeatured" || key === "isActive" || key === "supportsBulkOrders" || key === "customizable") {
         raw[key] = value === "true" || value === "on"
       } else {
@@ -36,11 +36,25 @@ export async function createProductAction(
     const parsed = CreateProductSchema.parse(raw)
     const id = randomUUID()
 
-    return await createProductQuery({
+    const result = await createProductQuery({
       id,
       ...parsed,
       technologies: JSON.stringify(parsed.technologies),
     })
+
+    if (result.success) {
+      revalidatePath("/admin/products")
+      revalidatePath("/")
+      revalidatePath("/catalog")
+      if (videos.length > 0) {
+        await setProductVideosQuery(
+          id,
+          videos.filter(Boolean).map((url, i) => ({ videoUrl: url, sortOrder: i }))
+        )
+      }
+    }
+
+    return result
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed to create product"
     if (err && typeof err === "object" && "issues" in err) {
@@ -55,11 +69,14 @@ export async function updateProductAction(
 ): Promise<{ success: true; data: Product } | { success: false; error: string }> {
   try {
     const raw: Record<string, unknown> = {}
+    let videos: string[] | undefined
     formData.forEach((value, key) => {
       if (key === "technologies") {
         try { raw[key] = JSON.parse(value as string) } catch { raw[key] = (value as string).split(",").map((s: string) => s.trim()).filter(Boolean) }
       } else if (key === "galleryImages") {
         try { raw[key] = JSON.parse(value as string) } catch { raw[key] = (value as string).split("\n").map((s: string) => s.trim()).filter(Boolean) }
+      } else if (key === "videos") {
+        try { videos = JSON.parse(value as string) } catch { videos = [] }
       } else if (key === "isFeatured" || key === "isActive" || key === "supportsBulkOrders" || key === "customizable") {
         raw[key] = value === "true" || value === "on"
       } else {
@@ -80,6 +97,15 @@ export async function updateProductAction(
 
     if (result.success) {
       revalidatePath("/admin/products")
+      revalidatePath("/")
+      revalidatePath("/catalog")
+      if (parsed.slug) revalidatePath(`/catalog/${parsed.slug}`)
+      if (videos !== undefined) {
+        await setProductVideosQuery(
+          parsed.id,
+          videos.filter(Boolean).map((url, i) => ({ videoUrl: url, sortOrder: i }))
+        )
+      }
     }
     return result
   } catch (err) {
@@ -97,6 +123,8 @@ export async function deleteProductAction(
   const result = await deleteProductQuery(id)
   if (result.success) {
     revalidatePath("/admin/products")
+    revalidatePath("/")
+    revalidatePath("/catalog")
   }
   return result
 }
@@ -109,6 +137,8 @@ export async function toggleFeaturedAction(
   const result = await updateProductQuery(parsed.id, { isFeatured: parsed.isFeatured })
   if (result.success) {
     revalidatePath("/admin/products")
+    revalidatePath("/")
+    revalidatePath("/catalog")
   }
   return result
 }

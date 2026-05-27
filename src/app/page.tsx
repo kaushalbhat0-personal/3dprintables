@@ -1,4 +1,5 @@
 import { getFeaturedProducts } from "@/data/products"
+import { getFeaturedTestimonials } from "@/data/testimonials"
 import { generateMetadata } from "@/lib/seo"
 import { Hero } from "@/components/home/Hero"
 import { FeaturedProducts } from "@/components/home/FeaturedProducts"
@@ -10,7 +11,7 @@ import { InstagramTrust } from "@/components/home/InstagramTrust"
 import { TrustSection } from "@/components/home/TrustSection"
 import { CTABanner } from "@/components/home/CTABanner"
 
-export const dynamic = "force-dynamic"
+export const revalidate = 3600
 
 export const metadata = generateMetadata({
   title: "Premium 3D Printing Studio — Custom Manufacturing & Prototyping",
@@ -20,14 +21,17 @@ export const metadata = generateMetadata({
 })
 
 export default async function Home() {
-  const featured = await getFeaturedProducts()
+  const [featured, testimonials] = await Promise.all([
+    getFeaturedProducts(),
+    getFeaturedTestimonials(),
+  ])
   return (
     <>
       <Hero />
       <FeaturedProducts featured={featured} />
       <WhyChooseUs />
       <Materials />
-      <Testimonials />
+      <Testimonials testimonials={testimonials} />
       <TrustSection />
       <FAQ />
       <InstagramTrust />

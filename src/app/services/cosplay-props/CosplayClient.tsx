@@ -1,5 +1,3 @@
-"use client"
-
 import { Ghost, Scan, Paintbrush, ArmchairIcon, ShieldCheck } from "lucide-react"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"

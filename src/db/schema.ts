@@ -77,13 +77,61 @@ export const productImages = sqliteTable("product_images", {
     .default("(datetime('now'))"),
 })
 
+export const testimonials = sqliteTable("testimonials", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  role: text("role").notNull().default(""),
+  company: text("company").notNull().default(""),
+  content: text("content").notNull(),
+  rating: integer("rating").notNull().default(5),
+  imageUrl: text("image_url").notNull().default(""),
+  productId: text("product_id").references(() => products.id, {
+    onDelete: "set null",
+  }),
+  featured: integer("featured", { mode: "boolean" }).notNull().default(false),
+  createdAt: text("created_at")
+    .notNull()
+    .default("(datetime('now'))"),
+  updatedAt: text("updated_at")
+    .notNull()
+    .default("(datetime('now'))"),
+})
+
+export const productVideos = sqliteTable("product_videos", {
+  id: text("id").primaryKey(),
+  productId: text("product_id")
+    .notNull()
+    .references(() => products.id, { onDelete: "cascade" }),
+  videoUrl: text("video_url").notNull(),
+  thumbnailUrl: text("thumbnail_url").notNull().default(""),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: text("created_at")
+    .notNull()
+    .default("(datetime('now'))"),
+})
+
 export const productRelations = relations(products, ({ many }) => ({
   images: many(productImages),
+  videos: many(productVideos),
 }))
 
 export const productImageRelations = relations(productImages, ({ one }) => ({
   product: one(products, {
     fields: [productImages.productId],
+    references: [products.id],
+  }),
+}))
+
+export const productVideoRelations = relations(productVideos, ({ one }) => ({
+  product: one(products, {
+    fields: [productVideos.productId],
+    references: [products.id],
+  }),
+}))
+
+export const testimonialRelations = relations(testimonials, ({ one }) => ({
+  product: one(products, {
+    fields: [testimonials.productId],
     references: [products.id],
   }),
 }))

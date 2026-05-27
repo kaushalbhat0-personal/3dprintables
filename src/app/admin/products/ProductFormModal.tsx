@@ -1,11 +1,14 @@
 "use client"
 
-import { useState } from "react"
-import { X } from "lucide-react"
+/* eslint-disable @next/next/no-img-element */
+
+import { useState, useRef } from "react"
+import { X, Upload, Loader2 } from "lucide-react"
 import {
   createProductAction,
   updateProductAction,
 } from "@/actions/products"
+import { uploadProductImageAction } from "@/actions/upload"
 import { PRODUCT_CATEGORIES } from "@/types"
 import type { Product } from "@/types"
 
@@ -18,7 +21,14 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
   const isEdit = !!product
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
-  const [previewImage, setPreviewImage] = useState(product?.featuredImage ?? "")
+
+  const [featuredImage, setFeaturedImage] = useState(product?.featuredImage ?? "")
+  const [galleryImages, setGalleryImages] = useState<string[]>(product?.galleryImages ?? [])
+  const [videos, setVideos] = useState<string[]>([])
+  const [uploading, setUploading] = useState(false)
+
+  const featuredInputRef = useRef<HTMLInputElement>(null)
+  const galleryInputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -27,6 +37,15 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
 
     const form = e.currentTarget
     const formData = new FormData(form)
+
+    formData.set("featuredImage", featuredImage)
+    galleryImages.forEach((url) => formData.append("galleryImages[]", url))
+
+    const galleryStr = JSON.stringify(galleryImages)
+    formData.set("galleryImages", galleryStr)
+
+    const videoStr = JSON.stringify(videos.filter(Boolean))
+    formData.set("videos", videoStr)
 
     if (isEdit) {
       formData.set("id", product!.id)
@@ -60,10 +79,51 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
     if (slugInput) slugInput.dataset.manuallyEdited = "true"
   }
 
+  const uploadFile = async (file: File, target: "featured" | "gallery") => {
+    setUploading(true)
+    setError("")
+
+    const fd = new FormData()
+    fd.set("image", file)
+
+    const result = await uploadProductImageAction(fd)
+    if (!result.success) {
+      setError(result.error)
+      setUploading(false)
+      return
+    }
+
+    if (target === "featured") {
+      setFeaturedImage(result.url)
+    } else {
+      setGalleryImages((prev) => [...prev, result.url])
+    }
+    setUploading(false)
+  }
+
+  const handleFeaturedUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) uploadFile(file, "featured")
+    e.target.value = ""
+  }
+
+  const handleGalleryUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files) {
+      for (const file of Array.from(files)) {
+        uploadFile(file, "gallery")
+      }
+    }
+    e.target.value = ""
+  }
+
+  const removeGalleryImage = (index: number) => {
+    setGalleryImages((prev) => prev.filter((_, i) => i !== index))
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
       <div className="relative w-full max-w-2xl my-8 rounded-2xl bg-zinc-900 border border-border shadow-2xl">
-        {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
           <div>
             <h2 className="text-lg font-semibold text-foreground">
@@ -83,15 +143,11 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
           {/* Name + Slug */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="name" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Name *
               </label>
               <input
@@ -106,10 +162,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               />
             </div>
             <div>
-              <label
-                htmlFor="slug"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="slug" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Slug *
               </label>
               <div className="relative">
@@ -132,10 +185,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
 
           {/* Description */}
           <div>
-            <label
-              htmlFor="description"
-              className="block text-xs font-medium text-muted-foreground mb-1.5"
-            >
+            <label htmlFor="description" className="block text-xs font-medium text-muted-foreground mb-1.5">
               Description
             </label>
             <textarea
@@ -150,10 +200,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
 
           {/* Short Description */}
           <div>
-            <label
-              htmlFor="shortDescription"
-              className="block text-xs font-medium text-muted-foreground mb-1.5"
-            >
+            <label htmlFor="shortDescription" className="block text-xs font-medium text-muted-foreground mb-1.5">
               Short Description
             </label>
             <input
@@ -169,10 +216,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           {/* Category + Price + Material */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label
-                htmlFor="category"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="category" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Category *
               </label>
               <select
@@ -190,10 +234,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               </select>
             </div>
             <div>
-              <label
-                htmlFor="priceRange"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="priceRange" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Price Range
               </label>
               <input
@@ -206,10 +247,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               />
             </div>
             <div>
-              <label
-                htmlFor="material"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="material" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Material
               </label>
               <input
@@ -226,10 +264,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           {/* Dimensions + Print Time + Finish Type */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label
-                htmlFor="dimensions"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="dimensions" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Dimensions
               </label>
               <input
@@ -242,10 +277,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               />
             </div>
             <div>
-              <label
-                htmlFor="printTime"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="printTime" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Print Time
               </label>
               <input
@@ -258,10 +290,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               />
             </div>
             <div>
-              <label
-                htmlFor="finishType"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="finishType" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Finish Type
               </label>
               <input
@@ -277,10 +306,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
 
           {/* Technologies */}
           <div>
-            <label
-              htmlFor="technologies"
-              className="block text-xs font-medium text-muted-foreground mb-1.5"
-            >
+            <label htmlFor="technologies" className="block text-xs font-medium text-muted-foreground mb-1.5">
               Technologies (comma-separated)
             </label>
             <input
@@ -299,10 +325,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           {/* Production Type + Min Order Qty */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="productionType"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="productionType" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Production Type
               </label>
               <select
@@ -318,10 +341,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               </select>
             </div>
             <div>
-              <label
-                htmlFor="minimumOrderQuantity"
-                className="block text-xs font-medium text-muted-foreground mb-1.5"
-              >
+              <label htmlFor="minimumOrderQuantity" className="block text-xs font-medium text-muted-foreground mb-1.5">
                 Min Order Quantity
               </label>
               <input
@@ -335,56 +355,143 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
             </div>
           </div>
 
-          {/* Featured Image */}
+          {/* Featured Image Upload */}
           <div>
-            <label
-              htmlFor="featuredImage"
-              className="block text-xs font-medium text-muted-foreground mb-1.5"
-            >
-              Featured Image URL
+            <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+              Featured Image
             </label>
             <input
-              id="featuredImage"
-              name="featuredImage"
-              type="text"
-              defaultValue={product?.featuredImage ?? ""}
-              onChange={(e) => setPreviewImage(e.target.value)}
-              className="w-full h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
-              placeholder="/images/products/my-product.jpg"
+              ref={featuredInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFeaturedUpload}
             />
-            {previewImage && (
-              <div className="mt-2 w-20 h-20 rounded-lg bg-zinc-800 overflow-hidden border border-border">
-                <img
-                  src={previewImage}
-                  alt="Preview"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none"
-                  }}
-                />
+            {featuredImage ? (
+              <div className="relative inline-block">
+                <div className="w-28 h-28 rounded-xl bg-zinc-800 overflow-hidden border border-border">
+                  <img
+                    src={featuredImage}
+                    alt="Featured preview"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFeaturedImage("")}
+                  className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 rounded-full bg-red-500/80 text-white hover:bg-red-500 transition-colors"
+                >
+                  <X className="w-3 h-3" />
+                </button>
               </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => featuredInputRef.current?.click()}
+                disabled={uploading}
+                className="flex items-center justify-center gap-2 w-full h-20 rounded-xl border-2 border-dashed border-border bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all disabled:opacity-50"
+              >
+                {uploading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Upload className="w-5 h-5" />
+                )}
+                <span className="text-sm">
+                  {uploading ? "Uploading..." : "Upload Featured Image"}
+                </span>
+              </button>
             )}
           </div>
 
-          {/* Gallery Images */}
+          {/* Gallery Images Upload */}
           <div>
-            <label
-              htmlFor="galleryImages"
-              className="block text-xs font-medium text-muted-foreground mb-1.5"
-            >
-              Gallery Images (one URL per line)
+            <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+              Gallery Images
             </label>
-            <textarea
-              id="galleryImages"
-              name="galleryImages"
-              rows={4}
-              defaultValue={product?.galleryImages?.join("\n") ?? ""}
-              className="w-full px-3.5 py-2.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all resize-y font-mono text-xs"
-              placeholder="/images/products/gallery-1.jpg&#10;/images/products/gallery-2.jpg"
+            <input
+              ref={galleryInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              onChange={handleGalleryUpload}
             />
-            <p className="text-[11px] text-muted-foreground/50 mt-1">
-              One URL per line
-            </p>
+            {galleryImages.length > 0 && (
+              <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-3 mb-3">
+                {galleryImages.map((url, i) => (
+                  <div key={`${url}-${i}`} className="relative group">
+                    <div className="aspect-square rounded-xl bg-zinc-800 overflow-hidden border border-border">
+                      <img
+                        src={url}
+                        alt={`Gallery ${i + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeGalleryImage(i)}
+                      className="absolute top-1 right-1 flex items-center justify-center w-5 h-5 rounded-full bg-red-500/80 text-white opacity-0 group-hover:opacity-100 hover:bg-red-500 transition-all"
+                    >
+                      <X className="w-2.5 h-2.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => galleryInputRef.current?.click()}
+              disabled={uploading}
+              className="flex items-center justify-center gap-2 w-full h-14 rounded-xl border-2 border-dashed border-border bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all disabled:opacity-50"
+            >
+              {uploading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Upload className="w-5 h-5" />
+              )}
+              <span className="text-sm">
+                {uploading ? "Uploading..." : "Upload Gallery Images"}
+              </span>
+            </button>
+          </div>
+
+          {/* Product Videos */}
+          <div>
+            <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+              Product Videos (Cloudinary URLs)
+            </label>
+            <div className="space-y-2">
+              {videos.map((url, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={url}
+                    onChange={(e) => {
+                      const next = [...videos]
+                      next[i] = e.target.value
+                      setVideos(next)
+                    }}
+                    placeholder="https://res.cloudinary.com/..."
+                    className="flex-1 h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all font-mono text-xs"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setVideos((prev) => prev.filter((_, j) => j !== i))}
+                    className="h-10 w-10 inline-flex items-center justify-center rounded-xl bg-zinc-800 text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => setVideos((prev) => [...prev, ""])}
+                className="flex items-center justify-center gap-2 w-full h-10 rounded-xl border-2 border-dashed border-border bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all text-sm"
+              >
+                <Upload className="w-4 h-4" />
+                Add Video URL
+              </button>
+            </div>
           </div>
 
           {/* Checkboxes */}
@@ -436,10 +543,10 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
             </button>
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || uploading}
               className="h-10 px-5 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-colors disabled:opacity-50 inline-flex items-center gap-2"
             >
-              {saving && (
+              {(saving || uploading) && (
                 <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
               )}
               {isEdit ? "Update Product" : "Create Product"}

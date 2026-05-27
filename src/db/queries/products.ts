@@ -67,8 +67,8 @@ export async function createProductQuery(input: {
       )
     }
 
-    const { images, ...rest } = await getProductWithImages(input.id)
-    return { success: true, data: rest }
+    const productData = await getProductWithImages(input.id) as Product
+    return { success: true, data: productData }
   } catch (err) {
     return {
       success: false,

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useMemo } from "react"
 import {
   getInquiriesAction,
   updateInquiryStatusAction,
@@ -11,7 +11,7 @@ import {
   INQUIRY_STATUS_COLORS,
 } from "@/lib/storage"
 import { cn } from "@/lib/utils"
-import { ChevronDown, Clock } from "lucide-react"
+import { ChevronDown, Clock, Search, ArrowUpDown } from "lucide-react"
 
 const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "factory-admin"
 
@@ -78,6 +78,12 @@ export default function AdminInquiriesPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
+  // Filters
+  const [searchQuery, setSearchQuery] = useState("")
+  const [statusFilter, setStatusFilter] = useState<InquiryStatus | "all">("all")
+  const [categoryFilter, setCategoryFilter] = useState<string>("all")
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest")
+
   const loadInquiries = useCallback(async () => {
     setLoading(true)
     setError("")
@@ -113,6 +119,45 @@ export default function AdminInquiriesPage() {
       loadInquiries()
     }
   }
+
+  const allCategories = useMemo(() => {
+    const cats = new Set(inquiries.map((i) => i.category))
+    return Array.from(cats)
+  }, [inquiries])
+
+  const filtered = useMemo(() => {
+    let result = [...inquiries]
+
+    // Search
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase()
+      result = result.filter(
+        (i) =>
+          i.name.toLowerCase().includes(q) ||
+          i.phone.toLowerCase().includes(q) ||
+          i.product.toLowerCase().includes(q)
+      )
+    }
+
+    // Status filter
+    if (statusFilter !== "all") {
+      result = result.filter((i) => i.status === statusFilter)
+    }
+
+    // Category filter
+    if (categoryFilter !== "all") {
+      result = result.filter((i) => i.category === categoryFilter)
+    }
+
+    // Sort
+    result.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime()
+      const dateB = new Date(b.createdAt).getTime()
+      return sortOrder === "newest" ? dateB - dateA : dateA - dateB
+    })
+
+    return result
+  }, [inquiries, searchQuery, statusFilter, categoryFilter, sortOrder])
 
   if (!authenticated) {
     return (
@@ -152,11 +197,11 @@ export default function AdminInquiriesPage() {
   return (
     <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="container-main">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Inquiries</h1>
             <p className="text-sm text-muted mt-1">
-              {inquiries.length} total
+              {inquiries.length} total{filtered.length !== inquiries.length && ` · ${filtered.length} shown`}
               {inquiries.filter((i) => i.status === "new").length > 0 && (
                 <span className="text-muted-foreground">
                   {" · "}
@@ -175,6 +220,50 @@ export default function AdminInquiriesPage() {
           </button>
         </div>
 
+        {/* Filters */}
+        <div className="mb-6 flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by name, phone, or product..."
+              className="w-full h-10 pl-10 pr-4 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
+            />
+          </div>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as InquiryStatus | "all")}
+            className="h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+          >
+            <option value="all">All Status</option>
+            {statusOptions.map((s) => (
+              <option key={s} value={s}>{INQUIRY_STATUS_LABELS[s]}</option>
+            ))}
+          </select>
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="h-10 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+          >
+            <option value="all">All Categories</option>
+            {allCategories.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+          <button
+            onClick={() => setSortOrder((o) => o === "newest" ? "oldest" : "newest")}
+            className={cn(
+              "h-10 px-4 text-sm font-medium rounded-xl border transition-colors inline-flex items-center gap-2",
+              "bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50"
+            )}
+          >
+            <ArrowUpDown className="w-3.5 h-3.5" />
+            {sortOrder === "newest" ? "Newest" : "Oldest"}
+          </button>
+        </div>
+
         {loading ? (
           <div className="text-center py-20">
             <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
@@ -190,12 +279,22 @@ export default function AdminInquiriesPage() {
               Try Again
             </button>
           </div>
-        ) : inquiries.length === 0 ? (
+        ) : filtered.length === 0 ? (
           <div className="text-center py-20">
             <Clock className="w-10 h-10 text-muted-foreground/30 mx-auto" />
             <p className="mt-4 text-sm text-muted-foreground">
-              No inquiries yet.
+              {inquiries.length === 0
+                ? "No inquiries yet."
+                : "No inquiries match your filters."}
             </p>
+            {(searchQuery || statusFilter !== "all" || categoryFilter !== "all") && (
+              <button
+                onClick={() => { setSearchQuery(""); setStatusFilter("all"); setCategoryFilter("all") }}
+                className="mt-2 text-xs text-primary hover:text-primary-hover"
+              >
+                Clear filters
+              </button>
+            )}
           </div>
         ) : (
           <div className="space-y-4">
@@ -204,43 +303,24 @@ export default function AdminInquiriesPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-zinc-900/80 border-b border-border">
-                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                      Contact
-                    </th>
-                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                      Product
-                    </th>
-                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                      Qty
-                    </th>
-                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                      Date
-                    </th>
+                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact</th>
+                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Product</th>
+                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Qty</th>
+                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
+                    <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {inquiries.map((inq) => (
-                    <tr
-                      key={inq.id}
-                      className="border-b border-border/50 hover:bg-zinc-900/30 transition-colors last:border-0"
-                    >
+                  {filtered.map((inq) => (
+                    <tr key={inq.id} className="border-b border-border/50 hover:bg-zinc-900/30 transition-colors last:border-0">
                       <td className="px-5 py-4">
                         <p className="text-foreground font-medium">{inq.name}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {inq.email}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {inq.phone}
-                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">{inq.email}</p>
+                        <p className="text-xs text-muted-foreground">{inq.phone}</p>
                       </td>
                       <td className="px-5 py-4">
                         <p className="text-foreground">{inq.product}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {inq.category}
-                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">{inq.category}</p>
                         {inq.message && (
                           <p className="text-xs text-muted-foreground/60 mt-1 max-w-[200px] truncate">
                             &ldquo;{inq.message}&rdquo;
@@ -249,10 +329,7 @@ export default function AdminInquiriesPage() {
                       </td>
                       <td className="px-5 py-4 text-foreground">{inq.quantity}</td>
                       <td className="px-5 py-4">
-                        <StatusSelect
-                          current={inq.status}
-                          onChange={(s) => handleStatusChange(inq.id, s)}
-                        />
+                        <StatusSelect current={inq.status} onChange={(s) => handleStatusChange(inq.id, s)} />
                       </td>
                       <td className="px-5 py-4 text-xs text-muted-foreground whitespace-nowrap">
                         {formatDate(inq.createdAt)}
@@ -265,46 +342,25 @@ export default function AdminInquiriesPage() {
 
             {/* Mobile cards */}
             <div className="md:hidden space-y-3">
-              {inquiries.map((inq) => (
-                <div
-                  key={inq.id}
-                  className="rounded-2xl bg-zinc-900/50 border border-border p-5"
-                >
+              {filtered.map((inq) => (
+                <div key={inq.id} className="rounded-2xl bg-zinc-900/50 border border-border p-5">
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <p className="text-sm font-semibold text-foreground">
-                        {inq.name}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {inq.email} · {inq.phone}
-                      </p>
+                      <p className="text-sm font-semibold text-foreground">{inq.name}</p>
+                      <p className="text-xs text-muted-foreground">{inq.email} · {inq.phone}</p>
                     </div>
                     <StatusBadge status={inq.status} />
                   </div>
                   <div className="space-y-1 text-xs text-muted-foreground">
-                    <p>
-                      <span className="text-foreground font-medium">
-                        {inq.product}
-                      </span>{" "}
-                      — {inq.quantity} unit{inq.quantity !== 1 ? "s" : ""}
-                    </p>
+                    <p><span className="text-foreground font-medium">{inq.product}</span> — {inq.quantity} unit{inq.quantity !== 1 ? "s" : ""}</p>
                     <p>{inq.category}</p>
                     {inq.preferredSize && <p>Size: {inq.preferredSize}</p>}
                     {inq.customizable && <p>Needs customization</p>}
-                    {inq.message && (
-                      <p className="mt-2 text-muted-foreground/60 italic">
-                        &ldquo;{inq.message}&rdquo;
-                      </p>
-                    )}
-                    <p className="mt-2 text-[11px] text-muted-foreground/40">
-                      {formatDate(inq.createdAt)}
-                    </p>
+                    {inq.message && <p className="mt-2 text-muted-foreground/60 italic">&ldquo;{inq.message}&rdquo;</p>}
+                    <p className="mt-2 text-[11px] text-muted-foreground/40">{formatDate(inq.createdAt)}</p>
                   </div>
                   <div className="mt-4 pt-3 border-t border-border">
-                    <StatusSelect
-                      current={inq.status}
-                      onChange={(s) => handleStatusChange(inq.id, s)}
-                    />
+                    <StatusSelect current={inq.status} onChange={(s) => handleStatusChange(inq.id, s)} />
                   </div>
                 </div>
               ))}

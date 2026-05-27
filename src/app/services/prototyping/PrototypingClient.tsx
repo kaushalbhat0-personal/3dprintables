@@ -1,5 +1,3 @@
-"use client"
-
 import { Wrench, Ruler, RotateCw, Cpu, Layers } from "lucide-react"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"

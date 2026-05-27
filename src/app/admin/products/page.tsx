@@ -1,7 +1,9 @@
 "use client"
 
+/* eslint-disable @next/next/no-img-element */
+
 import { useState, useCallback } from "react"
-import { Plus, Pencil, Trash2, Star, EyeOff, Eye, Package } from "lucide-react"
+import { Plus, Pencil, Trash2, Star, Package } from "lucide-react"
 import {
   getProductsAction,
   deleteProductAction,

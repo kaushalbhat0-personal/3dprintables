@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { siteUrl } from "@/lib/url"
 
 interface SEOProps {
   title: string
@@ -11,7 +12,7 @@ export function generateMetadata({
   description,
   path,
 }: SEOProps): Metadata {
-  const url = path ? `https://3dfactory.in${path}` : "https://3dfactory.in"
+  const url = siteUrl(path)
 
   return {
     title,

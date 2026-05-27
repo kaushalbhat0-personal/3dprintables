@@ -1,5 +1,3 @@
-"use client"
-
 import { Building2, PaintBucket, ShoppingBag } from "lucide-react"
 import { Section } from "@/components/ui/Section"
 import { Heading } from "@/components/ui/Heading"

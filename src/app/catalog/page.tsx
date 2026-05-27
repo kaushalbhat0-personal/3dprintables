@@ -1,8 +1,9 @@
+import { Suspense } from "react"
 import { getProducts } from "@/data/products"
 import { generateMetadata } from "@/lib/seo"
 import { CatalogClient } from "@/components/catalog/CatalogClient"
 
-export const dynamic = "force-dynamic"
+export const revalidate = 3600
 
 export const metadata = generateMetadata({
   title: "Catalog — Browse Our Collection",
@@ -13,5 +14,9 @@ export const metadata = generateMetadata({
 
 export default async function CatalogPage() {
   const products = await getProducts()
-  return <CatalogClient products={products} />
+  return (
+    <Suspense fallback={null}>
+      <CatalogClient products={products} />
+    </Suspense>
+  )
 }

@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 import { Wrench, Ghost, Palette, Package } from "lucide-react"
 import { Section } from "@/components/ui/Section"

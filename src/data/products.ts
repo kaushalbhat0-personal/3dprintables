@@ -5,6 +5,8 @@ import {
   getProductBySlugQuery,
   getProductsByCategoryQuery,
 } from "@/db/queries/products"
+import { getProductVideosQuery } from "@/db/queries/videos"
+import type { ProductVideo } from "@/db/queries/videos"
 import { cache } from "react"
 
 export const getProducts = cache(async (): Promise<Product[]> => {
@@ -27,6 +29,13 @@ export const getProductBySlug = cache(
 export const getProductsByCategory = cache(
   async (category: string): Promise<Product[]> => {
     const result = await getProductsByCategoryQuery(category)
+    return result.success ? result.data : []
+  }
+)
+
+export const getProductVideos = cache(
+  async (productId: string): Promise<ProductVideo[]> => {
+    const result = await getProductVideosQuery(productId)
     return result.success ? result.data : []
   }
 )

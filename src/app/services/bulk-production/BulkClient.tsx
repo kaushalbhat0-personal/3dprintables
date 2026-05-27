@@ -1,5 +1,3 @@
-"use client"
-
 import { Package, BarChart3, Truck, ShieldCheck } from "lucide-react"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"

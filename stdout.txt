@@ -1,0 +1,9 @@
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3333
+- Network:       http://192.168.1.3:3333
+- Environments: .env.local, .env
+✓ Ready in 1491ms
+
+ GET /sitemap.xml 200 in 6.6s (next.js: 6.2s, application-code: 442ms)
+ GET /robots.txt 200 in 873ms (next.js: 865ms, application-code: 8ms)
+  Reload env: .env.local

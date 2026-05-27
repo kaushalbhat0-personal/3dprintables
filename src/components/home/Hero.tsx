@@ -46,7 +46,7 @@ export function Hero() {
             className="object-contain object-right"
             priority
             loading="eager"
-            sizes="(max-width: 768px) 30vw, 45vw"
+            sizes="(max-width: 768px) 0vw, 45vw"
           />
         </div>
       </div>
