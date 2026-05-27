@@ -15,6 +15,7 @@ import { PRODUCT_CATEGORIES } from "@/types"
 import { cn } from "@/lib/utils"
 import { QuickInquiry } from "./QuickInquiry"
 import { optimizeImage, optimizeThumbnail, getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/ui/scroll-lock"
 
 interface ProductGalleryProps {
   product: Product
@@ -67,10 +68,10 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown)
-    document.body.style.overflow = "hidden"
+    lockBodyScroll()
     return () => {
       window.removeEventListener("keydown", handleKeyDown)
-      document.body.style.overflow = ""
+      unlockBodyScroll()
     }
   }, [handleKeyDown])
 

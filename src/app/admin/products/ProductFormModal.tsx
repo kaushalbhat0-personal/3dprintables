@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { X, Upload, Loader2 } from "lucide-react"
 import {
   createProductAction,
@@ -12,6 +12,7 @@ import { uploadToCloudinary } from "@/lib/cloudinary-upload"
 import { optimizeImage, getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 import { PRODUCT_CATEGORIES } from "@/types"
 import type { Product } from "@/types"
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/ui/scroll-lock"
 
 interface ProductFormModalProps {
   product: Product | null
@@ -27,6 +28,11 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
   const [galleryImages, setGalleryImages] = useState<string[]>(product?.galleryImages ?? [])
   const [videos, setVideos] = useState<string[]>([])
   const [uploading, setUploading] = useState(false)
+
+  useEffect(() => {
+    lockBodyScroll()
+    return () => unlockBodyScroll()
+  }, [])
 
   const featuredInputRef = useRef<HTMLInputElement>(null)
   const galleryInputRef = useRef<HTMLInputElement>(null)
@@ -126,8 +132,8 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl sm:my-8 rounded-none sm:rounded-2xl bg-zinc-900 border-0 sm:border border-border shadow-2xl min-h-[100dvh] sm:min-h-0 flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl sm:my-8 rounded-none sm:rounded-2xl bg-zinc-900 border-0 sm:border border-border shadow-2xl min-h-[100dvh] sm:min-h-0 max-h-[100dvh] sm:max-h-[85dvh] flex flex-col">
         <div className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border bg-zinc-900 shrink-0">
           <div className="min-w-0 flex-1">
             <h2 className="text-base sm:text-lg font-semibold text-foreground truncate">

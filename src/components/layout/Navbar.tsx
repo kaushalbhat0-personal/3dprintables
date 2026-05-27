@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, startTransition } from "react"
+import { useState, useEffect, startTransition } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -8,11 +8,11 @@ import { Menu, X, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SITE, NAV_LINKS } from "@/lib/constants"
 import { AuthStatus } from "@/components/auth/AuthStatus"
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/ui/scroll-lock"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
-  const scrollPos = useRef(0)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -27,18 +27,11 @@ export function Navbar() {
 
   useEffect(() => {
     if (isMobileOpen) {
-      scrollPos.current = window.scrollY
-      document.body.style.overflow = "hidden"
-      document.body.style.position = "fixed"
-      document.body.style.top = `-${scrollPos.current}px`
-      document.body.style.width = "100%"
+      lockBodyScroll()
     } else {
-      document.body.style.overflow = ""
-      document.body.style.position = ""
-      document.body.style.top = ""
-      document.body.style.width = ""
-      window.scrollTo(0, scrollPos.current)
+      unlockBodyScroll()
     }
+    return () => { if (isMobileOpen) unlockBodyScroll() }
   }, [isMobileOpen])
 
   return (

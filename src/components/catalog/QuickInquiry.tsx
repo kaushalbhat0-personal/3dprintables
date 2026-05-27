@@ -6,6 +6,7 @@ import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 import { createInquiryAction } from "@/actions/inquiries"
 import { uploadToCloudinary } from "@/lib/cloudinary-upload"
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/ui/scroll-lock"
 
 interface QuickInquiryProps {
   productName: string
@@ -37,7 +38,11 @@ export function QuickInquiry({
 
   useEffect(() => {
     document.body.setAttribute("data-inquiry-modal-open", "true")
-    return () => document.body.removeAttribute("data-inquiry-modal-open")
+    lockBodyScroll()
+    return () => {
+      document.body.removeAttribute("data-inquiry-modal-open")
+      unlockBodyScroll()
+    }
   }, [])
 
   const handleSubmit = async () => {

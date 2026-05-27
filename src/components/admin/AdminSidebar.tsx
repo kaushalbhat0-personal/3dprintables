@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, LogOut, LayoutDashboard, MessageSquare, Star, Package } from "lucide-react"
+import { Menu, X, LayoutDashboard, MessageSquare, Star, Package } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { lockBodyScroll, unlockBodyScroll } from "@/lib/ui/scroll-lock"
 
 const NAV_ITEMS = [
   { label: "Products", href: "/admin/products", icon: Package },
@@ -18,11 +19,11 @@ export function AdminSidebar({ email, signOutForm }: { email: string; signOutFor
 
   useEffect(() => {
     if (open) {
-      document.body.style.overflow = "hidden"
+      lockBodyScroll()
     } else {
-      document.body.style.overflow = ""
+      unlockBodyScroll()
     }
-    return () => { document.body.style.overflow = "" }
+    return () => { if (open) unlockBodyScroll() }
   }, [open])
 
   useEffect(() => { setOpen(false) }, [pathname])
