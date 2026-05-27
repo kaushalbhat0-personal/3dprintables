@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Container } from "@/components/ui/Container"
 
 export function BrandStory() {
@@ -12,13 +13,13 @@ export function BrandStory() {
 
             <div className="mt-6 space-y-4 text-sm sm:text-base text-muted leading-relaxed">
               <p>
-                PrintCraft started in a small room with a single printer and a
+                3D Factory started in a small room with a single printer and a
                 big curiosity. We wanted to see if consumer 3D printing could
                 produce things that didn&apos;t just look good on a shelf — but
                 actually served a purpose.
               </p>
               <p>
-                Over time, we upgraded our tools, refined our techniques, and
+                Over time, we upgraded our tools, refined our techniques, and 3D Factory
                 built a network of suppliers and designers who share our
                 obsession with quality. Today, we work with businesses, creators,
                 and individuals across India — turning rough sketches,
@@ -32,17 +33,14 @@ export function BrandStory() {
             </div>
           </div>
 
-          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-800 via-zinc-900 to-black border border-border">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center p-8">
-                <div className="w-20 h-20 mx-auto rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
-                  <span className="text-3xl font-bold text-primary">P</span>
-                </div>
-                <p className="text-xs text-muted-foreground tracking-wider uppercase">
-                  Since 2023
-                </p>
-              </div>
-            </div>
+          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-900 border border-border group">
+            <Image
+              src="/images/products/prototype-part.png"
+              alt="3D printed prototype part showcase"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
           </div>
         </div>
       </Container>

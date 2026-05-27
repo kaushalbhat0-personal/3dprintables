@@ -14,10 +14,6 @@ export function CTABanner() {
 
   return (
     <section className="relative py-24 md:py-32 lg:py-40 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[700px] md:h-[700px] rounded-full bg-primary/5 blur-[140px]" />
-      </div>
-
       <div className="container-main relative z-10">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">

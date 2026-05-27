@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { MessageCircle, Package, ShieldCheck, Truck, Clock } from "lucide-react"
 import Link from "next/link"
@@ -9,7 +10,7 @@ import { cn } from "@/lib/utils"
 const stats = [
   { icon: Package, label: "500+ Orders Delivered" },
   { icon: Clock, label: "24hr Quick Turnaround" },
-  { icon: Truck, label: "Pan India Shipping" },
+  { icon: Truck, label: "Worldwide Shipping" },
   { icon: ShieldCheck, label: "Premium Quality Guaranteed" },
 ] as const
 
@@ -34,15 +35,24 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16 md:pt-28 md:pb-20">
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none z-0"
         aria-hidden="true"
       >
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/3 blur-[100px]" />
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[30vw] h-[50vh] md:w-[45vw] md:h-[80vh] max-w-[650px] max-h-[700px] opacity-20 md:opacity-30 overflow-hidden">
+          <Image
+            src="/images/products/ChromiumHanuman.jpeg"
+            alt="Golden Hanuman Statue"
+            fill
+            className="object-contain object-right"
+            priority
+            loading="eager"
+            sizes="(max-width: 768px) 30vw, 45vw"
+          />
+        </div>
       </div>
 
       <motion.div
-        className="container-main w-full"
+        className="container-main w-full relative z-10"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
@@ -69,7 +79,7 @@ export function Hero() {
             className="mt-6 text-base sm:text-lg md:text-xl text-muted max-w-2xl mx-auto leading-relaxed"
           >
             From concept to creation. We design and deliver premium 3D printed
-            products across India — custom decor, functional prototypes, unique
+            products across the world — custom decor, functional prototypes, unique
             gifts, and everything in between.
           </motion.p>
 

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Globe, Heart, Play, Camera } from "lucide-react"
 import Link from "next/link"
 import { SITE } from "@/lib/constants"
@@ -15,40 +16,34 @@ const stats = [
 
 const posts = [
   {
-    gradient: "from-amber-800/60 via-zinc-900 to-zinc-900",
-    caption: "Fresh off the build plate — geometric vase in matte PLA+",
+    image: "/images/products/ShivaGlow.jpeg",
+    caption: "Shiva Glow Statue",
     likes: "342",
-    icon: Camera,
   },
   {
-    gradient: "from-emerald-800/60 via-zinc-900 to-zinc-900",
-    caption: "Timelapse: 12-hour print compressed into 60 seconds",
+    image: "/images/products/ChromiumHanuman.jpeg",
+    caption: "Chromium Hanuman Statue",
     likes: "891",
-    icon: Play,
   },
   {
-    gradient: "from-rose-800/60 via-zinc-900 to-zinc-900",
-    caption: "Custom dragon bust headed to its new home 🐉",
+    image: "/images/products/ShivaWhite.jpeg",
+    caption: "Custom Shiva Statue",
     likes: "567",
-    icon: Camera,
   },
   {
-    gradient: "from-sky-800/60 via-zinc-900 to-zinc-900",
-    caption: "Behind the scenes — post-processing resin prints",
+    image: "/images/products/prototype-part.png",
+    caption: "Custom Prototype Part",
     likes: "234",
-    icon: Camera,
   },
   {
-    gradient: "from-violet-800/60 via-zinc-900 to-zinc-900",
+    image: "/images/products/IronManMask.jpeg",
     caption: "Bulk order delivery for a startup client — 200 units",
     likes: "423",
-    icon: Camera,
   },
   {
-    gradient: "from-orange-800/60 via-zinc-900 to-zinc-900",
+    image: "/images/products/IronManMaskMaking.jpeg",
     caption: "New filament spools arrived — restocking the lab",
     likes: "178",
-    icon: Camera,
   },
 ]
 
@@ -82,18 +77,15 @@ export function InstagramTrust() {
             className="group aspect-square relative overflow-hidden"
             hover
           >
-            <div
-              className={cn(
-                "absolute inset-0 bg-gradient-to-br transition-transform duration-500 group-hover:scale-105",
-                post.gradient
-              )}
+            <Image
+              src={post.image}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-            <div className="absolute top-3 left-3">
-              <post.icon className="w-4 h-4 text-white/70" />
-            </div>
 
             <div className="absolute bottom-0 left-0 right-0 p-3">
               <p className="text-[10px] leading-tight text-white/80 line-clamp-2">
@@ -110,7 +102,7 @@ export function InstagramTrust() {
 
       <div className="mt-10 md:mt-14 text-center">
         <Link
-          href={SITE.instagram}
+          href="https://www.instagram.com/3d_factory___/"
           target="_blank"
           rel="noopener noreferrer"
           className={cn(

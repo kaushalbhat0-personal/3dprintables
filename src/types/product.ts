@@ -16,22 +16,14 @@ export interface Product {
 }
 
 export type ProductCategory =
-  | "decor"
-  | "gadgets"
+  | "spiritual-decor"
   | "cosplay"
-  | "home"
-  | "jewelry"
   | "prototypes"
-  | "toys"
   | "custom"
 
 export const PRODUCT_CATEGORIES: { value: ProductCategory; label: string }[] = [
-  { value: "decor", label: "Home Decor" },
-  { value: "gadgets", label: "Gadgets" },
-  { value: "cosplay", label: "Cosplay" },
-  { value: "home", label: "Utility" },
-  { value: "jewelry", label: "Jewelry" },
-  { value: "prototypes", label: "Prototypes" },
-  { value: "toys", label: "Toys & Games" },
+  { value: "spiritual-decor", label: "Spiritual Decor" },
+  { value: "cosplay", label: "Cosplay & Props" },
+  { value: "prototypes", label: "Prototypes & Engineering" },
   { value: "custom", label: "Custom Orders" },
 ]

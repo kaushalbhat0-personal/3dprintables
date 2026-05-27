@@ -1,95 +1,95 @@
-import { Star } from "lucide-react"
-import { testimonials } from "@/data/testimonials"
+import Image from "next/image"
+import { Package, Truck, Sparkles, Zap } from "lucide-react"
 import { Section } from "@/components/ui/Section"
 import { Heading } from "@/components/ui/Heading"
 import { Card } from "@/components/ui/Card"
-import { cn } from "@/lib/utils"
 
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2)
-}
+const highlights = [
+  {
+    title: "Glow Resin Finish",
+    category: "Spiritual Decor",
+    note: "Intricate glow-in-the-dark resin panel with ethereal luminous effect",
+    image: "/images/products/ShivaGlow.jpeg",
+  },
+  {
+    title: "Precision Mechanical Prototype",
+    category: "Prototypes & Engineering",
+    note: "High-tolerance functional part with tight dimensional accuracy",
+    image: "/images/products/prototype-part.png",
+  },
+  {
+    title: "Custom Spiritual Decor",
+    category: "Spiritual Decor",
+    note: "Elegant matte-finished statue with crisp detailing and premium surface",
+    image: "/images/products/ShivaWhite.jpeg",
+  },
+  {
+    title: "Metallic Gold Sculpture",
+    category: "Spiritual Decor",
+    note: "Metallic-finish sculpture with intricate detailing and smooth lustre",
+    image: "/images/products/ChromiumHanuman.jpeg",
+  },
+]
 
-const avatarGradients = [
-  "from-amber-600 to-amber-800",
-  "from-zinc-500 to-zinc-700",
-  "from-rose-600 to-rose-800",
-  "from-emerald-600 to-emerald-800",
-  "from-sky-600 to-sky-800",
-  "from-violet-600 to-violet-800",
+const metrics = [
+  { icon: Package, label: "Prints Completed", value: "500+" },
+  { icon: Truck, label: "Pan-India Delivery", value: "All Cities" },
+  { icon: Sparkles, label: "Print Technologies", value: "FDM & Resin" },
+  { icon: Zap, label: "Turnaround", value: "24–48hrs" },
 ]
 
 export function Testimonials() {
   return (
     <Section id="testimonials">
       <Heading
-        title="What Our Customers Say"
-        subtitle="Real feedback from real customers. We let our work and their words speak for themselves."
+        title="Recent Work Highlights"
+        subtitle="A look at what we've been printing — from spiritual decor to precision engineering."
       />
 
-      <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {testimonials.map((t, i) => (
-          <Card key={t.id} as="article" className="flex flex-col p-6 md:p-7">
-            <div className="flex items-center gap-3 mb-4">
-              <div
-                className={cn(
-                  "flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br text-xs font-bold text-white shrink-0",
-                  avatarGradients[i % avatarGradients.length]
-                )}
-              >
-                {getInitials(t.name)}
-              </div>
-
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-foreground truncate">
-                  {t.name}
-                </p>
-                {t.handle && (
-                  <p className="text-xs text-muted-foreground truncate">
-                    {t.handle}
-                  </p>
-                )}
+      <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {highlights.map((item) => (
+          <Card key={item.title} as="article" className="flex flex-col group">
+            <div className="relative aspect-[4/5] overflow-hidden bg-zinc-900">
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-3 left-3">
+                <span className="inline-block px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded-full bg-background/80 backdrop-blur-sm text-muted-foreground border border-border/50">
+                  {item.category}
+                </span>
               </div>
             </div>
-
-            <div className="relative flex-1">
-              <span
-                className="absolute -top-1 -left-0.5 text-4xl leading-none text-primary/15 select-none pointer-events-none font-serif"
-                aria-hidden="true"
-              >
-                &ldquo;
-              </span>
-              <p className="text-sm text-muted leading-relaxed pl-4 relative z-10">
-                {t.content}
+            <div className="flex flex-col flex-1 p-5">
+              <h3 className="text-sm font-semibold text-foreground">
+                {item.title}
+              </h3>
+              <p className="mt-1.5 text-xs text-muted leading-relaxed flex-1">
+                {item.note}
               </p>
             </div>
-
-            <div className="mt-4 pt-4 border-t border-border flex items-center justify-between gap-3">
-              <div className="flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, idx) => (
-                  <Star
-                    key={idx}
-                    className={cn(
-                      "w-3.5 h-3.5",
-                      idx < t.rating
-                        ? "fill-primary text-primary"
-                        : "fill-none text-zinc-700"
-                    )}
-                  />
-                ))}
-              </div>
-
-              {t.product && (
-                <span className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground shrink-0">
-                  {t.product}
-                </span>
-              )}
-            </div>
           </Card>
+        ))}
+      </div>
+
+      <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+        {metrics.map((stat) => (
+          <div
+            key={stat.label}
+            className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-zinc-900/50 border border-border/50"
+          >
+            <stat.icon className="w-5 h-5 text-primary" />
+            <span className="text-xl font-bold text-foreground">
+              {stat.value}
+            </span>
+            <span className="text-xs text-muted-foreground text-center">
+              {stat.label}
+            </span>
+          </div>
         ))}
       </div>
     </Section>

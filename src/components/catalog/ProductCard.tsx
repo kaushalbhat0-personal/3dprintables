@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { MessageCircle } from "lucide-react"
 import type { Product } from "@/types"
 import { Card } from "@/components/ui/Card"
@@ -30,11 +31,12 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     <Card as="article" className="flex flex-col group">
       <div className="relative aspect-[4/3] overflow-hidden bg-zinc-900">
         {product.image ? (
-          <img
+          <Image
             src={product.image}
             alt={product.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div
