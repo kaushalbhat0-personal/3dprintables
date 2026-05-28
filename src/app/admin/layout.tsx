@@ -9,7 +9,7 @@ export default async function AdminLayout({
   children: React.ReactNode
 }>) {
   const session = await auth()
-  if (!session?.user?.isAdmin) redirect("/admin/login")
+  if (!session?.user?.isAdmin) redirect("/login")
 
   return (
     <div className="min-h-screen bg-background lg:flex">

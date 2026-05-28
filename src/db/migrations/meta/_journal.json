@@ -22,6 +22,13 @@
       "when": 1779902197960,
       "tag": "0002_ambitious_red_skull",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1779967933469,
+      "tag": "0003_young_king_bedlam",
+      "breakpoints": true
     }
   ]
 }

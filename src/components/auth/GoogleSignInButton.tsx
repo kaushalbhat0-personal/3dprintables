@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation"
 
 export function GoogleSignInButton() {
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("redirect") || "/admin/products"
+  const callbackUrl = searchParams.get("redirect") || "/profile"
 
   return (
     <button

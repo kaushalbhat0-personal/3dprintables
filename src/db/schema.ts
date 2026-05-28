@@ -1,6 +1,21 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core"
 import { relations } from "drizzle-orm"
 
+export const users = sqliteTable("users", {
+  id: text("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  name: text("name"),
+  image: text("image"),
+  role: text("role", { enum: ["admin", "user"] }).notNull().default("user"),
+  createdAt: text("created_at")
+    .notNull()
+    .default("(datetime('now'))"),
+  updatedAt: text("updated_at")
+    .notNull()
+    .default("(datetime('now'))"),
+  lastLoginAt: text("last_login_at"),
+})
+
 export const inquiries = sqliteTable("inquiries", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -21,6 +36,9 @@ export const inquiries = sqliteTable("inquiries", {
   })
     .notNull()
     .default("new"),
+  userId: text("user_id").references(() => users.id, {
+    onDelete: "set null",
+  }),
   createdAt: text("created_at")
     .notNull()
     .default("(datetime('now'))"),
@@ -135,5 +153,16 @@ export const testimonialRelations = relations(testimonials, ({ one }) => ({
   product: one(products, {
     fields: [testimonials.productId],
     references: [products.id],
+  }),
+}))
+
+export const userRelations = relations(users, ({ many }) => ({
+  inquiries: many(inquiries),
+}))
+
+export const inquiryRelations = relations(inquiries, ({ one }) => ({
+  user: one(users, {
+    fields: [inquiries.userId],
+    references: [users.id],
   }),
 }))

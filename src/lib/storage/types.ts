@@ -14,6 +14,7 @@ export interface Inquiry {
   sourcePage: string
   attachments?: string[]
   status: InquiryStatus
+  userId?: string | null
   createdAt: string
 }
 
