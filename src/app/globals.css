@@ -137,3 +137,13 @@
 @utility bg-warm-glow {
   background: linear-gradient(180deg, var(--warm-glow) 0%, transparent 100%);
 }
+
+@utility text-glow-amber {
+  text-shadow: 0 0 40px rgba(217, 119, 6, 0.12), 0 0 80px rgba(217, 119, 6, 0.06);
+}
+
+@media (width < 768px) {
+  .text-glow-amber {
+    text-shadow: 0 0 20px rgba(217, 119, 6, 0.08);
+  }
+}

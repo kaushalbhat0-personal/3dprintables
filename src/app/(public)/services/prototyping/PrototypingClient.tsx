@@ -31,7 +31,7 @@ export default function PrototypingClient() {
             </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
               Custom Prototyping &amp;<br />
-              <span className="bg-gradient-to-r from-primary via-amber-400 to-primary bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-amber-500 via-amber-300 to-amber-500 bg-clip-text text-transparent text-glow-amber">
                 Precision Parts
               </span>
             </h1>
