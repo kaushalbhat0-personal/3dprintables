@@ -19,6 +19,10 @@ export function lockBodyScroll(): void {
   lockCount++
 }
 
+export function resetScrollLock(): void {
+  savedScrollY = 0
+}
+
 export function unlockBodyScroll(): void {
   if (lockCount === 0) return
   lockCount--
