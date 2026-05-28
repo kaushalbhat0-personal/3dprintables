@@ -109,7 +109,7 @@ export function InstagramTrust() {
           className={cn(
             "inline-flex items-center justify-center gap-2.5 h-13 px-8 text-base font-medium rounded-xl",
             "bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] text-white",
-            "shadow-lg shadow-[#833AB4]/20 hover:shadow-xl hover:shadow-[#833AB4]/30",
+            "shadow-lg shadow-[#833AB4]/20 hover:shadow-xl hover:shadow-[#833AB4]/30 active:scale-[0.97]",
             "transition-all duration-200"
           )}
         >

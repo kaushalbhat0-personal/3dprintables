@@ -65,8 +65,8 @@ export default function StatuesClient() {
               rel="noopener noreferrer"
               className={cn(
                 "inline-flex items-center justify-center gap-2.5 h-13 px-8 text-base font-medium rounded-xl mt-6",
-                "bg-primary text-primary-foreground hover:bg-primary-hover",
-                "shadow-lg shadow-primary/25 transition-all duration-200"
+                "bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97]",
+                "shadow-lg shadow-primary/25 transition-all duration-200 select-none"
               )}
             >
               Start Your Custom Piece

@@ -217,7 +217,7 @@ export default async function ProductPage({
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2.5 h-13 px-8 text-base font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] shadow-lg shadow-[#25D366]/20 transition-all duration-200"
+                    className="inline-flex items-center justify-center gap-2.5 h-13 px-8 text-base font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] active:scale-[0.97] shadow-lg shadow-[#25D366]/20 transition-all duration-200"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -236,7 +236,7 @@ export default async function ProductPage({
                   </a>
                   <a
                     href={`/catalog?category=${product.category}`}
-                    className="inline-flex items-center justify-center gap-2 h-13 px-8 text-base font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 border border-border transition-all duration-200"
+                    className="inline-flex items-center justify-center gap-2 h-13 px-8 text-base font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 active:scale-[0.97] border border-border transition-all duration-200"
                   >
                     View Similar
                   </a>
@@ -385,7 +385,7 @@ export default async function ProductPage({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full h-13 text-base font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] shadow-lg shadow-[#25D366]/15 transition-all duration-200 active:scale-[0.98]"
+            className="flex items-center justify-center gap-2 w-full h-13 text-base font-medium rounded-xl bg-[#25D366] text-white hover:bg-[#20BD5A] shadow-lg shadow-[#25D366]/15 transition-all duration-150 active:scale-[0.97]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

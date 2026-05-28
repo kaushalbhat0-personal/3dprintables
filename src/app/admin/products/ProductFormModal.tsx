@@ -171,7 +171,7 @@ function ImagePreview({
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); onRemove() }}
-          className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 rounded-full bg-red-500/80 text-white hover:bg-red-500 active:scale-90 transition-all duration-200 opacity-0 group-hover:opacity-100"
+          className="absolute -top-2 -right-2 flex items-center justify-center w-7 h-7 md:w-6 md:h-6 rounded-full bg-red-500/80 text-white hover:bg-red-500 active:scale-90 transition-all duration-200 md:opacity-0 md:group-hover:opacity-100 opacity-100"
         >
           <X className="w-3 h-3" />
         </button>

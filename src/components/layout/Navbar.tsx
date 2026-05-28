@@ -81,10 +81,10 @@ export function Navbar() {
           <AuthStatus />
         </div>
 
-        <button
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200"
-          aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+          <button
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+            className="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-150"
+            aria-label={isMobileOpen ? "Close menu" : "Open menu"}
         >
           {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>

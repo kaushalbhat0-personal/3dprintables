@@ -61,10 +61,10 @@ export function AdminSidebar({ email, signOutForm }: { email: string; signOutFor
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-4 h-11 rounded-xl text-sm font-medium transition-all duration-200",
+                "flex items-center gap-3 px-4 h-11 rounded-xl text-sm font-medium transition-all duration-150",
                 isActive
                   ? "bg-primary/10 text-primary border border-primary/20"
-                  : "text-muted-foreground hover:text-foreground hover:bg-zinc-800 border border-transparent"
+                  : "text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:bg-zinc-800 border border-transparent select-none"
               )}
             >
               <Icon className="w-4 h-4 shrink-0" />
@@ -83,7 +83,7 @@ export function AdminSidebar({ email, signOutForm }: { email: string; signOutFor
     <>
       <button
         onClick={() => setOpen(true)}
-        className="fixed top-3 left-3 z-40 lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-zinc-900 border border-border text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 shadow-lg"
+          className="fixed top-3 left-3 z-40 lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-zinc-900 border border-border text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-150 shadow-lg"
         aria-label="Open sidebar"
       >
         <Menu className="w-5 h-5" />

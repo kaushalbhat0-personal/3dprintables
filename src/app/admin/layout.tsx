@@ -24,7 +24,7 @@ export default async function AdminLayout({
           >
             <button
               type="submit"
-              className="flex items-center gap-3 w-full h-11 px-4 rounded-xl text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 active:scale-[0.98] transition-all duration-200"
+              className="flex items-center gap-3 w-full h-11 px-4 rounded-xl text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 active:scale-[0.97] transition-all duration-150"
             >
               <LogOut className="w-4 h-4 shrink-0" />
               Sign Out

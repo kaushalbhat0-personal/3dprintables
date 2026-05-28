@@ -41,14 +41,14 @@ export function ProductPageGallery({ images, title }: ProductPageGalleryProps) {
           <>
             <button
               onClick={() => goTo(currentIndex - 1)}
-              className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 md:w-10 md:h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
+              className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
               aria-label="Previous image"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => goTo(currentIndex + 1)}
-              className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 md:w-10 md:h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
+              className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
               aria-label="Next image"
             >
               <ChevronRight className="w-5 h-5" />

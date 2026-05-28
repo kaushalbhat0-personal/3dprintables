@@ -77,7 +77,7 @@ export default function CosplayClient() {
                   src={item.image}
                   alt={item.title}
                   fill
-                  className="object-cover transition-all duration-500 hover:scale-105"
+                  className="object-cover transition-transform duration-500 hover:scale-105 active:scale-[0.98]"
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
               </div>
@@ -90,8 +90,8 @@ export default function CosplayClient() {
               rel="noopener noreferrer"
               className={cn(
                 "inline-flex items-center justify-center gap-2.5 h-13 px-8 text-base font-medium rounded-xl",
-                "bg-primary text-primary-foreground hover:bg-primary-hover",
-                "shadow-lg shadow-primary/25 transition-all duration-200"
+                "bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97]",
+                "shadow-lg shadow-primary/25 transition-all duration-200 select-none"
               )}
             >
               Start Your Cosplay Build

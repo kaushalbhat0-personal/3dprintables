@@ -128,13 +128,13 @@ export default function AdminProductsPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={loadProducts}
-              className="h-11 px-4 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 active:scale-[0.97] transition-all duration-200 border border-border"
+              className="h-11 px-4 text-sm font-medium rounded-xl bg-zinc-800 text-foreground hover:bg-zinc-700 active:scale-[0.97] transition-all duration-150 border border-border select-none"
             >
               Refresh
             </button>
             <button
               onClick={handleCreate}
-              className="h-11 px-4 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97] transition-all duration-200 inline-flex items-center gap-2"
+              className="h-11 px-4 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97] transition-all duration-150 inline-flex items-center gap-2 select-none"
             >
               <Plus className="w-4 h-4" />
               <span className="hidden xs:inline">Add Product</span>

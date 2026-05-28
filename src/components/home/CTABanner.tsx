@@ -36,9 +36,9 @@ export function CTABanner() {
               rel="noopener noreferrer"
               className={cn(
                 "inline-flex items-center justify-center gap-2.5 h-14 px-9 text-base font-medium rounded-xl",
-                "bg-primary text-primary-foreground hover:bg-primary-hover",
+                "bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97]",
                 "shadow-lg shadow-primary/25 transition-all duration-200",
-                "w-full sm:w-auto"
+                "w-full sm:w-auto select-none"
               )}
             >
               <MessageCircle className="w-5 h-5" />
@@ -49,9 +49,9 @@ export function CTABanner() {
               href="/catalog"
               className={cn(
                 "inline-flex items-center justify-center gap-2.5 h-14 px-9 text-base font-medium rounded-xl",
-                "border border-border text-foreground hover:bg-zinc-800 hover:border-zinc-600",
+                "border border-border text-foreground hover:bg-zinc-800 hover:border-zinc-600 active:scale-[0.97]",
                 "transition-all duration-200",
-                "w-full sm:w-auto"
+                "w-full sm:w-auto select-none"
               )}
             >
               <span>Browse Designs</span>

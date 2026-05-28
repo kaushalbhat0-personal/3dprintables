@@ -36,8 +36,8 @@ function StarRating({ rating, onChange }: { rating: number; onChange?: (r: numbe
           disabled={!onChange}
           onClick={() => onChange?.(s)}
           className={cn(
-            "transition-colors",
-            onChange ? "cursor-pointer hover:scale-110" : "cursor-default"
+            "transition-transform duration-150",
+            onChange ? "cursor-pointer hover:scale-110 active:scale-90" : "cursor-default"
           )}
         >
           <Star

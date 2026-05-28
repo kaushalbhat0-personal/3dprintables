@@ -29,10 +29,10 @@ export function FAQ() {
             <div
               key={item.id}
               className={cn(
-                "rounded-2xl border transition-all duration-200",
-                isOpen
-                  ? "border-zinc-600 bg-zinc-900"
-                  : "border-border bg-card hover:bg-card-hover hover:border-zinc-600"
+              "rounded-2xl border transition-all duration-200",
+              isOpen
+                ? "border-zinc-600 bg-zinc-900"
+                : "border-border bg-card hover:bg-card-hover hover:border-zinc-600 active:bg-card-hover"
               )}
             >
               <button

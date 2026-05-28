@@ -107,24 +107,24 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
         )}
       >
         <div className="absolute top-3 right-3 z-20 flex items-center gap-2">
-          <button
-            onClick={() => setFullscreen(!fullscreen)}
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-black/60 text-white/80 hover:bg-black/80 hover:text-white active:scale-90 transition-all duration-200 backdrop-blur-sm"
-            aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-          >
-            {fullscreen ? (
-              <Minimize2 className="w-4 h-4" />
-            ) : (
-              <Maximize2 className="w-4 h-4" />
-            )}
-          </button>
-          <button
-            onClick={onClose}
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-black/60 text-white/80 hover:bg-black/80 hover:text-white active:scale-90 transition-all duration-200 backdrop-blur-sm"
-            aria-label="Close gallery"
-          >
-            <X className="w-4 h-4" />
-          </button>
+            <button
+              onClick={() => setFullscreen(!fullscreen)}
+              className="flex items-center justify-center w-11 h-11 md:w-9 md:h-9 rounded-full bg-black/60 text-white/80 hover:bg-black/80 hover:text-white active:scale-90 transition-all duration-200 backdrop-blur-sm"
+              aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+            >
+              {fullscreen ? (
+                <Minimize2 className="w-4 h-4" />
+              ) : (
+                <Maximize2 className="w-4 h-4" />
+              )}
+            </button>
+            <button
+              onClick={onClose}
+              className="flex items-center justify-center w-11 h-11 md:w-9 md:h-9 rounded-full bg-black/60 text-white/80 hover:bg-black/80 hover:text-white active:scale-90 transition-all duration-200 backdrop-blur-sm"
+              aria-label="Close gallery"
+            >
+              <X className="w-4 h-4" />
+            </button>
         </div>
 
         <div
@@ -162,14 +162,14 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
             <>
               <button
                 onClick={() => goTo(currentIndex - 1)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
+                className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 md:w-10 md:h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={() => goTo(currentIndex + 1)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
+                className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 md:w-10 md:h-10 rounded-full bg-black/50 text-white hover:bg-black/70 active:scale-90 transition-all duration-200 backdrop-blur-sm z-10"
                 aria-label="Next image"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -206,7 +206,7 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
                       "relative shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200",
                       i === currentIndex
                         ? "border-primary opacity-100"
-                        : "border-transparent opacity-60 hover:opacity-100"
+                        : "border-transparent opacity-80 md:opacity-60 hover:opacity-100 active:opacity-100"
                     )}
                   >
                     <Image
