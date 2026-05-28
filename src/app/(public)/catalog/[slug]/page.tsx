@@ -105,11 +105,9 @@ export default async function ProductPage({
       />
 
       <article className="pb-28 md:pb-0">
-        <section className="pt-20 md:pt-24">
-          <div className="container-main relative">
-            <div className="mb-4 md:mb-6">
-              <BackButton fallbackHref="/catalog" sticky />
-            </div>
+        <section className="pt-[7.5rem] md:pt-24">
+          <div className="container-main">
+            <BackButton fallbackHref="/catalog" sticky className="mb-4 md:mb-6" />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
               <ProductPageGallery images={allImages} title={product.title} />
 

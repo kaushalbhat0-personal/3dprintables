@@ -16,7 +16,7 @@ const variantStyles: Record<string, string> = {
   ghost:
     "text-muted-foreground hover:text-foreground hover:bg-zinc-800/50",
   glass:
-    "bg-black/40 backdrop-blur-sm border border-border/60 text-foreground hover:bg-black/60 shadow-sm",
+    "bg-black/55 backdrop-blur-md border border-white/10 text-foreground hover:bg-black/70 shadow-sm",
   solid:
     "bg-surface border border-border text-foreground hover:bg-zinc-800 shadow-sm",
 }
@@ -40,7 +40,7 @@ export function BackButton({
         "min-h-[44px] min-w-[44px] h-11 px-4",
         variantStyles[variant],
         sticky &&
-          "fixed top-[calc(env(safe-area-inset-top)+0.75rem)] left-4 z-30 md:static md:z-auto",
+          "fixed top-[4.5rem] left-4 z-40 md:static md:z-auto",
         className,
       )}
       aria-label={`Go back${fallbackHref !== "/" ? ` to previous page` : ""}`}
