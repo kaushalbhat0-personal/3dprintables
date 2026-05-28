@@ -148,7 +148,7 @@ export default function AdminTestimonialsPage() {
         {showForm && (
           <form
             onSubmit={handleFormSubmit}
-            className="mb-8 rounded-2xl bg-zinc-900/50 border border-border p-5 sm:p-6 space-y-4"
+            className="mb-8 rounded-2xl bg-surface border border-border p-5 sm:p-6 space-y-4"
           >
             <h3 className="text-sm font-semibold text-foreground">
               {editing ? "Edit Testimonial" : "New Testimonial"}
@@ -159,19 +159,19 @@ export default function AdminTestimonialsPage() {
                 required
                 defaultValue={editing?.name ?? ""}
                 placeholder="Customer name *"
-                className="w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
+                className="w-full h-11 px-3.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
               />
               <input
                 name="role"
                 defaultValue={editing?.role ?? ""}
                 placeholder="Role (e.g. Founder)"
-                className="w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
+                className="w-full h-11 px-3.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
               />
               <input
                 name="company"
                 defaultValue={editing?.company ?? ""}
                 placeholder="Company (e.g. Acme Corp)"
-                className="w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
+                className="w-full h-11 px-3.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
               />
             </div>
             <textarea
@@ -180,7 +180,7 @@ export default function AdminTestimonialsPage() {
               rows={3}
               defaultValue={editing?.content ?? ""}
               placeholder="Testimonial content *"
-              className="w-full px-3.5 py-2.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all resize-y"
+              className="w-full px-3.5 py-2.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all resize-y"
             />
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
@@ -204,11 +204,11 @@ export default function AdminTestimonialsPage() {
                   name="imageUrl"
                   defaultValue={editing?.imageUrl ?? ""}
                   placeholder="/images/avatar.jpg"
-                  className="w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
+                  className="w-full h-11 px-3.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
                 />
               </div>
               <div className="flex items-end pb-1.5">
-                <label className="flex items-center gap-2.5 h-11 px-3.5 rounded-xl bg-zinc-950 border border-border cursor-pointer hover:bg-zinc-900 transition-colors w-full">
+                <label className="flex items-center gap-2.5 h-11 px-3.5 rounded-xl bg-surface border border-border cursor-pointer hover:bg-zinc-900 transition-colors w-full">
                   <input
                     type="checkbox"
                     name="featured"
@@ -266,7 +266,7 @@ export default function AdminTestimonialsPage() {
             <div className="hidden md:block rounded-2xl border border-border overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-zinc-900/80 border-b border-border">
+                  <tr className="bg-surface border-b border-border">
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Name</th>
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Preview</th>
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Rating</th>
@@ -277,7 +277,7 @@ export default function AdminTestimonialsPage() {
                 </thead>
                 <tbody>
                   {testimonials.map((t) => (
-                    <tr key={t.id} className="border-b border-border/50 hover:bg-zinc-900/30 transition-colors last:border-0">
+                    <tr key={t.id} className="border-b border-border/50 hover:bg-surface/30 transition-colors last:border-0">
                       <td className="px-5 py-4">
                         <p className="text-foreground font-medium">{t.name}</p>
                         {(t.role || t.company) && (
@@ -339,7 +339,7 @@ export default function AdminTestimonialsPage() {
             {/* Mobile cards */}
             <div className="md:hidden space-y-3">
               {testimonials.map((t) => (
-                <div key={t.id} className="rounded-2xl bg-zinc-900/50 border border-border p-4">
+                <div key={t.id} className="rounded-2xl bg-surface border border-border p-4">
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-semibold text-foreground truncate">{t.name}</p>

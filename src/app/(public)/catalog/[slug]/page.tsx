@@ -131,7 +131,7 @@ export default async function ProductPage({
 
                 <div className="mt-8 grid grid-cols-2 gap-4">
                   {product.material && (
-                    <div className="rounded-xl bg-zinc-900/50 border border-border p-4">
+                    <div className="rounded-xl bg-surface border border-border p-4">
                       <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-1">
                         Material
                       </p>
@@ -141,7 +141,7 @@ export default async function ProductPage({
                     </div>
                   )}
                   {product.dimensions && (
-                    <div className="rounded-xl bg-zinc-900/50 border border-border p-4">
+                    <div className="rounded-xl bg-surface border border-border p-4">
                       <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-1">
                         Dimensions
                       </p>
@@ -151,7 +151,7 @@ export default async function ProductPage({
                     </div>
                   )}
                   {product.printTime && (
-                    <div className="rounded-xl bg-zinc-900/50 border border-border p-4">
+                    <div className="rounded-xl bg-surface border border-border p-4">
                       <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-1">
                         Print Time
                       </p>
@@ -161,7 +161,7 @@ export default async function ProductPage({
                     </div>
                   )}
                   {product.finishType && (
-                    <div className="rounded-xl bg-zinc-900/50 border border-border p-4">
+                    <div className="rounded-xl bg-surface border border-border p-4">
                       <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-1">
                         Finish
                       </p>
@@ -268,7 +268,7 @@ export default async function ProductPage({
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {product.material && (
-                <div className="rounded-2xl bg-zinc-900/50 border border-border p-5">
+                <div className="rounded-2xl bg-surface border border-border p-5">
                   <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-1">
                     Material
                   </p>
@@ -281,7 +281,7 @@ export default async function ProductPage({
                 </div>
               )}
               {product.finishType && (
-                <div className="rounded-2xl bg-zinc-900/50 border border-border p-5">
+                <div className="rounded-2xl bg-surface border border-border p-5">
                   <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-1">
                     Finish
                   </p>
@@ -294,7 +294,7 @@ export default async function ProductPage({
                 </div>
               )}
               {product.technologies && product.technologies.length > 0 && (
-                <div className="rounded-2xl bg-zinc-900/50 border border-border p-5">
+                <div className="rounded-2xl bg-surface border border-border p-5">
                   <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-1">
                     Technology
                   </p>
@@ -306,7 +306,7 @@ export default async function ProductPage({
                   </p>
                 </div>
               )}
-              <div className="rounded-2xl bg-zinc-900/50 border border-border p-5">
+              <div className="rounded-2xl bg-surface border border-border p-5">
                 <p className="text-[10px] font-medium tracking-wider uppercase text-muted-foreground mb-1">
                   Craft Type
                 </p>

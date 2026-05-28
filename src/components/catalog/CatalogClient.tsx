@@ -91,7 +91,7 @@ export function CatalogClient({ products }: { products: Product[] }) {
 
       <section className="pb-24 md:pb-32">
         <div className="container-main">
-          <div className="max-w-xl mx-auto text-center rounded-2xl bg-zinc-900/50 border border-border p-10 md:p-12">
+          <div className="max-w-xl mx-auto text-center rounded-2xl bg-surface border border-border p-10 md:p-12">
             <h2 className="text-xl sm:text-2xl font-semibold text-foreground">
               Have Something Specific in Mind?
             </h2>

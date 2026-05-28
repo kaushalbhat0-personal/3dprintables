@@ -12,7 +12,7 @@ export default async function AdminLayout({
   if (!session?.user?.isAdmin) redirect("/admin/login")
 
   return (
-    <div className="min-h-screen bg-zinc-950 lg:flex">
+    <div className="min-h-screen bg-background lg:flex">
       <AdminSidebar
         email={session.user.email ?? ""}
         signOutForm={

@@ -19,7 +19,7 @@ export function ProductCard({ product }: { product: Product }) {
     <Card as="article" className="flex flex-col">
       <Link
         href={`/catalog/${product.slug}`}
-        className="block relative aspect-[4/5] overflow-hidden bg-zinc-900"
+        className="block relative aspect-[4/5] overflow-hidden bg-surface"
         style={getBlurBackgroundStyle(product.featuredImage)}
       >
         <Image

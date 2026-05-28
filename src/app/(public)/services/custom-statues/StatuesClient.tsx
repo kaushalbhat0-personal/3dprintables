@@ -40,7 +40,7 @@ export default function StatuesClient() {
             {finishes.map((f) => {
               const Icon = f.icon
               return (
-                <div key={f.title} className="rounded-2xl bg-zinc-900/50 border border-border p-6 md:p-8">
+                <div key={f.title} className="rounded-2xl bg-surface border border-border p-6 md:p-8">
                   <div className="flex items-start gap-4">
                     <Icon className="w-6 h-6 text-primary shrink-0 mt-0.5" />
                     <div>
@@ -53,7 +53,7 @@ export default function StatuesClient() {
             })}
           </div>
 
-          <div className="mt-12 rounded-2xl bg-zinc-900/50 border border-border p-8 md:p-10 text-center max-w-xl mx-auto">
+          <div className="mt-12 rounded-2xl bg-surface border border-border p-8 md:p-10 text-center max-w-xl mx-auto">
             <h3 className="text-lg font-semibold text-foreground">Have a Design in Mind?</h3>
             <p className="mt-2 text-sm text-muted leading-relaxed">
               Send us a reference image, sketch, or 3D file. We&apos;ll review,

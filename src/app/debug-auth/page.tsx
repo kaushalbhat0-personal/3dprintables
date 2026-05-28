@@ -14,7 +14,7 @@ export default async function DebugAuthPage() {
   const adminEmailRaw = process.env.ADMIN_GOOGLE_EMAIL
 
   return (
-    <div className="min-h-screen bg-zinc-950 p-8 text-sm font-mono text-foreground">
+    <div className="min-h-screen bg-background p-8 text-sm font-mono text-foreground">
       <h1 className="text-lg font-bold mb-4">Auth Debug</h1>
 
       <section className="mb-6">

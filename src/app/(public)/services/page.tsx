@@ -62,7 +62,7 @@ export default function ServicesPage() {
               <Link
                 key={svc.slug}
                 href={`/services/${svc.slug}`}
-                className="group rounded-2xl bg-zinc-900/50 border border-border p-6 md:p-8 hover:bg-zinc-800/50 hover:border-primary/30 active:bg-zinc-800/50 active:border-primary/30 transition-all duration-200"
+                className="group rounded-2xl bg-surface border border-border p-6 md:p-8 hover:bg-zinc-800/50 hover:border-primary/30 active:bg-zinc-800/50 active:border-primary/30 transition-all duration-200"
               >
                 <div className="flex items-start gap-4">
                   <div className="shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary">

@@ -191,13 +191,13 @@ export default function AdminInquiriesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search name, phone, or product..."
-              className="w-full h-11 pl-10 pr-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
+              className="w-full h-11 pl-10 pr-3.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
             />
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as InquiryStatus | "all")}
-            className="h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="h-11 px-3.5 text-sm bg-surface border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
           >
             <option value="all">All Status</option>
             {statusOptions.map((s) => (
@@ -207,7 +207,7 @@ export default function AdminInquiriesPage() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
+            className="h-11 px-3.5 text-sm bg-surface border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30"
           >
             <option value="all">All Categories</option>
             {allCategories.map((c) => (
@@ -218,7 +218,7 @@ export default function AdminInquiriesPage() {
             onClick={() => setSortOrder((o) => o === "newest" ? "oldest" : "newest")}
             className={cn(
               "h-11 px-4 text-sm font-medium rounded-xl border transition-all duration-200 inline-flex items-center gap-2 active:scale-[0.97]",
-              "bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50"
+              "bg-surface text-muted-foreground hover:text-foreground hover:border-primary/50"
             )}
           >
             <ArrowUpDown className="w-4 h-4" />
@@ -264,7 +264,7 @@ export default function AdminInquiriesPage() {
             <div className="hidden md:block rounded-2xl border border-border overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-zinc-900/80 border-b border-border">
+                  <tr className="bg-surface border-b border-border">
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Contact</th>
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Product</th>
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">Qty</th>
@@ -275,7 +275,7 @@ export default function AdminInquiriesPage() {
                 </thead>
                 <tbody>
                   {filtered.map((inq) => (
-                    <tr key={inq.id} className="border-b border-border/50 hover:bg-zinc-900/30 transition-colors last:border-0">
+                    <tr key={inq.id} className="border-b border-border/50 hover:bg-surface/30 transition-colors last:border-0">
                       <td className="px-5 py-4">
                         <p className="text-foreground font-medium">{inq.name}</p>
                         <p className="text-xs text-muted-foreground mt-0.5">{inq.email}</p>
@@ -325,7 +325,7 @@ export default function AdminInquiriesPage() {
             {/* Mobile cards */}
             <div className="md:hidden space-y-3">
               {filtered.map((inq) => (
-                <div key={inq.id} className="rounded-2xl bg-zinc-900/50 border border-border p-4">
+                <div key={inq.id} className="rounded-2xl bg-surface border border-border p-4">
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-semibold text-foreground truncate">{inq.name}</p>

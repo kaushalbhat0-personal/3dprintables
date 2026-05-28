@@ -7,7 +7,7 @@ export default async function LoginPage() {
   if (session?.user?.isAdmin) redirect("/admin/products")
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-background flex items-center justify-center p-6">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-foreground">Admin Login</h1>

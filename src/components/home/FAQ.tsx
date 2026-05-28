@@ -31,7 +31,7 @@ export function FAQ() {
               className={cn(
               "rounded-2xl border transition-all duration-200",
               isOpen
-                ? "border-zinc-600 bg-zinc-900"
+                  ? "border-zinc-600 bg-surface"
                 : "border-border bg-card hover:bg-card-hover hover:border-zinc-600 active:bg-card-hover"
               )}
             >

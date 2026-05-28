@@ -72,7 +72,7 @@ export function InquiryForm() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your name"
-                    className="w-full h-11 px-4 text-sm bg-zinc-900 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
+                    className="w-full h-11 px-4 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
                   />
                 </div>
 
@@ -89,7 +89,7 @@ export function InquiryForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="w-full h-11 px-4 text-sm bg-zinc-900 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
+                    className="w-full h-11 px-4 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
                   />
                 </div>
               </div>
@@ -105,7 +105,7 @@ export function InquiryForm() {
                   id="projectType"
                   value={projectType}
                   onChange={(e) => setProjectType(e.target.value)}
-                  className="w-full h-11 px-4 text-sm bg-zinc-900 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 appearance-none"
+                  className="w-full h-11 px-4 text-sm bg-surface border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 appearance-none"
                 >
                   <option value="">Select a category</option>
                   {projectTypes.map((type) => (
@@ -130,7 +130,7 @@ export function InquiryForm() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Describe your project — dimensions, quantity, references, material preferences, or any other details..."
-                  className="w-full px-4 py-3 text-sm bg-zinc-900 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 resize-y min-h-[100px]"
+                  className="w-full px-4 py-3 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 resize-y min-h-[100px]"
                 />
               </div>
 

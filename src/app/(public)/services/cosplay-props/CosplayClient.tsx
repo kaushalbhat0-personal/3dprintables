@@ -48,7 +48,7 @@ export default function CosplayClient() {
             {features.map((f) => {
               const Icon = f.icon
               return (
-                <div key={f.title} className="rounded-2xl bg-zinc-900/50 border border-border p-6 md:p-8">
+                <div key={f.title} className="rounded-2xl bg-surface border border-border p-6 md:p-8">
                   <div className="flex items-start gap-4">
                     <Icon className="w-6 h-6 text-primary shrink-0 mt-0.5" />
                     <div>
@@ -70,7 +70,7 @@ export default function CosplayClient() {
             {gallery.map((item) => (
               <div
                 key={item.title}
-                className="relative aspect-square rounded-2xl overflow-hidden bg-zinc-800 border border-border"
+                className="relative aspect-square rounded-2xl overflow-hidden bg-surface border border-border"
                 style={getBlurBackgroundStyle(item.image)}
               >
                 <Image

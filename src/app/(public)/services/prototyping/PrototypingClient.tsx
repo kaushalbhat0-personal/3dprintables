@@ -68,7 +68,7 @@ export default function PrototypingClient() {
               })}
             </div>
 
-            <div className="rounded-2xl bg-zinc-900/50 border border-border p-6 md:p-8">
+            <div className="rounded-2xl bg-surface border border-border p-6 md:p-8">
               <h2 className="text-lg font-semibold text-foreground mb-5">Specifications</h2>
               <div className="space-y-4">
                 {specs.map((spec) => (

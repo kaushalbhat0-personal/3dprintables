@@ -117,11 +117,11 @@ export function QuickInquiry({
   }
 
   const inputClass =
-    "w-full h-11 px-4 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
+    "w-full h-11 px-4 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
 
   return (
-    <div className="fixed inset-0 z-60 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 pt-[10vh] overflow-y-auto">
-      <div className="relative w-full max-w-md rounded-2xl bg-zinc-900 border border-border p-6 md:p-8 my-8">
+    <div className="fixed inset-0 z-60 flex items-start justify-center bg-surface/60 backdrop-blur-sm p-4 pt-[10vh] overflow-y-auto">
+      <div className="relative w-full max-w-md rounded-2xl bg-card border border-border p-6 md:p-8 my-8">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 flex items-center justify-center w-8 h-8 rounded-full bg-zinc-800 text-muted-foreground hover:text-foreground hover:bg-zinc-700 active:scale-90 transition-all duration-200"
@@ -261,7 +261,7 @@ export function QuickInquiry({
                         "flex-1 h-11 text-sm font-medium rounded-xl border transition-all duration-200",
                         needsCustomization === opt
                           ? "bg-primary text-primary-foreground border-primary"
-                          : "bg-zinc-950 text-muted-foreground border-border hover:bg-zinc-800 hover:text-foreground",
+                          : "bg-surface text-muted-foreground border-border hover:bg-zinc-800 hover:text-foreground",
                         "active:scale-[0.97]"
                       )}
                     >
@@ -285,7 +285,7 @@ export function QuickInquiry({
                     value={customReq}
                     onChange={(e) => setCustomReq(e.target.value)}
                     placeholder="Size changes, color, material, engraving, modifications..."
-                    className="w-full px-4 py-3 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 resize-y min-h-[80px]"
+                    className="w-full px-4 py-3 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 resize-y min-h-[80px]"
                   />
                 </div>
               )}

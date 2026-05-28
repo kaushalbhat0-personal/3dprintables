@@ -83,7 +83,7 @@ export function AdminSidebar({ email, signOutForm }: { email: string; signOutFor
     <>
       <button
         onClick={() => setOpen(true)}
-          className="fixed top-3 left-3 z-40 lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-zinc-900 border border-border text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-150 shadow-lg"
+          className="fixed top-3 left-3 z-40 lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-surface border border-border text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-150 shadow-lg"
         aria-label="Open sidebar"
       >
         <Menu className="w-5 h-5" />
@@ -91,14 +91,14 @@ export function AdminSidebar({ email, signOutForm }: { email: string; signOutFor
 
       {open && (
         <div
-          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-30 bg-zinc-950/60 backdrop-blur-sm lg:hidden"
           onClick={() => setOpen(false)}
         />
       )}
 
       <aside
         className={cn(
-          "fixed top-0 left-0 z-40 w-72 h-full bg-zinc-900 border-r border-border transform transition-transform duration-300 ease-out lg:translate-x-0 lg:static lg:z-auto",
+          "fixed top-0 left-0 z-40 w-72 h-full bg-surface border-r border-border transform transition-transform duration-300 ease-out lg:translate-x-0 lg:static lg:z-auto",
           open ? "translate-x-0" : "-translate-x-full"
         )}
       >

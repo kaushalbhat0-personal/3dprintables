@@ -25,7 +25,7 @@ export function ProductPageGallery({ images, title }: ProductPageGalleryProps) {
   return (
     <div className="lg:sticky lg:top-24">
       <div
-        className="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden bg-zinc-900 border border-border"
+        className="relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden bg-surface border border-border"
         style={getBlurBackgroundStyle(images[currentIndex])}
       >
         <Image

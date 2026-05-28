@@ -59,7 +59,7 @@ export function InstagramTrust() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-zinc-900/50 border border-border/50"
+            className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-surface border border-border/50"
           >
             <stat.icon className="w-5 h-5 text-primary" />
             <span className="text-xl font-bold text-foreground">

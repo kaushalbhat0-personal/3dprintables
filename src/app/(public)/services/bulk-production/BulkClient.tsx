@@ -47,7 +47,7 @@ export default function BulkClient() {
             {benefits.map((b) => {
               const Icon = b.icon
               return (
-                <div key={b.title} className="rounded-2xl bg-zinc-900/50 border border-border p-6 md:p-8">
+                <div key={b.title} className="rounded-2xl bg-surface border border-border p-6 md:p-8">
                   <div className="flex items-start gap-4">
                     <Icon className="w-6 h-6 text-primary shrink-0 mt-0.5" />
                     <div>
@@ -67,7 +67,7 @@ export default function BulkClient() {
           <h2 className="text-xl font-semibold text-foreground mb-6">How It Works</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((s) => (
-              <div key={s.num} className="rounded-2xl bg-zinc-900/50 border border-border p-6 md:p-8 text-center">
+              <div key={s.num} className="rounded-2xl bg-surface border border-border p-6 md:p-8 text-center">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-lg font-bold mx-auto">
                   {s.num}
                 </div>

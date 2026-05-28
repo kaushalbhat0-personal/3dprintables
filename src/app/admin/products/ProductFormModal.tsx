@@ -28,11 +28,11 @@ interface UploadInfo {
   error?: string
 }
 
-const inputClass =
-  "w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
+  const inputClass =
+    "w-full h-11 px-3.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
 
 const selectClass =
-  "w-full h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
+    "w-full h-11 px-3.5 text-sm bg-surface border border-border rounded-xl text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
 
 const labelClass = "block text-xs font-medium text-muted-foreground mb-1.5"
 
@@ -115,7 +115,7 @@ function UploadDropZone({
         "flex flex-col items-center justify-center gap-2 w-full h-24 sm:h-28 rounded-xl border-2 border-dashed transition-all duration-200 cursor-pointer",
         dragging
           ? "border-primary bg-primary/5 text-primary"
-          : "border-border bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50",
+          : "border-border bg-surface text-muted-foreground hover:text-foreground hover:border-primary/50",
         (disabled || uploading) && "opacity-50 pointer-events-none"
       )}
     >
@@ -367,9 +367,9 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl sm:my-8 rounded-none sm:rounded-2xl bg-zinc-900 border-0 sm:border border-border shadow-2xl min-h-[100dvh] sm:min-h-0 max-h-[100dvh] sm:max-h-[85dvh] flex flex-col">
-        <div className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border bg-zinc-900 shrink-0">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 bg-surface/60 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl sm:my-8 rounded-none sm:rounded-2xl bg-card border-0 sm:border border-border shadow-2xl min-h-[100dvh] sm:min-h-0 max-h-[100dvh] sm:max-h-[85dvh] flex flex-col">
+        <div className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-6 py-4 border-b border-border bg-card shrink-0">
           <div className="min-w-0 flex-1">
             <h2 className="text-base sm:text-lg font-semibold text-foreground truncate">
               {isEdit ? "Edit Product" : "Add Product"}
@@ -417,7 +417,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                         required
                         defaultValue={product?.slug ?? ""}
                         onFocus={handleSlugEdit}
-                        className="w-full h-11 pl-7 pr-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
+                        className="w-full h-11 pl-7 pr-3.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200"
                         placeholder="golden-hanuman-statue"
                       />
                     </div>
@@ -441,7 +441,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                     name="description"
                     rows={4}
                     defaultValue={product?.description ?? ""}
-                    className="w-full px-3.5 py-2.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 resize-y"
+                    className="w-full px-3.5 py-2.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 resize-y"
                     placeholder="Detailed product description..."
                   />
                 </div>
@@ -557,7 +557,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                         setVideos(next)
                       }}
                       placeholder="https://res.cloudinary.com/..."
-                      className="flex-1 h-11 px-3.5 text-sm bg-zinc-950 border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 font-mono text-xs"
+                      className="flex-1 h-11 px-3.5 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all duration-200 font-mono text-xs"
                     />
                     <button
                       type="button"
@@ -571,7 +571,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                 <button
                   type="button"
                   onClick={() => setVideos((prev) => [...prev, ""])}
-                  className="flex items-center justify-center gap-2 w-full h-11 rounded-xl border-2 border-dashed border-border bg-zinc-950 text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-200 text-sm"
+                  className="flex items-center justify-center gap-2 w-full h-11 rounded-xl border-2 border-dashed border-border bg-surface text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all duration-200 text-sm"
                 >
                   <Upload className="w-4 h-4" />
                   Add Video URL
@@ -654,19 +654,19 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                  <label className="flex items-center gap-3 h-11 px-3.5 rounded-xl bg-zinc-950 border border-border cursor-pointer hover:bg-zinc-900 transition-colors active:scale-[0.99]">
+                  <label className="flex items-center gap-3 h-11 px-3.5 rounded-xl bg-surface border border-border cursor-pointer hover:bg-zinc-900 transition-colors active:scale-[0.99]">
                     <input type="checkbox" name="isActive" defaultChecked={product?.isActive ?? false} className="w-4 h-4 rounded border-border bg-zinc-800 accent-primary" />
                     <span className="text-sm text-foreground">Published</span>
                   </label>
-                  <label className="flex items-center gap-3 h-11 px-3.5 rounded-xl bg-zinc-950 border border-border cursor-pointer hover:bg-zinc-900 transition-colors active:scale-[0.99]">
+                  <label className="flex items-center gap-3 h-11 px-3.5 rounded-xl bg-surface border border-border cursor-pointer hover:bg-zinc-900 transition-colors active:scale-[0.99]">
                     <input type="checkbox" name="isFeatured" defaultChecked={product?.featured ?? false} className="w-4 h-4 rounded border-border bg-zinc-800 accent-primary" />
                     <span className="text-sm text-foreground">Featured</span>
                   </label>
-                  <label className="flex items-center gap-3 h-11 px-3.5 rounded-xl bg-zinc-950 border border-border cursor-pointer hover:bg-zinc-900 transition-colors active:scale-[0.99]">
+                  <label className="flex items-center gap-3 h-11 px-3.5 rounded-xl bg-surface border border-border cursor-pointer hover:bg-zinc-900 transition-colors active:scale-[0.99]">
                     <input type="checkbox" name="supportsBulkOrders" defaultChecked={product?.supportsBulkOrders ?? false} className="w-4 h-4 rounded border-border bg-zinc-800 accent-primary" />
                     <span className="text-sm text-foreground">Bulk Orders</span>
                   </label>
-                  <label className="flex items-center gap-3 h-11 px-3.5 rounded-xl bg-zinc-950 border border-border cursor-pointer hover:bg-zinc-900 transition-colors active:scale-[0.99]">
+                  <label className="flex items-center gap-3 h-11 px-3.5 rounded-xl bg-surface border border-border cursor-pointer hover:bg-zinc-900 transition-colors active:scale-[0.99]">
                     <input type="checkbox" name="customizable" defaultChecked={product?.customizable ?? false} className="w-4 h-4 rounded border-border bg-zinc-800 accent-primary" />
                     <span className="text-sm text-foreground">Customizable</span>
                   </label>
@@ -683,7 +683,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
           )}
 
           {/* Actions */}
-          <div className="sticky bottom-0 bg-zinc-900 border-t border-border flex items-center justify-end gap-3 px-4 sm:px-6 py-4 shrink-0">
+          <div className="sticky bottom-0 bg-card border-t border-border flex items-center justify-end gap-3 px-4 sm:px-6 py-4 shrink-0">
             <button
               type="button"
               onClick={onClose}

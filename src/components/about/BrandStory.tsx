@@ -35,7 +35,7 @@ export function BrandStory() {
           </div>
 
           <div
-            className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-900 border border-border group"
+            className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-surface border border-border group"
             style={getBlurBackgroundStyle("/images/products/prototype-part.png")}
           >
             <Image

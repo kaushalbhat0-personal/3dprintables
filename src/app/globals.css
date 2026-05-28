@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --muted: #a1a1aa;
-  --muted-foreground: #71717a;
-  --border: #27272a;
-  --card: #18181b;
-  --card-hover: #212124;
+  --background: #121214;
+  --surface: #19191d;
+  --foreground: #e8e8eb;
+  --muted: #a1a1ab;
+  --muted-foreground: #72727a;
+  --border: #2c2c30;
+  --card: #1c1c20;
+  --card-hover: #242428;
   --primary: #d97706;
-  --primary-foreground: #0a0a0a;
+  --primary-foreground: #121214;
   --primary-hover: #f59e0b;
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
+  --secondary: #2c2c30;
+  --secondary-foreground: #e8e8eb;
+  --warm-glow: rgba(217, 119, 6, 0.03);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
@@ -129,4 +132,8 @@
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+@utility bg-warm-glow {
+  background: linear-gradient(180deg, var(--warm-glow) 0%, transparent 100%);
 }

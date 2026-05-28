@@ -178,7 +178,7 @@ export default function AdminProductsPage() {
             <div className="hidden md:block rounded-2xl border border-border overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-zinc-900/80 border-b border-border">
+                  <tr className="bg-surface border-b border-border">
                     <th className="text-left px-5 py-4 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                       Product
                     </th>
@@ -203,7 +203,7 @@ export default function AdminProductsPage() {
                   {products.map((product) => (
                     <tr
                       key={product.id}
-                      className="border-b border-border/50 hover:bg-zinc-900/30 transition-colors last:border-0"
+                      className="border-b border-border/50 hover:bg-surface/30 transition-colors last:border-0"
                     >
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
@@ -284,7 +284,7 @@ export default function AdminProductsPage() {
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className="rounded-2xl bg-zinc-900/50 border border-border p-4"
+                  className="rounded-2xl bg-surface border border-border p-4"
                 >
                   <div className="flex items-start gap-3 mb-3">
                     {product.featuredImage && (

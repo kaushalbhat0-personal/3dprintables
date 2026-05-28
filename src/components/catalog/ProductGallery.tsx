@@ -97,12 +97,12 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-60 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8"
+      className="fixed inset-0 z-60 flex items-center justify-center bg-zinc-950/75 backdrop-blur-sm p-4 md:p-8"
       onClick={handleOverlayClick}
     >
       <div
         className={cn(
-          "relative w-full max-w-5xl rounded-2xl bg-zinc-900 border border-border overflow-hidden transition-all duration-300",
+          "relative w-full max-w-5xl rounded-2xl bg-card border border-border overflow-hidden transition-all duration-300",
           fullscreen ? "max-w-none h-full rounded-none border-0" : "max-h-[90vh]"
         )}
       >
@@ -129,7 +129,7 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
 
         <div
           className={cn(
-            "relative overflow-hidden bg-zinc-950",
+            "relative overflow-hidden bg-background",
             fullscreen ? "h-full" : "aspect-[4/3] md:aspect-[16/9]"
           )}
           onTouchStart={handleTouchStart}

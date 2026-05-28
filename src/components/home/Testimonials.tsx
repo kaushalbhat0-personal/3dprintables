@@ -44,7 +44,7 @@ export function Testimonials({ testimonials = [] }: { testimonials?: Testimonial
 
       {testimonials.length > 0 ? (
         <div className="mt-12 md:mt-16 max-w-3xl mx-auto">
-          <div className="relative rounded-2xl bg-zinc-900/50 border border-border p-8 md:p-10">
+          <div className="relative rounded-2xl bg-card border border-border p-8 md:p-10">
             <Quote className="absolute top-6 left-6 w-8 h-8 text-primary/10" />
 
             <div className="relative z-10 min-h-[180px] flex flex-col justify-center">
@@ -88,14 +88,14 @@ export function Testimonials({ testimonials = [] }: { testimonials?: Testimonial
               <>
                 <button
                   onClick={prev}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors flex items-center justify-center backdrop-blur-sm"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-zinc-950/40 text-white hover:bg-zinc-950/60 transition-colors flex items-center justify-center backdrop-blur-sm"
                   aria-label="Previous"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={next}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors flex items-center justify-center backdrop-blur-sm"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-zinc-950/40 text-white hover:bg-zinc-950/60 transition-colors flex items-center justify-center backdrop-blur-sm"
                   aria-label="Next"
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -128,7 +128,7 @@ export function Testimonials({ testimonials = [] }: { testimonials?: Testimonial
           ].map((item) => (
             <Card key={item.title} as="article" className="flex flex-col group">
               <div
-                className="relative aspect-[4/5] overflow-hidden bg-zinc-900"
+                className="relative aspect-[4/5] overflow-hidden bg-surface"
                 style={getBlurBackgroundStyle(item.image)}
               >
                 <Image
@@ -140,7 +140,7 @@ export function Testimonials({ testimonials = [] }: { testimonials?: Testimonial
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-3 left-3">
-                  <span className="inline-block px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded-full bg-background/80 backdrop-blur-sm text-muted-foreground border border-border/50">{item.category}</span>
+                  <span className="inline-block px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded-full bg-card/80 backdrop-blur-sm text-muted-foreground border border-border/50">{item.category}</span>
                 </div>
               </div>
               <div className="flex flex-col flex-1 p-5">
@@ -154,7 +154,7 @@ export function Testimonials({ testimonials = [] }: { testimonials?: Testimonial
 
       <div className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
         {metrics.map((stat) => (
-          <div key={stat.label} className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-zinc-900/50 border border-border/50">
+          <div key={stat.label} className="flex flex-col items-center gap-2 p-5 rounded-2xl bg-surface border border-border/50">
             <stat.icon className="w-5 h-5 text-primary" />
             <span className="text-xl font-bold text-foreground">{stat.value}</span>
             <span className="text-xs text-muted-foreground text-center">{stat.label}</span>
