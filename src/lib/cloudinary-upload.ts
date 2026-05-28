@@ -91,12 +91,20 @@ export async function uploadToCloudinary(
   }
 }
 
+export interface AbortableUpload {
+  promise: Promise<UploadResult>
+  abort: () => void
+}
+
 export function uploadToCloudinaryWithProgress(
   file: File,
   options: UploadOptions = {},
   onProgress?: (pct: number) => void
-): Promise<UploadResult> {
-  return new Promise(async (resolve, reject) => {
+): AbortableUpload {
+  const xhr = new XMLHttpRequest()
+  let rejected = false
+
+  const promise = new Promise<UploadResult>(async (resolve, reject) => {
     try {
       const validation = validateFile(file)
       if (!validation.valid) {
@@ -104,6 +112,7 @@ export function uploadToCloudinaryWithProgress(
       }
 
       const compressed = await normalizeImage(file)
+      if (rejected) return
       onProgress?.(10)
       const folder = buildFolder(options)
 
@@ -119,6 +128,7 @@ export function uploadToCloudinaryWithProgress(
       }
 
       const { timestamp, signature, cloudName, apiKey } = await sigRes.json()
+      if (rejected) return
       onProgress?.(20)
 
       const formData = new FormData()
@@ -128,7 +138,6 @@ export function uploadToCloudinaryWithProgress(
       formData.append("api_key", apiKey)
       formData.append("signature", signature)
 
-      const xhr = new XMLHttpRequest()
       const timeout = setTimeout(() => xhr.abort(), 60000)
 
       xhr.upload.onprogress = (e) => {
@@ -179,4 +188,12 @@ export function uploadToCloudinaryWithProgress(
       reject(err instanceof UploadError ? err : new UploadError("Upload preparation failed"))
     }
   })
+
+  return {
+    promise,
+    abort: () => {
+      rejected = true
+      xhr.abort()
+    },
+  }
 }

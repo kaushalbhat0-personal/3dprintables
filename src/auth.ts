@@ -26,10 +26,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   trustHost: true,
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, profile }) {
       console.log("[AUTH signIn] userEmail", user?.email)
       console.log("[AUTH signIn] profileEmail", profile?.email)
-      console.log("[AUTH signIn] profileVerified", profile?.email_verified)
       return true
     },
     async jwt({ token, account, profile }) {

@@ -4,32 +4,51 @@ export function isCloudinaryUrl(url: string): boolean {
   return CLOUDINARY_REGEX.test(url)
 }
 
+const QUALITY_MAP: Record<string, string> = {
+  auto: "q_auto",
+  best: "q_auto:best",
+  good: "q_auto:good",
+  low: "q_auto:low",
+  eco: "q_auto:eco",
+}
+
 export function optimizeCloudinaryUrl(
   url: string,
   options: {
     width?: number
     height?: number
-    quality?: "auto" | "best" | "good" | "low"
+    quality?: "auto" | "best" | "good" | "low" | "eco"
     format?: "auto" | "webp" | "avif" | "jpg" | "png"
     crop?: "fill" | "scale" | "fit" | "thumb"
     effects?: string[]
   } = {}
 ): string {
-  if (!isCloudinaryUrl(url)) return url
+  if (!url || !isCloudinaryUrl(url)) return url
 
   const { width, height, quality = "auto", format = "auto", crop = "fill", effects } = options
 
-  const transforms: string[] = [`f_${format}`, `q_${quality}`]
-  if (width) transforms.push(`w_${width}`)
-  if (height) transforms.push(`h_${height}`)
-  if (crop) transforms.push(`c_${crop}`)
-  if (effects?.length) transforms.push(...effects)
+  const parts: string[] = [`f_${format}`]
+
+  const q = QUALITY_MAP[quality]
+  if (q) parts.push(q)
+
+  if (width != null) parts.push(`w_${width}`)
+  if (height != null) parts.push(`h_${height}`)
+  if (crop) parts.push(`c_${crop}`)
+  if (effects?.length) {
+    for (const effect of effects) {
+      if (effect) parts.push(effect)
+    }
+  }
+
+  const valid = parts.filter(Boolean)
+  if (valid.length === 0) return url
 
   const uploadIndex = url.indexOf("/image/upload/")
   if (uploadIndex === -1) return url
 
   const insertPoint = uploadIndex + "/image/upload/".length
-  return `${url.slice(0, insertPoint)}${transforms.join(",")}/${url.slice(insertPoint)}`
+  return `${url.slice(0, insertPoint)}${valid.join(",")}/${url.slice(insertPoint)}`
 }
 
 export function optimizeImage(

@@ -8,7 +8,7 @@ import {
   createProductAction,
   updateProductAction,
 } from "@/actions/products"
-import { uploadToCloudinaryWithProgress } from "@/lib/cloudinary-upload"
+import { uploadToCloudinaryWithProgress, type AbortableUpload } from "@/lib/cloudinary-upload"
 import { optimizeImage, getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 import { PRODUCT_CATEGORIES } from "@/types"
 import type { Product } from "@/types"
@@ -192,6 +192,9 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
   const [galleryUploads, setGalleryUploads] = useState<Record<number, UploadInfo>>({})
   const [pendingGalleryCount, setPendingGalleryCount] = useState(0)
   const pendingFeaturedFile = useRef<File | null>(null)
+  const mountedRef = useRef(true)
+  const activeUploads = useRef<Map<string, AbortableUpload>>(new Map())
+  const uploadedPublicIds = useRef<string[]>([])
 
   const [sections, setSections] = useState({
     basic: true,
@@ -203,8 +206,16 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
 
   useEffect(() => {
     lockBodyScroll()
-    return () => unlockBodyScroll()
+    const uploads = activeUploads.current
+    return () => {
+      mountedRef.current = false
+      uploads.forEach((u) => u.abort())
+      uploads.clear()
+      unlockBodyScroll()
+    }
   }, [])
+
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -258,8 +269,9 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
     return slugInput?.value || undefined
   }
 
-  const uploadFile = async (file: File, target: "featured" | "gallery", index?: number) => {
+  const uploadFile = (file: File, target: "featured" | "gallery", index?: number) => {
     const slug = getSlug()
+    const key = target === "featured" ? "featured" : `gallery-${index}`
 
     if (target === "featured") {
       setFeaturedUpload({ state: "preparing", progress: 0 })
@@ -267,44 +279,58 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
       setGalleryUploads((prev) => ({ ...prev, [index]: { state: "preparing", progress: 0 } }))
     }
 
-    try {
-      const result = await uploadToCloudinaryWithProgress(
-        file,
-        { slug, target },
-        (pct) => {
-          if (target === "featured") {
-            setFeaturedUpload({ state: "uploading", progress: pct })
-          } else if (index !== undefined) {
-            setGalleryUploads((prev) => ({ ...prev, [index]: { state: "uploading", progress: pct } }))
+    const { promise, abort } = uploadToCloudinaryWithProgress(
+      file,
+      { slug, target },
+      (pct) => {
+        if (!mountedRef.current) return
+        if (target === "featured") {
+          setFeaturedUpload({ state: "uploading", progress: pct })
+        } else if (index !== undefined) {
+          setGalleryUploads((prev) => ({ ...prev, [index]: { state: "uploading", progress: pct } }))
+        }
+      }
+    )
+
+    activeUploads.current.set(key, { promise, abort })
+
+    promise
+      .then((result) => {
+        if (!mountedRef.current) return
+        activeUploads.current.delete(key)
+        uploadedPublicIds.current.push(result.publicId)
+
+        if (target === "featured") {
+          setFeaturedImage(result.secureUrl)
+          setFeaturedUpload({ state: "success", progress: 100 })
+          setTimeout(() => {
+            if (mountedRef.current) setFeaturedUpload({ state: "idle", progress: 0 })
+          }, 2000)
+        } else {
+          setGalleryImages((prev) => [...prev, result.secureUrl])
+          if (index !== undefined) {
+            setGalleryUploads((prev) => ({ ...prev, [index]: { state: "success", progress: 100 } }))
+            setTimeout(() => {
+              if (!mountedRef.current) return
+              setGalleryUploads((prev) => {
+                const next = { ...prev }
+                delete next[index]
+                return next
+              })
+            }, 2000)
           }
         }
-      )
-
-      if (target === "featured") {
-        setFeaturedImage(result.secureUrl)
-        setFeaturedUpload({ state: "success", progress: 100 })
-        setTimeout(() => setFeaturedUpload({ state: "idle", progress: 0 }), 2000)
-      } else {
-        setGalleryImages((prev) => [...prev, result.secureUrl])
-        if (index !== undefined) {
-          setGalleryUploads((prev) => ({ ...prev, [index]: { state: "success", progress: 100 } }))
-          setTimeout(() => {
-            setGalleryUploads((prev) => {
-              const next = { ...prev }
-              delete next[index]
-              return next
-            })
-          }, 2000)
+      })
+      .catch((err) => {
+        if (!mountedRef.current) return
+        activeUploads.current.delete(key)
+        const msg = err instanceof Error ? err.message : "Upload failed"
+        if (target === "featured") {
+          setFeaturedUpload({ state: "error", progress: 0, error: msg })
+        } else if (index !== undefined) {
+          setGalleryUploads((prev) => ({ ...prev, [index]: { state: "error", progress: 0, error: msg } }))
         }
-      }
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Upload failed"
-      if (target === "featured") {
-        setFeaturedUpload({ state: "error", progress: 0, error: msg })
-      } else if (index !== undefined) {
-        setGalleryUploads((prev) => ({ ...prev, [index]: { state: "error", progress: 0, error: msg } }))
-      }
-    }
+      })
   }
 
   const handleFeaturedFiles = (files: FileList) => {

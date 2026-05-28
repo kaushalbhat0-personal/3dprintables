@@ -50,3 +50,4 @@
 ○ Compiling middleware ...
 
 ✓ Finished filesystem cache database compaction in 12.3s
+✓ Compiled in 5.3s
