@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, startTransition, useCallback } from "react"
+import { useState, useEffect, startTransition, useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { Plus, Pencil, Trash2, Star, Quote } from "lucide-react"
 import {
@@ -99,6 +99,8 @@ export default function AdminTestimonialsPage() {
     refresh()
   }
 
+  const featuredCount = useMemo(() => testimonials.filter((t) => t.featured).length, [testimonials])
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSaving(true)
@@ -127,7 +129,7 @@ export default function AdminTestimonialsPage() {
             <h1 className="text-xl sm:text-2xl font-bold text-foreground">Testimonials</h1>
             <p className="text-sm text-muted mt-1">
               {testimonials.length} total ·{" "}
-              {testimonials.filter((t) => t.featured).length} featured
+              {featuredCount} featured
             </p>
           </div>
           <button

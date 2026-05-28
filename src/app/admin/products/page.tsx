@@ -2,7 +2,8 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { useState, useEffect, startTransition, useCallback } from "react"
+import { useState, useEffect, startTransition, useCallback, useMemo } from "react"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import { Plus, Pencil, Trash2, Star, Package } from "lucide-react"
 import {
@@ -10,10 +11,13 @@ import {
   deleteProductAction,
   toggleFeaturedAction,
 } from "@/actions/products"
-import { ProductFormModal } from "./ProductFormModal"
 import type { Product } from "@/types"
 import { PRODUCT_CATEGORIES } from "@/types"
 import { optimizeImage } from "@/lib/cloudinary-utils"
+
+const ProductFormModal = dynamic(() => import("./ProductFormModal").then((m) => ({ default: m.ProductFormModal })), {
+  ssr: false,
+})
 
 function formatDate(iso: string): string {
   try {
@@ -108,6 +112,8 @@ export default function AdminProductsPage() {
     refresh()
   }
 
+  const featuredCount = useMemo(() => products.filter((p) => p.featured).length, [products])
+
   return (
     <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="container-main">
@@ -116,7 +122,7 @@ export default function AdminProductsPage() {
             <h1 className="text-xl sm:text-2xl font-bold text-foreground">Products</h1>
             <p className="text-sm text-muted mt-1">
               {products.length} total ·{" "}
-              {products.filter((p) => p.featured).length} featured
+              {featuredCount} featured
             </p>
           </div>
           <div className="flex items-center gap-2">

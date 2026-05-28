@@ -115,6 +115,8 @@ export default function AdminInquiriesPage() {
     refresh()
   }
 
+  const newCount = useMemo(() => inquiries.filter((i) => i.status === "new").length, [inquiries])
+
   const allCategories = useMemo(() => {
     const cats = new Set(inquiries.map((i) => i.category))
     return Array.from(cats)
@@ -162,11 +164,11 @@ export default function AdminInquiriesPage() {
             <h1 className="text-xl sm:text-2xl font-bold text-foreground">Inquiries</h1>
             <p className="text-sm text-muted mt-1">
               {inquiries.length} total{filtered.length !== inquiries.length && ` · ${filtered.length} shown`}
-              {inquiries.filter((i) => i.status === "new").length > 0 && (
+              {newCount > 0 && (
                 <span className="text-muted-foreground">
                   {" · "}
                   <span className="text-blue-400 font-medium">
-                    {inquiries.filter((i) => i.status === "new").length} new
+                    {newCount} new
                   </span>
                 </span>
               )}

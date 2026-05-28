@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, startTransition } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, LayoutDashboard, MessageSquare, Star, Package } from "lucide-react"
+import { Menu, X, MessageSquare, Star, Package } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/ui/scroll-lock"
 
@@ -26,7 +26,13 @@ export function AdminSidebar({ email, signOutForm }: { email: string; signOutFor
     return () => { if (open) unlockBodyScroll() }
   }, [open])
 
-  useEffect(() => { setOpen(false) }, [pathname])
+  const prevPathname = useRef(pathname)
+  useEffect(() => {
+    if (prevPathname.current !== pathname) {
+      prevPathname.current = pathname
+      startTransition(() => setOpen(false))
+    }
+  }, [pathname])
 
   const sidebarContent = (
     <div className="flex flex-col h-full">
