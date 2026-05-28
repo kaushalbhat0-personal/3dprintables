@@ -3,6 +3,7 @@ import { Ghost, Scan, Paintbrush, ArmchairIcon, ShieldCheck } from "lucide-react
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 import { getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
+import { BackButton } from "@/components/ui/BackButton"
 
 const features = [
   { icon: Scan, title: "Full-Scale Printing", desc: "We print at actual size — whether it's a wearable Iron Man mask, a prop weapon, or a life-sized display piece." },
@@ -23,6 +24,9 @@ export default function CosplayClient() {
     <>
       <section className="pt-32 pb-16 md:pt-36 md:pb-20">
         <div className="container-main">
+          <div className="mb-4">
+            <BackButton fallbackHref="/services" />
+          </div>
           <div className="max-w-2xl">
             <span className="inline-flex items-center px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded-full bg-primary/10 text-primary border border-primary/20 mb-4">
               <Ghost className="w-3 h-3 mr-1.5" />

@@ -1,6 +1,7 @@
 import { Package, BarChart3, Truck, ShieldCheck } from "lucide-react"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
+import { BackButton } from "@/components/ui/BackButton"
 
 const benefits = [
   { icon: BarChart3, title: "Consistent Quality", desc: "Every piece matches the first. We calibrate and profile for repeatable, reliable results batch after batch." },
@@ -21,6 +22,9 @@ export default function BulkClient() {
     <>
       <section className="pt-32 pb-16 md:pt-36 md:pb-20">
         <div className="container-main">
+          <div className="mb-4">
+            <BackButton fallbackHref="/services" />
+          </div>
           <div className="max-w-2xl">
             <span className="inline-flex items-center px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded-full bg-primary/10 text-primary border border-primary/20 mb-4">
               <Package className="w-3 h-3 mr-1.5" />

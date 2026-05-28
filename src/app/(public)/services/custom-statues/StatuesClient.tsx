@@ -1,6 +1,7 @@
 import { Palette, Sparkles, Moon, Gift, Brush } from "lucide-react"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
+import { BackButton } from "@/components/ui/BackButton"
 
 const finishes = [
   { icon: Brush, title: "Matte Finish", desc: "Smooth, non-reflective surface. Ideal for display pieces and photography." },
@@ -14,6 +15,9 @@ export default function StatuesClient() {
     <>
       <section className="pt-32 pb-16 md:pt-36 md:pb-20">
         <div className="container-main">
+          <div className="mb-4">
+            <BackButton fallbackHref="/services" />
+          </div>
           <div className="max-w-2xl">
             <span className="inline-flex items-center px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded-full bg-primary/10 text-primary border border-primary/20 mb-4">
               <Palette className="w-3 h-3 mr-1.5" />

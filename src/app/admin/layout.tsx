@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 import { auth, signOut } from "@/auth"
 import { LogOut } from "lucide-react"
 import { AdminSidebar } from "@/components/admin/AdminSidebar"
+import { BackButton } from "@/components/ui/BackButton"
 
 export default async function AdminLayout({
   children,
@@ -32,7 +33,12 @@ export default async function AdminLayout({
           </form>
         }
       />
-      <main className="flex-1 min-w-0 pt-16 lg:pt-0">{children}</main>
+      <main className="flex-1 min-w-0 pt-16 lg:pt-0">
+        <div className="md:hidden px-4 pt-4">
+          <BackButton fallbackHref="/admin/products" />
+        </div>
+        {children}
+      </main>
     </div>
   )
 }

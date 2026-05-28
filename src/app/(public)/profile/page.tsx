@@ -6,6 +6,7 @@ import { users } from "@/db/schema"
 import { eq } from "drizzle-orm"
 import { Calendar, Shield } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { BackButton } from "@/components/ui/BackButton"
 
 export default async function ProfilePage() {
   const session = await auth()
@@ -42,6 +43,9 @@ export default async function ProfilePage() {
   return (
     <div className="min-h-screen bg-background pt-28 pb-20">
       <div className="container-main max-w-md mx-auto">
+        <div className="mb-4">
+          <BackButton fallbackHref="/" />
+        </div>
         <div className="bg-surface border border-border rounded-2xl overflow-hidden">
           <div className="h-24 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent" />
 

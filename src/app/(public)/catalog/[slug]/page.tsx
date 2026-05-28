@@ -5,6 +5,7 @@ import { siteUrl } from "@/lib/url"
 import { formatWhatsAppUrl } from "@/lib/utils"
 import { ProductPageGallery } from "@/components/catalog/ProductPageGallery"
 import { ProductCard } from "@/components/catalog/ProductCard"
+import { BackButton } from "@/components/ui/BackButton"
 import type { Metadata } from "next"
 
 export const revalidate = 3600
@@ -105,7 +106,10 @@ export default async function ProductPage({
 
       <article className="pb-28 md:pb-0">
         <section className="pt-20 md:pt-24">
-          <div className="container-main">
+          <div className="container-main relative">
+            <div className="mb-4 md:mb-6">
+              <BackButton fallbackHref="/catalog" sticky />
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
               <ProductPageGallery images={allImages} title={product.title} />
 
