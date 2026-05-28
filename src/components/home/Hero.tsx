@@ -6,7 +6,6 @@ import { MessageCircle, Package, Sparkles, Truck, Clock } from "lucide-react"
 import Link from "next/link"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
-import { getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 
 const stats = [
   { icon: Package, label: "500+ Creations Delivered" },
@@ -36,23 +35,22 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16 md:pt-28 md:pb-20">
       <div
-        className="absolute inset-0 pointer-events-none z-0"
+        className="absolute inset-0 pointer-events-none z-0 overflow-hidden bg-background"
         aria-hidden="true"
       >
-        <div
-          className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-[45vw] h-[80vh] max-w-[650px] max-h-[700px] opacity-30 overflow-hidden"
-          style={getBlurBackgroundStyle("/images/products/ChromiumHanuman.jpg")}
-        >
+        <div className="absolute inset-0 opacity-5 md:opacity-15 transition-opacity duration-700">
           <Image
             src="/images/products/ChromiumHanuman.jpg"
-            alt="Golden Hanuman Statue"
+            alt=""
             fill
-            className="object-contain object-right transition-opacity duration-500"
+            className="object-cover object-center scale-105"
             priority
             loading="eager"
-            sizes="(max-width: 768px) 0vw, 45vw"
+            sizes="100vw"
           />
         </div>
+
+        <div className="absolute inset-0 bg-hero-vignette" />
       </div>
 
       <motion.div
