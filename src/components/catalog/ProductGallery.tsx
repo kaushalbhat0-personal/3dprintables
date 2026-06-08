@@ -10,7 +10,7 @@ import {
   Maximize2,
   Minimize2,
 } from "lucide-react"
-import { getCategoriesAction } from "@/actions/categories"
+import { getActiveCategoriesAction } from "@/actions/categories"
 import type { Product } from "@/types"
 import { cn } from "@/lib/utils"
 import { QuickInquiry } from "./QuickInquiry"
@@ -37,11 +37,11 @@ export function ProductGallery({ product, onClose }: ProductGalleryProps) {
   const [showInquiry, setShowInquiry] = useState(false)
 
   useEffect(() => {
-    getCategoriesAction().then((result) => {
+    getActiveCategoriesAction().then((result) => {
       if (result.success) {
         const map: Record<string, string> = {}
         for (const c of result.data) {
-          if (c.isActive) map[c.slug] = c.name
+          map[c.slug] = c.name
         }
         setSlugMap(map)
       }

@@ -33,7 +33,7 @@ const fadeUp = {
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16 md:pt-28 md:pb-20">
+    <section className="relative min-h-dvh flex items-center overflow-hidden pt-24 pb-16 md:pt-28 md:pb-20">
       <div
         className="absolute inset-0 pointer-events-none z-0 overflow-hidden bg-background"
         aria-hidden="true"

@@ -5,7 +5,7 @@
 import { useState, useEffect, startTransition, useCallback, useMemo } from "react"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
-import { Plus, Pencil, Trash2, Star, Package, ArrowUp, ArrowDown } from "lucide-react"
+import { Plus, Pencil, Trash2, Star, Package, ArrowUp, ArrowDown, AlertTriangle } from "lucide-react"
 import {
   getProductsAction,
   deleteProductAction,
@@ -35,12 +35,20 @@ function formatDate(iso: string): string {
   }
 }
 
-function CategoryBadge({ category, categoryId, categoryMap: map }: { category: string; categoryId?: string; categoryMap?: Record<string, string> }) {
+function CategoryBadge({ category, categoryId, categoryMap: map, isInactive }: { category: string; categoryId?: string; categoryMap?: Record<string, string>; isInactive?: boolean }) {
   const label = (categoryId && map?.[categoryId]) ?? PRODUCT_CATEGORIES.find((c) => c.value === category)?.label ?? category
   return (
-    <span className="inline-flex items-center px-2.5 py-1 text-[11px] font-medium rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">
-      {label}
-    </span>
+    <div className="flex flex-wrap items-center gap-1.5">
+      <span className="inline-flex items-center px-2.5 py-1 text-[11px] font-medium rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">
+        {label}
+      </span>
+      {isInactive && (
+        <span className="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+          <AlertTriangle className="w-3 h-3" />
+          Inactive Category
+        </span>
+      )}
+    </div>
   )
 }
 
@@ -53,6 +61,7 @@ export default function AdminProductsPage() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [deleting, setDeleting] = useState<string | null>(null)
   const [categoryMap, setCategoryMap] = useState<Record<string, string>>({})
+  const [activeCategoryIds, setActiveCategoryIds] = useState<Set<string>>(new Set())
 
   const loadProducts = async () => {
     startTransition(() => { setLoading(true); setError("") })
@@ -68,10 +77,13 @@ export default function AdminProductsPage() {
       }
       if (catResult.success) {
         const map: Record<string, string> = {}
+        const active: string[] = []
         for (const c of catResult.data) {
           map[c.id] = c.name
+          if (c.isActive) active.push(c.id)
         }
         setCategoryMap(map)
+        setActiveCategoryIds(new Set(active))
       }
       setLoading(false)
     })
@@ -136,7 +148,7 @@ export default function AdminProductsPage() {
   const featuredCount = useMemo(() => products.filter((p) => p.featured).length, [products])
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16">
+    <div className="min-h-screen bg-background pb-16">
       <div className="container-main">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
@@ -158,8 +170,8 @@ export default function AdminProductsPage() {
               className="h-11 px-4 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover active:scale-[0.97] transition-all duration-150 inline-flex items-center gap-2 select-none"
             >
               <Plus className="w-4 h-4" />
-              <span className="hidden xs:inline">Add Product</span>
-              <span className="xs:hidden">Add</span>
+              <span className="hidden sm:inline">Add Product</span>
+              <span className="sm:hidden">Add</span>
             </button>
           </div>
         </div>
@@ -248,7 +260,7 @@ export default function AdminProductsPage() {
                         </div>
                       </td>
                       <td className="px-5 py-4">
-                        <CategoryBadge category={product.category} categoryId={product.categoryId} categoryMap={categoryMap} />
+                        <CategoryBadge category={product.category} categoryId={product.categoryId} categoryMap={categoryMap} isInactive={!!product.categoryId && !activeCategoryIds.has(product.categoryId)} />
                       </td>
                       <td className="px-5 py-4 text-foreground">
                         {product.priceRange || "\u2014"}
@@ -341,7 +353,7 @@ export default function AdminProductsPage() {
                         /{product.slug}
                       </p>
                       <div className="flex items-center gap-2 mt-1.5">
-                        <CategoryBadge category={product.category} categoryId={product.categoryId} categoryMap={categoryMap} />
+                        <CategoryBadge category={product.category} categoryId={product.categoryId} categoryMap={categoryMap} isInactive={!!product.categoryId && !activeCategoryIds.has(product.categoryId)} />
                         {product.priceRange && (
                           <span className="text-xs text-muted-foreground">
                             {product.priceRange}

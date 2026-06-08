@@ -42,7 +42,7 @@ export const CategoryFilter = memo(function CategoryFilter({ active, onChange, c
             key={cat.value}
             onClick={() => onChange(cat.value === "all" ? null : cat.value)}
             className={cn(
-              "group relative inline-flex items-center gap-1.5 shrink-0 px-4 py-2 text-sm font-medium rounded-xl border transition-all duration-200 cursor-pointer select-none",
+              "group relative inline-flex items-center gap-1.5 shrink-0 px-4 py-2.5 text-sm font-medium rounded-xl border transition-all duration-200 cursor-pointer select-none",
               isActive
                 ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20 scale-105 active:scale-[0.97]"
                 : "bg-card text-muted-foreground border-border hover:bg-card-hover hover:text-foreground hover:border-zinc-600 active:scale-[0.97]"

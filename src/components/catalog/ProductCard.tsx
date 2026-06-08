@@ -82,7 +82,7 @@ export function ProductCard({ product, categoryLabel }: { product: Product; cate
             )}
           >
             <MessageCircle className="w-4 h-4" />
-            <span>Get Quote</span>
+            <span>Get This Custom Made</span>
           </a>
         </div>
       </div>

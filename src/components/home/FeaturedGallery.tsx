@@ -4,7 +4,7 @@ import { useRef, useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { getCategoriesAction } from "@/actions/categories"
+import { getActiveCategoriesAction } from "@/actions/categories"
 import type { Product } from "@/types"
 import { cn } from "@/lib/utils"
 import { optimizeImage } from "@/lib/cloudinary-utils"
@@ -32,11 +32,11 @@ export function FeaturedGallery({ products }: { products: Product[] }) {
   const reduceMotion = useRef(false)
 
   useEffect(() => {
-    getCategoriesAction().then((result) => {
+    getActiveCategoriesAction().then((result) => {
       if (result.success) {
         const map: Record<string, string> = {}
         for (const c of result.data) {
-          if (c.isActive) map[c.slug] = c.name
+          map[c.slug] = c.name
         }
         setSlugMap(map)
       }

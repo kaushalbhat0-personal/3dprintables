@@ -265,7 +265,15 @@ export async function getActiveProductsQuery(): Promise<
       .where(eq(products.isActive, true))
       .orderBy(asc(products.sortOrder), desc(products.createdAt))
 
-    const activeIds = rows.map((r) => r.id)
+    const activeCategoryIds = await db
+      .select({ id: categories.id })
+      .from(categories)
+      .where(eq(categories.isActive, true))
+      .then((r) => new Set(r.map((c) => c.id)))
+
+    const visible = rows.filter((p) => !p.categoryId || activeCategoryIds.has(p.categoryId))
+
+    const activeIds = visible.map((r) => r.id)
     const allImages = activeIds.length > 0
       ? await db
           .select()
@@ -283,7 +291,7 @@ export async function getActiveProductsQuery(): Promise<
 
     return {
       success: true,
-      data: rows.map((r) => mapRowToProduct(r, imageMap.get(r.id) ?? [])),
+      data: visible.map((r) => mapRowToProduct(r, imageMap.get(r.id) ?? [])),
     }
   } catch (err) {
     return {
@@ -329,7 +337,7 @@ export async function getProductBySlugQuery(
     const row = await db
       .select()
       .from(products)
-      .where(eq(products.slug, slug))
+      .where(and(eq(products.slug, slug), eq(products.isActive, true)))
       .limit(1)
       .then((r) => r[0])
     if (!row) return { success: false, error: "Product not found" }
@@ -357,6 +365,14 @@ export async function getFeaturedProductsQuery(): Promise<
       .where(and(eq(products.isFeatured, true), eq(products.isActive, true)))
       .orderBy(asc(products.sortOrder), desc(products.createdAt))
 
+    const activeCategoryIds = await db
+      .select({ id: categories.id })
+      .from(categories)
+      .where(eq(categories.isActive, true))
+      .then((r) => new Set(r.map((c) => c.id)))
+
+    const visible = rows.filter((p) => !p.categoryId || activeCategoryIds.has(p.categoryId))
+
     const allImages = await db
       .select()
       .from(productImages)
@@ -371,7 +387,7 @@ export async function getFeaturedProductsQuery(): Promise<
 
     return {
       success: true,
-      data: rows.map((r) => mapRowToProduct(r, imageMap.get(r.id) ?? [])),
+      data: visible.map((r) => mapRowToProduct(r, imageMap.get(r.id) ?? [])),
     }
   } catch (err) {
     return {
@@ -388,12 +404,19 @@ export async function getProductsByCategoryQuery(
 > {
   try {
     const categoryRows = await db
-      .select({ id: categories.id })
+      .select({ id: categories.id, isActive: categories.isActive })
       .from(categories)
       .where(eq(categories.slug, categorySlugOrId))
       .limit(1)
 
-    const categoryId = categoryRows[0]?.id
+    const category = categoryRows[0]
+
+    // If the category exists but is inactive, return empty
+    if (category && !category.isActive) {
+      return { success: true, data: [] }
+    }
+
+    const categoryId = category?.id
 
     const rows = await db
       .select()

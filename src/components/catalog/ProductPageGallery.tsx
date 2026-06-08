@@ -54,19 +54,23 @@ export function ProductPageGallery({ images, title }: ProductPageGalleryProps) {
               <ChevronRight className="w-5 h-5" />
             </button>
 
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 z-10">
               {images.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentIndex(i)}
-                  className={cn(
-                    "w-2 h-2 rounded-full transition-all duration-300",
-                    i === currentIndex
-                      ? "bg-white w-6"
-                      : "bg-white/40 hover:bg-white/60 active:scale-90"
-                  )}
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center"
                   aria-label={`Go to image ${i + 1}`}
-                />
+                >
+                  <span
+                    className={cn(
+                      "block rounded-full transition-all duration-300",
+                      i === currentIndex
+                        ? "bg-white w-6 h-2"
+                        : "bg-white/40 hover:bg-white/60 w-2 h-2"
+                    )}
+                  />
+                </button>
               ))}
             </div>
           </>

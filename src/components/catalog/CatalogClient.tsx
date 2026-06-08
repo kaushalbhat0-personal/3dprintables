@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Package, MessageCircle } from "lucide-react"
 import { ProductCard } from "@/components/catalog/ProductCard"
 import { CategoryFilter } from "@/components/catalog/CategoryFilter"
-import { getCategoriesAction } from "@/actions/categories"
+import { getActiveCategoriesAction } from "@/actions/categories"
 import type { Product } from "@/types"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
@@ -22,11 +22,11 @@ export const CatalogClient = memo(function CatalogClient({
   const [slugMap, setSlugMap] = useState<Record<string, string>>({})
 
   useEffect(() => {
-    getCategoriesAction().then((result) => {
+    getActiveCategoriesAction().then((result) => {
       if (result.success) {
         const map: Record<string, string> = {}
         for (const c of result.data) {
-          if (c.isActive) map[c.slug] = c.name
+          map[c.slug] = c.name
         }
         setSlugMap(map)
       }

@@ -122,7 +122,7 @@ export default function AdminTestimonialsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16">
+    <div className="min-h-screen bg-background pb-16">
       <div className="container-main">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>

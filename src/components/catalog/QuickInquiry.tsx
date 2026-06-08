@@ -356,7 +356,7 @@ export function QuickInquiry({
                 ) : (
                   <MessageCircle className="w-5 h-5" />
                 )}
-                <span>{saving ? "Saving..." : "Send & Continue on WhatsApp"}</span>
+                <span>{saving ? "Saving..." : "Request a Custom Quote"}</span>
               </button>
 
               <p className="text-[11px] text-center text-muted-foreground">
