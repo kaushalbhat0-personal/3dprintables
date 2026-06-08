@@ -16,15 +16,40 @@ function getCategoryLabel(category: string): string {
   return PRODUCT_CATEGORIES.find((c) => c.value === category)?.label ?? category
 }
 
+function scrollToIndex(container: HTMLDivElement, index: number) {
+  const slide = container.querySelector<HTMLElement>(`[data-index="${index}"]`)
+  if (!slide) return
+  container.scrollTo({
+    left: slide.offsetLeft,
+    behavior: "smooth",
+  })
+}
+
 export function FeaturedGallery({ products }: { products: Product[] }) {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const galleryRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const isVisible = useRef(true)
   const reduceMotion = useRef(false)
 
   useEffect(() => {
     reduceMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  }, [])
+
+  useEffect(() => {
+    const el = galleryRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible.current = entry.isIntersecting
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
   }, [])
 
   const getActiveIndex = useCallback(() => {
@@ -76,9 +101,10 @@ export function FeaturedGallery({ products }: { products: Product[] }) {
     if (isPaused || reduceMotion.current || products.length <= 1) return
 
     const interval = setInterval(() => {
+      if (!isVisible.current) return
       const next = (getActiveIndex() + 1) % products.length
-      const slide = scrollRef.current?.querySelector<HTMLElement>(`[data-index="${next}"]`)
-      slide?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" })
+      const container = scrollRef.current
+      if (container) scrollToIndex(container, next)
     }, AUTOPLAY_INTERVAL)
 
     return () => clearInterval(interval)
@@ -96,8 +122,8 @@ export function FeaturedGallery({ products }: { products: Product[] }) {
 
   const scrollTo = useCallback((index: number) => {
     pause()
-    const slide = scrollRef.current?.querySelector<HTMLElement>(`[data-index="${index}"]`)
-    slide?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" })
+    const container = scrollRef.current
+    if (container) scrollToIndex(container, index)
     scheduleResume()
   }, [pause, scheduleResume])
 
@@ -113,6 +139,7 @@ export function FeaturedGallery({ products }: { products: Product[] }) {
 
   return (
     <div
+      ref={galleryRef}
       onMouseEnter={pause}
       onMouseLeave={scheduleResume}
       onTouchStart={pause}
