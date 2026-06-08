@@ -1,6 +1,7 @@
 "use server"
 
 import { revalidatePath, revalidateTag } from "next/cache"
+import { auth } from "@/auth"
 import {
   createTestimonialQuery,
   updateTestimonialQuery,
@@ -8,7 +9,7 @@ import {
   getTestimonialsQuery,
   getFeaturedTestimonialsQuery,
 } from "@/db/queries/testimonials"
-import type { CreateTestimonialInput } from "@/lib/storage/testimonial-types"
+import { CreateTestimonialSchema, UpdateTestimonialSchema } from "@/lib/validation/testimonial"
 
 function revalidateAll() {
   revalidateTag("testimonials", "max")
@@ -19,7 +20,10 @@ function revalidateAll() {
 
 export async function createTestimonialAction(formData: FormData) {
   try {
-    const input: CreateTestimonialInput = {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+
+    const raw = {
       name: formData.get("name") as string,
       role: (formData.get("role") as string) ?? "",
       company: (formData.get("company") as string) ?? "",
@@ -29,13 +33,15 @@ export async function createTestimonialAction(formData: FormData) {
       productId: (formData.get("productId") as string) || null,
       featured: formData.get("featured") === "true" || formData.get("featured") === "on",
     }
-    if (!input.name || !input.content) {
-      return { success: false as const, error: "Name and content are required" }
-    }
-    const result = await createTestimonialQuery(input)
+
+    const parsed = CreateTestimonialSchema.parse(raw)
+    const result = await createTestimonialQuery(parsed)
     if (result.success) revalidateAll()
     return result
   } catch (err) {
+    if (err && typeof err === "object" && "issues" in err) {
+      return { success: false as const, error: "Validation error" }
+    }
     return {
       success: false as const,
       error: err instanceof Error ? err.message : "Failed to create testimonial",
@@ -45,22 +51,25 @@ export async function createTestimonialAction(formData: FormData) {
 
 export async function updateTestimonialAction(formData: FormData) {
   try {
-    const id = formData.get("id") as string
-    if (!id) return { success: false as const, error: "Testimonial ID required" }
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
 
-    const fields: Record<string, unknown> = {}
+    const raw: Record<string, unknown> = {}
     for (const [key, value] of formData.entries()) {
-      if (key === "id") continue
-      if (key === "rating") fields[key] = Number(value)
-      else if (key === "featured") fields[key] = value === "true" || value === "on"
-      else if (key === "productId") fields[key] = value || null
-      else fields[key] = value
+      if (key === "rating") raw[key] = Number(value)
+      else if (key === "featured") raw[key] = value === "true" || value === "on"
+      else if (key === "productId") raw[key] = value || null
+      else raw[key] = value
     }
 
-    const result = await updateTestimonialQuery({ id, ...fields })
+    const parsed = UpdateTestimonialSchema.parse(raw)
+    const result = await updateTestimonialQuery(parsed)
     if (result.success) revalidateAll()
     return result
   } catch (err) {
+    if (err && typeof err === "object" && "issues" in err) {
+      return { success: false as const, error: "Validation error" }
+    }
     return {
       success: false as const,
       error: err instanceof Error ? err.message : "Failed to update testimonial",
@@ -69,6 +78,13 @@ export async function updateTestimonialAction(formData: FormData) {
 }
 
 export async function deleteTestimonialAction(id: string) {
+  try {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+  } catch (err) {
+    return { success: false as const, error: err instanceof Error ? err.message : "Unauthorized" }
+  }
+
   const result = await deleteTestimonialQuery(id)
   if (result.success) revalidateAll()
   return result
@@ -78,6 +94,13 @@ export async function toggleFeaturedTestimonialAction(
   id: string,
   featured: boolean
 ) {
+  try {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+  } catch (err) {
+    return { success: false as const, error: err instanceof Error ? err.message : "Unauthorized" }
+  }
+
   const result = await updateTestimonialQuery({ id, featured })
   if (result.success) revalidateAll()
   return result

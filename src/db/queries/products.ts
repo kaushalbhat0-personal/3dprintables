@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { products, productImages } from "@/db/schema"
-import { eq, desc, asc, and } from "drizzle-orm"
+import { eq, desc, asc, and, inArray } from "drizzle-orm"
 import { randomUUID } from "crypto"
 import type { Product, ProductCategory } from "@/types"
 
@@ -266,12 +266,7 @@ export async function getActiveProductsQuery(): Promise<
       ? await db
           .select()
           .from(productImages)
-          .where(
-            (() => {
-              const conditions = activeIds.map((id) => eq(productImages.productId, id))
-              return conditions[0]
-            })()
-          )
+          .where(inArray(productImages.productId, activeIds))
           .orderBy(asc(productImages.sortOrder))
       : []
 

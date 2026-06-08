@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto"
 import { revalidatePath, revalidateTag } from "next/cache"
+import { auth } from "@/auth"
 import { CreateProductSchema, UpdateProductSchema, ToggleFeaturedSchema } from "@/lib/validation/product"
 import {
   createProductQuery,
@@ -28,6 +29,9 @@ export async function createProductAction(
   formData: FormData
 ): Promise<{ success: true; data: Product } | { success: false; error: string }> {
   try {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+
     const raw: Record<string, unknown> = {}
     let videos: string[] = []
     formData.forEach((value, key) => {
@@ -79,6 +83,9 @@ export async function updateProductAction(
   formData: FormData
 ): Promise<{ success: true; data: Product } | { success: false; error: string }> {
   try {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+
     const raw: Record<string, unknown> = {}
     let videos: string[] | undefined
     formData.forEach((value, key) => {
@@ -134,6 +141,13 @@ export async function deleteProductAction(
   id: string,
   slug?: string
 ): Promise<{ success: true } | { success: false; error: string }> {
+  try {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : "Unauthorized" }
+  }
+
   const result = await deleteProductQuery(id)
   if (result.success) {
     revalidateAll(slug)
@@ -146,6 +160,13 @@ export async function toggleFeaturedAction(
   isFeatured: boolean,
   slug?: string
 ): Promise<{ success: true; data: Product } | { success: false; error: string }> {
+  try {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : "Unauthorized" }
+  }
+
   const parsed = ToggleFeaturedSchema.parse({ id, isFeatured })
   const result = await updateProductQuery(parsed.id, { isFeatured: parsed.isFeatured })
   if (result.success) {

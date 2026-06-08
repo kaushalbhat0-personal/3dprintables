@@ -1,6 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+import { auth } from "@/auth"
 import { CreateInquirySchema, UpdateInquiryStatusSchema } from "@/lib/validation/inquiry"
 import { getInquiryService } from "@/lib/storage/server"
 import type { InquiryResult, Inquiry } from "@/lib/storage"
@@ -50,6 +51,13 @@ export async function createInquiryAction(
 }
 
 export async function getInquiriesAction(): Promise<InquiryResult<Inquiry[]>> {
+  try {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : "Unauthorized" }
+  }
+
   const service = getInquiryService()
   return service.getInquiries()
 }
@@ -57,6 +65,13 @@ export async function getInquiriesAction(): Promise<InquiryResult<Inquiry[]>> {
 export async function updateInquiryStatusAction(
   formData: FormData
 ): Promise<InquiryResult<Inquiry>> {
+  try {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : "Unauthorized" }
+  }
+
   const raw = {
     id: formData.get("id") as string,
     status: formData.get("status") as string,

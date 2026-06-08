@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { Geist } from "next/font/google"
-import { siteUrl } from "@/lib/url"
 import { AuthProvider } from "@/components/providers/AuthProvider"
 import "./globals.css"
 
@@ -10,7 +9,7 @@ const geistSans = Geist({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl()),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: {
     default: "3D Factory | Custom 3D Creations Studio",
     template: "%s | 3D Factory",
@@ -29,9 +28,6 @@ export const metadata: Metadata = {
     "custom 3D models",
   ],
   openGraph: {
-    title: "3D Factory | Custom 3D Creations Studio",
-    description:
-      "Custom 3D printing studio for personalized gifts, home decor, cosplay collectibles, prototypes and more. Bring your ideas to life.",
     siteName: "3D Factory",
     type: "website",
     locale: "en_IN",
