@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { products, productImages } from "@/db/schema"
-import { eq, desc, asc, and, inArray } from "drizzle-orm"
+import { eq, desc, asc, and, or, lt, gt, inArray } from "drizzle-orm"
 import { randomUUID } from "crypto"
 import type { Product, ProductCategory } from "@/types"
 
@@ -414,6 +414,68 @@ export async function getProductsByCategoryQuery(
     return {
       success: false,
       error: err instanceof Error ? err.message : "Failed to fetch products by category",
+    }
+  }
+}
+
+export async function moveProductQuery(
+  productId: string,
+  direction: "up" | "down"
+): Promise<{ success: true } | { success: false; error: string }> {
+  try {
+    const current = await db
+      .select({ id: products.id, sortOrder: products.sortOrder, createdAt: products.createdAt })
+      .from(products)
+      .where(eq(products.id, productId))
+      .limit(1)
+      .then((r) => r[0])
+
+    if (!current) return { success: false, error: "Product not found" }
+
+    const adjacent = direction === "up"
+      ? await db
+          .select({ id: products.id, sortOrder: products.sortOrder })
+          .from(products)
+          .where(
+            or(
+              lt(products.sortOrder, current.sortOrder),
+              and(
+                eq(products.sortOrder, current.sortOrder),
+                gt(products.createdAt, current.createdAt)
+              )
+            )
+          )
+          .orderBy(desc(products.sortOrder), desc(products.createdAt))
+          .limit(1)
+          .then((r) => r[0])
+      : await db
+          .select({ id: products.id, sortOrder: products.sortOrder })
+          .from(products)
+          .where(
+            or(
+              gt(products.sortOrder, current.sortOrder),
+              and(
+                eq(products.sortOrder, current.sortOrder),
+                lt(products.createdAt, current.createdAt)
+              )
+            )
+          )
+          .orderBy(asc(products.sortOrder), asc(products.createdAt))
+          .limit(1)
+          .then((r) => r[0])
+
+    if (!adjacent) return { success: true }
+
+    await db.transaction(async (tx) => {
+      await tx.update(products).set({ sortOrder: adjacent.sortOrder }).where(eq(products.id, current.id))
+      await tx.update(products).set({ sortOrder: current.sortOrder }).where(eq(products.id, adjacent.id))
+    })
+
+    return { success: true }
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Failed to move product",
     }
   }
 }

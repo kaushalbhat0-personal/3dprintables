@@ -5,11 +5,12 @@
 import { useState, useEffect, startTransition, useCallback, useMemo } from "react"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
-import { Plus, Pencil, Trash2, Star, Package } from "lucide-react"
+import { Plus, Pencil, Trash2, Star, Package, ArrowUp, ArrowDown } from "lucide-react"
 import {
   getProductsAction,
   deleteProductAction,
   toggleFeaturedAction,
+  moveProductAction,
 } from "@/actions/products"
 import type { Product } from "@/types"
 import { PRODUCT_CATEGORIES } from "@/types"
@@ -94,6 +95,13 @@ export default function AdminProductsPage() {
       alert(result.error ?? "Failed to delete")
     }
     setDeleting(null)
+  }
+
+  const handleMove = async (id: string, direction: "up" | "down") => {
+    const result = await moveProductAction(id, direction)
+    if (result.success) {
+      refresh()
+    }
   }
 
   const handleEdit = (product: Product) => {
@@ -200,7 +208,7 @@ export default function AdminProductsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map((product) => (
+                  {products.map((product, index) => (
                     <tr
                       key={product.id}
                       className="border-b border-border/50 hover:bg-surface/30 transition-colors last:border-0"
@@ -230,7 +238,7 @@ export default function AdminProductsPage() {
                         <CategoryBadge category={product.category} />
                       </td>
                       <td className="px-5 py-4 text-foreground">
-                        {product.priceRange || "—"}
+                        {product.priceRange || "\u2014"}
                       </td>
                       <td className="px-5 py-4">
                         <button
@@ -257,6 +265,22 @@ export default function AdminProductsPage() {
                       <td className="px-5 py-4">
                         <div className="flex items-center justify-end gap-1">
                           <button
+                            onClick={() => handleMove(product.id, "up")}
+                            disabled={index === 0}
+                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 disabled:opacity-30 disabled:pointer-events-none"
+                            title="Move up"
+                          >
+                            <ArrowUp className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleMove(product.id, "down")}
+                            disabled={index === products.length - 1}
+                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 disabled:opacity-30 disabled:pointer-events-none"
+                            title="Move down"
+                          >
+                            <ArrowDown className="w-4 h-4" />
+                          </button>
+                          <button
                             onClick={() => handleEdit(product)}
                             className="h-9 w-9 inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200"
                             title="Edit"
@@ -281,7 +305,7 @@ export default function AdminProductsPage() {
 
             {/* Mobile cards */}
             <div className="md:hidden space-y-3">
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <div
                   key={product.id}
                   className="rounded-2xl bg-surface border border-border p-4"
@@ -318,6 +342,22 @@ export default function AdminProductsPage() {
                       {formatDate(product.createdAt)}
                     </span>
                     <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleMove(product.id, "up")}
+                        disabled={index === 0}
+                        className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 border border-border/50 disabled:opacity-30 disabled:pointer-events-none"
+                        title="Move up"
+                      >
+                        <ArrowUp className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleMove(product.id, "down")}
+                        disabled={index === products.length - 1}
+                        className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 border border-border/50 disabled:opacity-30 disabled:pointer-events-none"
+                        title="Move down"
+                      >
+                        <ArrowDown className="w-4 h-4" />
+                      </button>
                       <button
                         onClick={() =>
                           handleToggleFeatured(product.id, !!product.featured)

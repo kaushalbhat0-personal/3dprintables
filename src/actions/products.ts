@@ -11,6 +11,7 @@ import {
   getProductsQuery,
   getFeaturedProductsQuery,
   getProductByIdQuery,
+  moveProductQuery,
 } from "@/db/queries/products"
 import type { Product } from "@/types"
 import { setProductVideosQuery } from "@/db/queries/videos"
@@ -185,4 +186,22 @@ export async function getFeaturedProductsAction(): Promise<
   { success: true; data: Product[] } | { success: false; error: string }
 > {
   return getFeaturedProductsQuery()
+}
+
+export async function moveProductAction(
+  productId: string,
+  direction: "up" | "down"
+): Promise<{ success: true } | { success: false; error: string }> {
+  try {
+    const session = await auth()
+    if (!session?.user?.isAdmin) throw new Error("Unauthorized")
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : "Unauthorized" }
+  }
+
+  const result = await moveProductQuery(productId, direction)
+  if (result.success) {
+    revalidateAll()
+  }
+  return result
 }

@@ -646,13 +646,6 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
             <SectionHeader icon={Settings} title="Publishing" open={sections.publishing} onToggle={() => toggleSection("publishing")} />
             {sections.publishing && (
               <div className="space-y-4 px-4 sm:px-6 pb-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  <div>
-                    <label htmlFor="sortOrder" className={labelClass}>Sort Order</label>
-                    <input id="sortOrder" name="sortOrder" type="number" defaultValue={product?.sortOrder ?? 999} className={inputClass} placeholder="999" />
-                    <p className="text-[11px] text-muted-foreground/50 mt-1">Lower numbers appear first</p>
-                  </div>
-                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                   <label className="flex items-center gap-3 h-11 px-3.5 rounded-xl bg-surface border border-border cursor-pointer hover:bg-zinc-900 transition-colors active:scale-[0.99]">
                     <input type="checkbox" name="isActive" defaultChecked={product?.isActive ?? false} className="w-4 h-4 rounded border-border bg-zinc-800 accent-primary" />
