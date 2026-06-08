@@ -354,23 +354,21 @@ export default function AdminTestimonialsPage() {
                   <p className="text-xs text-muted-foreground mt-2 line-clamp-3">
                     &ldquo;{t.content}&rdquo;
                   </p>
-                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
+                  <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-border">
                     <button
                       onClick={() => handleToggleFeatured(t.id, t.featured)}
                       className={cn(
-                        "inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full border transition-colors",
+                        "h-11 w-11 inline-flex items-center justify-center rounded-xl transition-all duration-200 active:scale-90 border",
                         t.featured
-                          ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
-                          : "bg-zinc-800 text-zinc-500 border-zinc-700"
+                          ? "text-amber-400 bg-amber-500/10 border-amber-500/20"
+                          : "text-muted-foreground hover:text-foreground hover:bg-zinc-800 border-border/50"
                       )}
+                      title={t.featured ? "Remove featured" : "Set as featured"}
                     >
-                      <Star className={cn("w-3 h-3", t.featured && "fill-amber-400")} />
-                      {t.featured ? "Featured" : "Set Featured"}
+                      <Star className={cn("w-4 h-4", t.featured && "fill-amber-400")} />
                     </button>
-                    <div className="flex gap-1.5">
-                      <button onClick={() => { setEditing(t); setShowForm(true) }} className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 border border-border/50"><Pencil className="w-4 h-4" /></button>
-                      <button onClick={() => handleDelete(t.id)} disabled={deleting === t.id} className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-red-400 hover:bg-red-500/10 active:scale-90 transition-all duration-200 border border-border/50 disabled:opacity-50"><Trash2 className="w-4 h-4" /></button>
-                    </div>
+                    <button onClick={() => { setEditing(t); setShowForm(true) }} className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-zinc-800 active:scale-90 transition-all duration-200 border border-border/50"><Pencil className="w-4 h-4" /></button>
+                    <button onClick={() => handleDelete(t.id)} disabled={deleting === t.id} className="h-11 w-11 inline-flex items-center justify-center rounded-xl text-muted-foreground hover:text-red-400 hover:bg-red-500/10 active:scale-90 transition-all duration-200 border border-border/50 disabled:opacity-50"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 </div>
               ))}

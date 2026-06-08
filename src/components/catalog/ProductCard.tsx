@@ -5,14 +5,9 @@ import type { Product } from "@/types"
 import { Card } from "@/components/ui/Card"
 import { cn, formatWhatsAppUrl } from "@/lib/utils"
 import { SITE } from "@/lib/constants"
-import { PRODUCT_CATEGORIES } from "@/types"
 import { optimizeImage, getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
 
-function getCategoryLabel(category: string): string {
-  return PRODUCT_CATEGORIES.find((c) => c.value === category)?.label ?? category
-}
-
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product, categoryLabel }: { product: Product; categoryLabel?: string }) {
   const whatsappUrl = formatWhatsAppUrl(SITE.whatsapp, product.title)
 
   return (
@@ -34,7 +29,7 @@ export function ProductCard({ product }: { product: Product }) {
 
         <div className="absolute top-3 left-3">
           <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded-full bg-background/80 backdrop-blur-sm text-muted-foreground border border-border/50">
-            {getCategoryLabel(product.category)}
+            {categoryLabel ?? product.category}
           </span>
         </div>
 

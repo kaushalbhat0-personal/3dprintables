@@ -3,12 +3,13 @@
 import { useState, useEffect, useRef, startTransition } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, MessageSquare, Star, Package } from "lucide-react"
+import { Menu, X, MessageSquare, Star, Package, Tag } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/ui/scroll-lock"
 
 const NAV_ITEMS = [
   { label: "Products", href: "/admin/products", icon: Package },
+  { label: "Categories", href: "/admin/categories", icon: Tag },
   { label: "Inquiries", href: "/admin/inquiries", icon: MessageSquare },
   { label: "Testimonials", href: "/admin/testimonials", icon: Star },
 ]

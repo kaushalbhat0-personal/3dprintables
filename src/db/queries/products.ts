@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { products, productImages } from "@/db/schema"
+import { products, productImages, categories } from "@/db/schema"
 import { eq, desc, asc, and, or, lt, gt, inArray } from "drizzle-orm"
 import { randomUUID } from "crypto"
 import type { Product, ProductCategory } from "@/types"
@@ -14,6 +14,7 @@ export async function createProductQuery(input: {
   description: string
   shortDescription: string
   category: string
+  categoryId?: string
   priceRange: string
   material: string
   dimensions: string
@@ -39,6 +40,7 @@ export async function createProductQuery(input: {
       description: input.description,
       shortDescription: input.shortDescription,
       category: input.category as ProductCategory,
+      categoryId: input.categoryId,
       priceRange: input.priceRange,
       material: input.material,
       dimensions: input.dimensions,
@@ -87,6 +89,7 @@ export async function updateProductQuery(
     description: string
     shortDescription: string
     category: string
+    categoryId?: string
     priceRange: string
     material: string
     dimensions: string
@@ -197,6 +200,7 @@ function mapRowToProduct(
     title: row.name,
     slug: row.slug,
     category: row.category,
+    categoryId: row.categoryId ?? undefined,
     description: row.description,
     shortDescription: row.shortDescription,
     featuredImage: row.featuredImage,
@@ -378,17 +382,27 @@ export async function getFeaturedProductsQuery(): Promise<
 }
 
 export async function getProductsByCategoryQuery(
-  category: string
+  categorySlugOrId: string
 ): Promise<
   { success: true; data: Product[] } | { success: false; error: string }
 > {
   try {
+    const categoryRows = await db
+      .select({ id: categories.id })
+      .from(categories)
+      .where(eq(categories.slug, categorySlugOrId))
+      .limit(1)
+
+    const categoryId = categoryRows[0]?.id
+
     const rows = await db
       .select()
       .from(products)
       .where(
         and(
-          eq(products.category, category as ProductCategory),
+          categoryId
+            ? eq(products.categoryId, categoryId)
+            : eq(products.category, categorySlugOrId as ProductCategory),
           eq(products.isActive, true)
         )
       )

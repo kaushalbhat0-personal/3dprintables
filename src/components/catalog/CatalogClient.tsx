@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation"
 import { Package, MessageCircle } from "lucide-react"
 import { ProductCard } from "@/components/catalog/ProductCard"
 import { CategoryFilter } from "@/components/catalog/CategoryFilter"
+import { getCategoriesAction } from "@/actions/categories"
 import type { Product } from "@/types"
-import { PRODUCT_CATEGORIES } from "@/types"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 
@@ -19,6 +19,19 @@ export const CatalogClient = memo(function CatalogClient({
 }) {
   const router = useRouter()
   const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory)
+  const [slugMap, setSlugMap] = useState<Record<string, string>>({})
+
+  useEffect(() => {
+    getCategoriesAction().then((result) => {
+      if (result.success) {
+        const map: Record<string, string> = {}
+        for (const c of result.data) {
+          if (c.isActive) map[c.slug] = c.name
+        }
+        setSlugMap(map)
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const onPopState = () => {
@@ -50,12 +63,12 @@ export const CatalogClient = memo(function CatalogClient({
 
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {}
-    for (const cat of PRODUCT_CATEGORIES) {
-      counts[cat.value] = products.filter((p) => p.category === cat.value).length
+    for (const [slug] of Object.entries(slugMap)) {
+      counts[slug] = products.filter((p) => p.category === slug).length
     }
     counts.all = products.length
     return counts
-  }, [products])
+  }, [products, slugMap])
 
   return (
     <>
@@ -75,6 +88,7 @@ export const CatalogClient = memo(function CatalogClient({
                 active={activeCategory}
                 onChange={handleCategoryChange}
                 counts={categoryCounts}
+                slugMap={slugMap}
               />
             </div>
           </div>
@@ -86,7 +100,7 @@ export const CatalogClient = memo(function CatalogClient({
           {filtered.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filtered.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} categoryLabel={slugMap[product.category] ?? product.category} />
               ))}
             </div>
           ) : (

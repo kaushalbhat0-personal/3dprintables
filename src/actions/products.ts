@@ -3,6 +3,9 @@
 import { randomUUID } from "crypto"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { auth } from "@/auth"
+import { db } from "@/db"
+import { categories } from "@/db/schema"
+import { eq } from "drizzle-orm"
 import { CreateProductSchema, UpdateProductSchema, ToggleFeaturedSchema } from "@/lib/validation/product"
 import {
   createProductQuery,
@@ -15,6 +18,20 @@ import {
 } from "@/db/queries/products"
 import type { Product } from "@/types"
 import { setProductVideosQuery } from "@/db/queries/videos"
+
+async function resolveCategoryFromId(
+  raw: Record<string, unknown>
+): Promise<void> {
+  if (raw.categoryId && !raw.category) {
+    const row = await db
+      .select({ slug: categories.slug })
+      .from(categories)
+      .where(eq(categories.id, raw.categoryId as string))
+      .limit(1)
+      .then((r) => r[0])
+    if (row) raw.category = row.slug
+  }
+}
 
 function revalidateAll(slug?: string, oldSlug?: string) {
   revalidateTag("products", "max")
@@ -51,6 +68,7 @@ export async function createProductAction(
       }
     })
 
+    await resolveCategoryFromId(raw)
     const parsed = CreateProductSchema.parse(raw)
     const id = randomUUID()
 
@@ -105,6 +123,7 @@ export async function updateProductAction(
       }
     })
 
+    await resolveCategoryFromId(raw)
     const parsed = UpdateProductSchema.parse(raw)
     if (!parsed.id) return { success: false, error: "Product ID is required" }
 

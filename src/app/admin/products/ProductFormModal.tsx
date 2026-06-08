@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { useState, useRef, useEffect, useCallback } from "react"
+import { useState, useRef, useEffect, useCallback, startTransition } from "react"
 import { X, Upload, Loader2, ChevronDown, ChevronRight, ImageIcon, Video, Settings, DollarSign, CheckCircle2, AlertCircle, FileImage } from "lucide-react"
 import {
   createProductAction,
@@ -10,7 +10,8 @@ import {
 } from "@/actions/products"
 import { uploadToCloudinaryWithProgress, type AbortableUpload } from "@/lib/cloudinary-upload"
 import { optimizeImage, getBlurBackgroundStyle } from "@/lib/cloudinary-utils"
-import { PRODUCT_CATEGORIES } from "@/types"
+import { getCategoriesAction } from "@/actions/categories"
+import type { CategoryRow } from "@/db/queries/categories"
 import type { Product } from "@/types"
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/ui/scroll-lock"
 import { cn } from "@/lib/utils"
@@ -184,6 +185,7 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
   const isEdit = !!product
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
+  const [categories, setCategories] = useState<CategoryRow[]>([])
 
   const [featuredImage, setFeaturedImage] = useState(product?.featuredImage ?? "")
   const [galleryImages, setGalleryImages] = useState<string[]>(product?.galleryImages ?? [])
@@ -207,6 +209,9 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
   useEffect(() => {
     lockBodyScroll()
     const uploads = activeUploads.current
+    getCategoriesAction().then((result) => {
+      if (result.success) setCategories(result.data)
+    })
     return () => {
       mountedRef.current = false
       uploads.forEach((u) => u.abort())
@@ -214,8 +219,6 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
       unlockBodyScroll()
     }
   }, [])
-
-
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -587,10 +590,11 @@ export function ProductFormModal({ product, onClose }: ProductFormModalProps) {
               <div className="space-y-4 px-4 sm:px-6 pb-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   <div>
-                    <label htmlFor="category" className={labelClass}>Category *</label>
-                    <select id="category" name="category" required defaultValue={product?.category ?? "custom"} className={selectClass}>
-                      {PRODUCT_CATEGORIES.map((cat) => (
-                        <option key={cat.value} value={cat.value}>{cat.label}</option>
+                    <label htmlFor="categoryId" className={labelClass}>Category *</label>
+                    <select id="categoryId" name="categoryId" required defaultValue={product?.categoryId ?? categories.find((c) => c.slug === product?.category)?.id ?? ""} className={selectClass}>
+                      {categories.length === 0 && <option value="">Loading...</option>}
+                      {categories.map((cat) => (
+                        <option key={cat.id} value={cat.id}>{cat.name}</option>
                       ))}
                     </select>
                   </div>

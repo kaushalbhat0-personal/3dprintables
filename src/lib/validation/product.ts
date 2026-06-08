@@ -10,6 +10,7 @@ export const CreateProductSchema = z.object({
   description: z.string().max(5000).default(""),
   shortDescription: z.string().max(300).default(""),
   category: z.enum(["spiritual-decor", "cosplay", "prototypes", "custom"]),
+  categoryId: z.string().optional(),
   priceRange: z.string().max(100).default(""),
   material: z.string().max(200).default(""),
   dimensions: z.string().max(200).default(""),

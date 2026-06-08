@@ -50,6 +50,9 @@ export const products = sqliteTable("products", {
   slug: text("slug").notNull().unique(),
   description: text("description").notNull().default(""),
   shortDescription: text("short_description").notNull().default(""),
+  categoryId: text("category_id").references(() => categories.id, {
+    onDelete: "set null",
+  }),
   category: text("category", {
     enum: ["spiritual-decor", "cosplay", "prototypes", "custom"],
   }).notNull(),
@@ -130,9 +133,29 @@ export const productVideos = sqliteTable("product_videos", {
     .default("(datetime('now'))"),
 })
 
-export const productRelations = relations(products, ({ many }) => ({
+export const categories = sqliteTable("categories", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  description: text("description").notNull().default(""),
+  sortOrder: integer("sort_order").notNull().default(0),
+  isActive: integer("is_active", { mode: "boolean" }).notNull().default(true),
+  createdAt: text("created_at")
+    .notNull()
+    .default("(datetime('now'))"),
+})
+
+export const productRelations = relations(products, ({ many, one }) => ({
   images: many(productImages),
   videos: many(productVideos),
+  categoryRel: one(categories, {
+    fields: [products.categoryId],
+    references: [categories.id],
+  }),
+}))
+
+export const categoriesRelations = relations(categories, ({ many }) => ({
+  products: many(products),
 }))
 
 export const productImageRelations = relations(productImages, ({ one }) => ({

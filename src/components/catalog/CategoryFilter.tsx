@@ -1,8 +1,7 @@
 "use client"
 
-import { memo } from "react"
+import { memo, useMemo } from "react"
 import { cn } from "@/lib/utils"
-import { PRODUCT_CATEGORIES } from "@/types"
 import { Sparkles, Scroll, Cog, Wrench } from "lucide-react"
 
 const categoryIcons: Record<string, typeof Sparkles> = {
@@ -18,14 +17,18 @@ interface CategoryFilterProps {
   active: string | null
   onChange: (category: string | null) => void
   counts?: Record<string, number>
+  slugMap?: Record<string, string>
 }
 
-export const CategoryFilter = memo(function CategoryFilter({ active, onChange, counts }: CategoryFilterProps) {
+export const CategoryFilter = memo(function CategoryFilter({ active, onChange, counts, slugMap }: CategoryFilterProps) {
 
-  const categories = [
-    { value: "all", label: "All" },
-    ...PRODUCT_CATEGORIES,
-  ]
+  const categories = useMemo(() => {
+    const entries = slugMap ? Object.entries(slugMap).map(([value, label]) => ({ value, label })) : []
+    return [
+      { value: "all", label: "All" },
+      ...entries,
+    ]
+  }, [slugMap])
 
   return (
     <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 sm:justify-center sm:flex-wrap">

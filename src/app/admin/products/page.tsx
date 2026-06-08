@@ -14,6 +14,8 @@ import {
 } from "@/actions/products"
 import type { Product } from "@/types"
 import { PRODUCT_CATEGORIES } from "@/types"
+import { getCategoriesAction } from "@/actions/categories"
+import type { CategoryRow } from "@/db/queries/categories"
 import { optimizeImage } from "@/lib/cloudinary-utils"
 
 const ProductFormModal = dynamic(() => import("./ProductFormModal").then((m) => ({ default: m.ProductFormModal })), {
@@ -33,11 +35,11 @@ function formatDate(iso: string): string {
   }
 }
 
-function CategoryBadge({ category }: { category: string }) {
-  const cat = PRODUCT_CATEGORIES.find((c) => c.value === category)
+function CategoryBadge({ category, categoryId, categoryMap: map }: { category: string; categoryId?: string; categoryMap?: Record<string, string> }) {
+  const label = (categoryId && map?.[categoryId]) ?? PRODUCT_CATEGORIES.find((c) => c.value === category)?.label ?? category
   return (
     <span className="inline-flex items-center px-2.5 py-1 text-[11px] font-medium rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">
-      {cat?.label ?? category}
+      {label}
     </span>
   )
 }
@@ -50,15 +52,26 @@ export default function AdminProductsPage() {
   const [modalOpen, setModalOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [deleting, setDeleting] = useState<string | null>(null)
+  const [categoryMap, setCategoryMap] = useState<Record<string, string>>({})
 
   const loadProducts = async () => {
     startTransition(() => { setLoading(true); setError("") })
-    const result = await getProductsAction()
+    const [prodResult, catResult] = await Promise.all([
+      getProductsAction(),
+      getCategoriesAction(),
+    ])
     startTransition(() => {
-      if (result.success) {
-        setProducts(result.data)
+      if (prodResult.success) {
+        setProducts(prodResult.data)
       } else {
-        setError(result.error)
+        setError(prodResult.error)
+      }
+      if (catResult.success) {
+        const map: Record<string, string> = {}
+        for (const c of catResult.data) {
+          map[c.id] = c.name
+        }
+        setCategoryMap(map)
       }
       setLoading(false)
     })
@@ -235,7 +248,7 @@ export default function AdminProductsPage() {
                         </div>
                       </td>
                       <td className="px-5 py-4">
-                        <CategoryBadge category={product.category} />
+                        <CategoryBadge category={product.category} categoryId={product.categoryId} categoryMap={categoryMap} />
                       </td>
                       <td className="px-5 py-4 text-foreground">
                         {product.priceRange || "\u2014"}
@@ -328,7 +341,7 @@ export default function AdminProductsPage() {
                         /{product.slug}
                       </p>
                       <div className="flex items-center gap-2 mt-1.5">
-                        <CategoryBadge category={product.category} />
+                        <CategoryBadge category={product.category} categoryId={product.categoryId} categoryMap={categoryMap} />
                         {product.priceRange && (
                           <span className="text-xs text-muted-foreground">
                             {product.priceRange}
@@ -337,11 +350,7 @@ export default function AdminProductsPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between pt-3 border-t border-border">
-                    <span className="text-xs text-muted-foreground">
-                      {formatDate(product.createdAt)}
-                    </span>
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center gap-2 pt-3 border-t border-border">
                       <button
                         onClick={() => handleMove(product.id, "up")}
                         disabled={index === 0}
@@ -394,7 +403,6 @@ export default function AdminProductsPage() {
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
-                    </div>
                   </div>
                 </div>
               ))}

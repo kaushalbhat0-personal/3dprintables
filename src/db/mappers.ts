@@ -7,6 +7,7 @@ export interface DBProduct {
   description: string
   shortDescription: string
   category: ProductCategory
+  categoryId: string | null
   priceRange: string
   material: string
   dimensions: string
@@ -41,6 +42,7 @@ export function dbProductToProduct(
     title: row.name,
     slug: row.slug,
     category: row.category,
+    categoryId: row.categoryId ?? undefined,
     description: row.description,
     shortDescription: row.shortDescription,
     featuredImage: row.featuredImage,
@@ -81,6 +83,7 @@ export function productToDbRow(
     description: product.description ?? "",
     shortDescription: product.shortDescription ?? "",
     category: product.category ?? "custom",
+    categoryId: product.categoryId ?? null,
     priceRange: product.priceRange ?? "",
     material: product.material ?? "",
     dimensions: product.dimensions ?? "",

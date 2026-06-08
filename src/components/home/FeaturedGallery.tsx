@@ -4,17 +4,13 @@ import { useRef, useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { getCategoriesAction } from "@/actions/categories"
 import type { Product } from "@/types"
 import { cn } from "@/lib/utils"
 import { optimizeImage } from "@/lib/cloudinary-utils"
-import { PRODUCT_CATEGORIES } from "@/types"
 
 const AUTOPLAY_INTERVAL = 4500
 const RESUME_DELAY = 5000
-
-function getCategoryLabel(category: string): string {
-  return PRODUCT_CATEGORIES.find((c) => c.value === category)?.label ?? category
-}
 
 function scrollToIndex(container: HTMLDivElement, index: number) {
   const slide = container.querySelector<HTMLElement>(`[data-index="${index}"]`)
@@ -30,9 +26,22 @@ export function FeaturedGallery({ products }: { products: Product[] }) {
   const galleryRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [slugMap, setSlugMap] = useState<Record<string, string>>({})
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const isVisible = useRef(true)
   const reduceMotion = useRef(false)
+
+  useEffect(() => {
+    getCategoriesAction().then((result) => {
+      if (result.success) {
+        const map: Record<string, string> = {}
+        for (const c of result.data) {
+          if (c.isActive) map[c.slug] = c.name
+        }
+        setSlugMap(map)
+      }
+    })
+  }, [])
 
   useEffect(() => {
     reduceMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -185,7 +194,7 @@ export function FeaturedGallery({ products }: { products: Product[] }) {
 
               <div className="absolute top-3 left-3">
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded-full bg-background/80 backdrop-blur-sm text-muted-foreground border border-border/50">
-                  {getCategoryLabel(product.category)}
+                  {slugMap[product.category] ?? product.category}
                 </span>
               </div>
 

@@ -1,0 +1,1 @@
+ALTER TABLE `products` ADD `category_id` text REFERENCES categories(id);
