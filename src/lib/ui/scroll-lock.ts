@@ -19,10 +19,6 @@ export function lockBodyScroll(): void {
   lockCount++
 }
 
-export function resetScrollLock(): void {
-  savedScrollY = 0
-}
-
 export function unlockBodyScroll(): void {
   if (lockCount === 0) return
   lockCount--
@@ -34,4 +30,29 @@ export function unlockBodyScroll(): void {
     document.body.style.height = savedStyles.height
     window.scrollTo(0, savedScrollY)
   }
+}
+
+export function forceUnlockAll(): void {
+  lockCount = 0
+  savedScrollY = 0
+  savedStyles.overflow = ""
+  savedStyles.position = ""
+  savedStyles.top = ""
+  savedStyles.width = ""
+  savedStyles.height = ""
+
+  document.body.style.overflow = ""
+  document.body.style.position = ""
+  document.body.style.top = ""
+  document.body.style.width = ""
+  document.body.style.height = ""
+
+  if (document.body.hasAttribute("data-inquiry-modal-open")) {
+    document.body.removeAttribute("data-inquiry-modal-open")
+  }
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("pagehide", forceUnlockAll)
+  window.addEventListener("beforeunload", forceUnlockAll)
 }

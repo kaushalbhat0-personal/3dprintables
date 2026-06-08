@@ -8,7 +8,7 @@ import { Menu, X, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SITE, NAV_LINKS } from "@/lib/constants"
 import { AuthStatus } from "@/components/auth/AuthStatus"
-import { lockBodyScroll, unlockBodyScroll, resetScrollLock } from "@/lib/ui/scroll-lock"
+import { lockBodyScroll, unlockBodyScroll, forceUnlockAll } from "@/lib/ui/scroll-lock"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -22,7 +22,7 @@ export function Navbar() {
   }, [])
 
   useEffect(() => {
-    resetScrollLock()
+    forceUnlockAll()
     startTransition(() => setIsMobileOpen(false))
   }, [pathname])
 
