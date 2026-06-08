@@ -6,7 +6,8 @@ import { staticProducts } from "@/data/products-static"
 async function seed() {
   console.log("Seeding products into Turso...")
 
-  for (const p of staticProducts) {
+  for (let i = 0; i < staticProducts.length; i++) {
+    const p = staticProducts[i]
     const id = p.id
     const now = new Date().toISOString()
 
@@ -30,6 +31,7 @@ async function seed() {
       finishType: p.finishType ?? "",
       productionType: p.productionType ?? "single",
       minimumOrderQuantity: p.minimumOrderQuantity ?? "",
+      sortOrder: i + 1,
       createdAt: now,
       updatedAt: now,
     })

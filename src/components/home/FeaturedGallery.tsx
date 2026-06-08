@@ -171,7 +171,7 @@ export function FeaturedGallery({ products }: { products: Product[] }) {
               className="group block relative aspect-[4/5] rounded-2xl overflow-hidden bg-surface shadow-lg"
             >
               <Image
-                src={optimizeImage(product.featuredImage, 600)}
+                src={optimizeImage(product.featuredImage, 800)}
                 alt={product.title}
                 fill
                 className={cn(

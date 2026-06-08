@@ -1,7 +1,7 @@
 "use client"
 
-import { useMemo, useCallback } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useMemo, useCallback, useState, useEffect, memo } from "react"
+import { useRouter } from "next/navigation"
 import { Package, MessageCircle } from "lucide-react"
 import { ProductCard } from "@/components/catalog/ProductCard"
 import { CategoryFilter } from "@/components/catalog/CategoryFilter"
@@ -10,13 +10,32 @@ import { PRODUCT_CATEGORIES } from "@/types"
 import { SITE } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 
-export function CatalogClient({ products }: { products: Product[] }) {
-  const searchParams = useSearchParams()
+export const CatalogClient = memo(function CatalogClient({
+  products,
+  initialCategory = null,
+}: {
+  products: Product[]
+  initialCategory?: string | null
+}) {
   const router = useRouter()
-  const activeCategory = searchParams.get("category")
+  const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory)
+
+  useEffect(() => {
+    const onPopState = () => {
+      const params = new URLSearchParams(window.location.search)
+      setActiveCategory(params.get("category"))
+    }
+    window.addEventListener("popstate", onPopState)
+    return () => window.removeEventListener("popstate", onPopState)
+  }, [])
+
+  const filtered = activeCategory
+    ? products.filter((p) => p.category === activeCategory)
+    : products
 
   const handleCategoryChange = useCallback(
     (category: string | null) => {
+      setActiveCategory(category)
       const params = new URLSearchParams(window.location.search)
       if (category && category !== "all") {
         params.set("category", category)
@@ -28,10 +47,6 @@ export function CatalogClient({ products }: { products: Product[] }) {
     },
     [router]
   )
-
-  const filtered = activeCategory
-    ? products.filter((p) => p.category === activeCategory)
-    : products
 
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {}
@@ -117,4 +132,4 @@ export function CatalogClient({ products }: { products: Product[] }) {
       </section>
     </>
   )
-}
+}, (prevProps, nextProps) => prevProps.products === nextProps.products)

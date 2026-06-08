@@ -21,6 +21,7 @@ interface CategoryFilterProps {
 }
 
 export const CategoryFilter = memo(function CategoryFilter({ active, onChange, counts }: CategoryFilterProps) {
+
   const categories = [
     { value: "all", label: "All" },
     ...PRODUCT_CATEGORIES,
