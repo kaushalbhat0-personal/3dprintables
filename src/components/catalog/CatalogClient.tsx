@@ -17,7 +17,6 @@ export function CatalogClient({ products }: { products: Product[] }) {
 
   const handleCategoryChange = useCallback(
     (category: string | null) => {
-      if (category === activeCategory) return
       const params = new URLSearchParams(searchParams.toString())
       if (category && category !== "all") {
         params.set("category", category)
@@ -27,7 +26,7 @@ export function CatalogClient({ products }: { products: Product[] }) {
       const query = params.toString()
       router.replace(query ? `/catalog?${query}` : "/catalog")
     },
-    [searchParams, activeCategory, router]
+    [searchParams, router]
   )
 
   const filtered = activeCategory
